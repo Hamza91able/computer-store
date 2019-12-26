@@ -5,6 +5,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 //Components
 import Appbar from './Components/Appbar';
@@ -20,10 +21,12 @@ class App extends React.Component {
       <React.Fragment>
         <Router>
           <Appbar />
+          <div style={{ height: 20 }}></div>
           <Switch>
             <Route path='/' exact component={LandingPage} />
           </Switch>
         </Router>
+        <div style={{ height: 300 }}></div>
       </React.Fragment>
     )
   }
