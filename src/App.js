@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 //Components
 import Appbar from './Components/Appbar';
+import Footer from './Components/Footer';
 
 // Screens
 import LandingPage from './Screens/LandingPage';
@@ -25,8 +26,9 @@ class App extends React.Component {
           <Switch>
             <Route path='/' exact component={LandingPage} />
           </Switch>
+          <div style={{ height: 100 }}></div>
+          <Footer />
         </Router>
-        <div style={{ height: 300 }}></div>
       </React.Fragment>
     )
   }

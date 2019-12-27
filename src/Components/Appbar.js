@@ -31,8 +31,13 @@ const styles = theme => ({
     },
     margin: {
         margin: theme.spacing(1),
-
     },
+    searchBarWeb: {
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'block',
+        },
+    }
 });
 
 class Appbar extends React.Component {
@@ -52,8 +57,9 @@ class Appbar extends React.Component {
                         <FormControl fullWidth className={classes.margin} variant="outlined">
                             <OutlinedInput
                                 id="outlined-adornment-amount"
-                                startAdornment={<InputAdornment position="start" ><SearchIcon /></InputAdornment>}
+                                startAdornment={<InputAdornment position="start" ><SearchIcon style={{ marginTop: 40 }} /></InputAdornment>}
                                 style={{ backgroundColor: 'white', height: 38, width: 'auto' }}
+                                className={classes.searchBarWeb}
                             />
                         </FormControl>
                         <div style={{ width: 300 }}>
