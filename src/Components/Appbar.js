@@ -37,6 +37,18 @@ const styles = theme => ({
         [theme.breakpoints.up('md')]: {
             display: 'block',
         },
+    },
+    searchBarMobile: {
+        display: 'block',
+        [theme.breakpoints.up('md')]: {
+            display: 'none',
+        },
+    },
+    greetingsWeb: {
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'block',
+        },
     }
 });
 
@@ -62,14 +74,28 @@ class Appbar extends React.Component {
                                 className={classes.searchBarWeb}
                             />
                         </FormControl>
-                        <div style={{ width: 300 }}>
+                        <div className={classes.greetingsWeb} style={{ width: 300 }}>
                             <Button style={{ color: "#ffa33a" }}>Hello, Sign in</Button>
                             <Button style={{ color: '#ffa33a' }}>
                                 <ShoppingCartIcon /> Cart
                             </Button>
                         </div>
                     </Toolbar>
-                    <Toolbar>
+                    <Toolbar className={classes.searchBarMobile}>
+                        <FormControl fullWidth className={classes.margin} variant="outlined">
+                            <OutlinedInput
+                                id="outlined-adornment-amount"
+                                startAdornment={<InputAdornment position="start" ><SearchIcon style={{ marginTop: 40 }} /></InputAdornment>}
+                                style={{ backgroundColor: 'white', height: 38, width: 'auto' }}
+                                className={classes.searchBarMobile}
+                            />
+                            <Button style={{ color: "#ffa33a" }}>Hello, Sign in</Button>
+                            <Button style={{ color: '#ffa33a' }}>
+                                <ShoppingCartIcon /> Cart
+                            </Button>
+                        </FormControl>
+                    </Toolbar>
+                    <Toolbar className={classes.searchBarWeb}>
                         <Container maxWidth='lg'>
                             <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>DESKTOPS</Button>
                             <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>LAPTOPS</Button>
