@@ -16,6 +16,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Divider, Button, Grid } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     card: {
@@ -51,18 +52,20 @@ export default function RecipeReviewCard() {
 
     return (
         <Card className={classes.card}>
-            <CardHeader
-                title={
-                    <Typography style={{
-                        fontSize: 20, justifyContent: 'center',
-                        alignItems: 'center,',
-                        display: 'inline-flex',
-                        width: '100%',
-                        color: "blue",
-                        cursor: 'pointer',
-                    }}>Dell G5 15 5590</Typography>
-                }
-            />
+            <Link to='/product-details'>
+                <CardHeader
+                    title={
+                        <Typography style={{
+                            fontSize: 20, justifyContent: 'center',
+                            alignItems: 'center,',
+                            display: 'inline-flex',
+                            width: '100%',
+                            color: "blue",
+                            cursor: 'pointer',
+                        }}>Dell G5 15 5590</Typography>
+                    }
+                />
+            </Link>
             <CardMedia
                 style={{ cursor: "pointer" }}
                 className={classes.media}

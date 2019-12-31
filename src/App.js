@@ -13,6 +13,7 @@ import Footer from './Components/Footer';
 
 // Screens
 import LandingPage from './Screens/LandingPage';
+import ProductDetails from './Screens/ProductDetails';
 
 class App extends React.Component {
 
@@ -25,6 +26,7 @@ class App extends React.Component {
           <div style={{ height: 20 }}></div>
           <Switch>
             <Route path='/' exact component={LandingPage} />
+            <Route path='/product-details' exact component={ProductDetails} />
           </Switch>
           <div style={{ height: 100 }}></div>
           <Footer />
