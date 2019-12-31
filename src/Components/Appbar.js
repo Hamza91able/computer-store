@@ -20,6 +20,10 @@ import MenuDrawer from './MenuDrawer';
 const styles = theme => ({
     root: {
         flexGrow: 1,
+        '& input': {
+            height: '0px',
+            marginLeft: 30
+        }
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -37,7 +41,7 @@ const styles = theme => ({
         display: 'none',
         [theme.breakpoints.up('md')]: {
             display: 'block',
-        },
+        }
     },
     searchBarMobile: {
         display: 'block',
@@ -50,7 +54,8 @@ const styles = theme => ({
         [theme.breakpoints.up('md')]: {
             display: 'block',
         },
-    }
+    },
+    
 });
 
 class Appbar extends React.Component {

@@ -161,15 +161,20 @@ class ProductDetails extends Component {
                                         }}
                                         variant="outlined"
                                         min={0}
+                                        max={5}
                                         defaultValue={1}
+                                        style={{
+                                            width: 40
+                                        }}
                                     />
                                     <Button
                                         variant="contained"
                                         style={{
-                                            width: '80%',
+                                            // width: '100%',
                                             backgroundColor: 'rgb(255, 163, 58)',
                                             color: '#101820FF',
-                                            fontWeight: 'bold'
+                                            fontWeight: 'bold',
+                                            marginLeft: 50
                                         }}
                                     >
                                         <AddShoppingCartIcon />ADD TO CART <ArrowRightIcon style={{ marginTop: -1, marginLeft: -4 }} />
