@@ -73,6 +73,12 @@ class SearchPage extends Component {
                                 />
                                 <Box style={{ marginTop: -7, fontSize: 13 }} ml={1}><Link to='/product-details'>680</Link></Box>
                             </div>
+                            <Link>
+                                <Typography variant='caption' style={{ fontSize: 14, fontWeight: 'bold' }}>
+                                    Processors
+                                </Typography>
+                            </Link>
+                            <br />
                             <Typography variant='caption' style={{ fontSize: 14, fontWeight: 'bold' }}>
                                 Rs. 76,641
                             </Typography>
@@ -109,6 +115,12 @@ class SearchPage extends Component {
                                 />
                                 <Box style={{ marginTop: -7, fontSize: 13 }} ml={1}><Link to='/product-details'>10</Link></Box>
                             </div>
+                            <Link>
+                                <Typography variant='caption' style={{ fontSize: 14, fontWeight: 'bold' }}>
+                                    Processors
+                                </Typography>
+                            </Link>
+                            <br />
                             <Typography variant='caption' style={{ fontSize: 14, fontWeight: 'bold' }}>
                                 Rs. 92,970
                             </Typography>
