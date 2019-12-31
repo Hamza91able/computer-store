@@ -16,6 +16,7 @@ import LandingPage from './Screens/LandingPage';
 import ProductDetails from './Screens/ProductDetails';
 import Register from './Screens/Register';
 import Login from './Screens/Login';
+import SearchPage from './Screens/SearchPage';
 
 class App extends React.Component {
 
@@ -25,12 +26,12 @@ class App extends React.Component {
       <React.Fragment>
         <Router>
           <Appbar />
-          <div style={{ height: 20 }}></div>
           <Switch>
             <Route path='/' exact component={LandingPage} />
             <Route path='/product-details' exact component={ProductDetails} />
             <Route path='/register' exact component={Register} />
             <Route path='/login' exact component={Login} />
+            <Route path='/s/:k' exact component={SearchPage} />
           </Switch>
           <div style={{ height: 100 }}></div>
           <Footer />

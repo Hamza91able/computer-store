@@ -12,7 +12,8 @@ import {
     Container
 } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+
 
 // Components
 import MenuDrawer from './MenuDrawer';
@@ -55,10 +56,21 @@ const styles = theme => ({
             display: 'block',
         },
     },
-    
+
 });
 
 class Appbar extends React.Component {
+
+    state = {
+        keyword: ''
+    }
+
+    handleKeyPress(target, value) {
+        const { history } = this.props;
+        if (target.charCode == 13) {
+            history.push(`/s/${value}`);
+        }
+    }
 
     render() {
 
@@ -77,9 +89,14 @@ class Appbar extends React.Component {
                         <FormControl fullWidth className={classes.margin} variant="outlined">
                             <OutlinedInput
                                 id="outlined-adornment-amount"
-                                startAdornment={<InputAdornment position="start" ><SearchIcon style={{ marginTop: 40 }} /></InputAdornment>}
+                                startAdornment={<InputAdornment position="start" >
+                                    <Link style={{ textDecoration: 'none', color: 'black' }} to={`/s/${this.state.keyword}`}><SearchIcon style={{ marginTop: 40 }} /></Link>
+                                </InputAdornment>}
                                 style={{ backgroundColor: 'white', height: 38, width: 'auto' }}
                                 className={classes.searchBarWeb}
+                                value={this.state.keyword}
+                                onChange={e => this.setState({ keyword: e.target.value })}
+                                onKeyPress={e => this.handleKeyPress(e, e.target.value)}
                             />
                         </FormControl>
                         <div className={classes.greetingsWeb} style={{ width: 300 }}>
@@ -97,9 +114,14 @@ class Appbar extends React.Component {
                         <FormControl fullWidth className={classes.margin} variant="outlined">
                             <OutlinedInput
                                 id="outlined-adornment-amount"
-                                startAdornment={<InputAdornment position="start" ><SearchIcon style={{ marginTop: 40 }} /></InputAdornment>}
+                                startAdornment={<InputAdornment position="start" >
+                                    <Link style={{ textDecoration: 'none', color: 'black' }} to={`/s/${this.state.keyword}`}><SearchIcon style={{ marginTop: 40 }} /></Link>
+                                </InputAdornment>}
                                 style={{ backgroundColor: 'white', height: 38, width: 'auto' }}
                                 className={classes.searchBarMobile}
+                                value={this.state.keyword}
+                                onChange={e => this.setState({ keyword: e.target.value })}
+                                onKeyPress={e => this.handleKeyPress(e, e.target.value)}
                             />
                             <Link to='/login' style={{ textDecoration: 'none' }}>
                                 <Button style={{ color: "#ffa33a" }}>Hello, Sign in</Button>
@@ -131,4 +153,4 @@ class Appbar extends React.Component {
 
 }
 
-export default withStyles(styles)(Appbar);
+export default withRouter(withStyles(styles)(Appbar));
