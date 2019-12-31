@@ -1,0 +1,21 @@
+.MuiOutlinedInput-root {
+    width: 100%;
+}
+
+@media screen and (min-width: 500px) {
+    .MuiOutlinedInput-root {
+        width: 160%;
+    }
+}
+
+@media screen and (min-width: 700px) {
+    .MuiOutlinedInput-root {
+        width: 160%;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .MuiOutlinedInput-root {
+        width: 185%;
+    }
+}

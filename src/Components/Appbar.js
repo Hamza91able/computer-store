@@ -12,6 +12,7 @@ import {
     Container
 } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { Link } from 'react-router-dom';
 
 // Components
 import MenuDrawer from './MenuDrawer';
@@ -63,9 +64,11 @@ class Appbar extends React.Component {
                 <AppBar style={{ backgroundColor: '#232f3e' }} position="static">
                     <Toolbar>
                         <MenuDrawer />
-                        <Typography variant="h5" className={classes.title}>
-                            <strong style={{ color: '#ffa33a' }}>COMPUTER STORE</strong>
-                        </Typography>
+                        <Link style={{ textDecoration: 'none' }} to='/'>
+                            <Typography variant="h5" className={classes.title}>
+                                <strong style={{ color: '#ffa33a' }}>COMPUTER STORE</strong>
+                            </Typography>
+                        </Link>
                         <FormControl fullWidth className={classes.margin} variant="outlined">
                             <OutlinedInput
                                 id="outlined-adornment-amount"
@@ -75,10 +78,14 @@ class Appbar extends React.Component {
                             />
                         </FormControl>
                         <div className={classes.greetingsWeb} style={{ width: 300 }}>
-                            <Button style={{ color: "#ffa33a" }}>Hello, Sign in</Button>
-                            <Button style={{ color: '#ffa33a' }}>
-                                <ShoppingCartIcon /> Cart
-                            </Button>
+                            <Link to='/login' style={{ textDecoration: 'none' }}>
+                                <Button style={{ color: "#ffa33a" }}>Hello, Sign in</Button>
+                            </Link>
+                            <Link style={{ textDecoration: 'none' }}>
+                                <Button style={{ color: '#ffa33a' }}>
+                                    <ShoppingCartIcon /> Cart
+                                </Button>
+                            </Link>
                         </div>
                     </Toolbar>
                     <Toolbar className={classes.searchBarMobile}>
@@ -89,10 +96,14 @@ class Appbar extends React.Component {
                                 style={{ backgroundColor: 'white', height: 38, width: 'auto' }}
                                 className={classes.searchBarMobile}
                             />
-                            <Button style={{ color: "#ffa33a" }}>Hello, Sign in</Button>
-                            <Button style={{ color: '#ffa33a' }}>
-                                <ShoppingCartIcon /> Cart
+                            <Link to='/login' style={{ textDecoration: 'none' }}>
+                                <Button style={{ color: "#ffa33a" }}>Hello, Sign in</Button>
+                            </Link>
+                            <Link style={{ textDecoration: 'none' }}>
+                                <Button style={{ color: '#ffa33a' }}>
+                                    <ShoppingCartIcon /> Cart
                             </Button>
+                            </Link>
                         </FormControl>
                     </Toolbar>
                     <Toolbar className={classes.searchBarWeb}>
