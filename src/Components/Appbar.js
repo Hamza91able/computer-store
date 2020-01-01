@@ -141,7 +141,9 @@ class Appbar extends React.Component {
                             <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>MOUSE</Button>
                             <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>KEYBOARDS</Button>
                             <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>HEADPHONES</Button>
-                            <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>PROCESSORS</Button>
+                            <Link to='/c' style={{ textDecoration: 'none' }}>
+                                <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>PROCESSORS</Button>
+                            </Link>
                             <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>GRAPHIC CARDS</Button>
                             <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>SOLID STATE DRIVES</Button>
                         </Container>

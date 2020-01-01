@@ -12,6 +12,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import { Typography, ListSubheader } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
     list: {
@@ -160,9 +161,11 @@ class MenuDrawer extends React.Component {
                         <ListItem button>
                             <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Printers</Typography>} />
                         </ListItem>
-                        <ListItem button>
-                            <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Processors</Typography>} />
-                        </ListItem>
+                        <Link to='/c' style={{ textDecoration: 'none', color: 'black' }}>
+                            <ListItem button>
+                                <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Processors</Typography>} />
+                            </ListItem>
+                        </Link>
                         <ListItem button>
                             <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Projectors</Typography>} />
                         </ListItem>
