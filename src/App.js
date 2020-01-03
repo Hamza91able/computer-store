@@ -19,6 +19,7 @@ import Login from './Screens/Login';
 import SearchPage from './Screens/SearchPage';
 import CategoriePage from './Screens/CategoriePage';
 import Cart from './Screens/Cart';
+import Checkout from './Screens/Checkout';
 
 class App extends React.Component {
 
@@ -36,6 +37,7 @@ class App extends React.Component {
             <Route path='/s/:k' exact component={SearchPage} />
             <Route path='/c' exact component={CategoriePage} />
             <Route path='/cart' exact component={Cart} />
+            <Route path='/buy/addressselect' exact component={Checkout} />
           </Switch>
           <div style={{ height: 100 }}></div>
           <Footer />
