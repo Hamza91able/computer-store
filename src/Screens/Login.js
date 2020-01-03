@@ -58,27 +58,29 @@ class Register extends Component {
                             />
                         </Grid>
                         <Grid style={{ marginTop: 20 }} xs={12}>
-                            <div style={{
-                                justifyContent: 'center',
-                                alignItems: 'center,',
-                                display: 'inline-flex',
-                                width: '100%',
-                            }}>
-                                <Button
-                                    variant="contained"
-                                    style={{
-                                        width: '185%',
-                                        backgroundColor: '#f0c14b',
-                                        color: '#111',
-                                        fontWeight: 'normal',
-                                        boxShadow: 'none',
-                                        border: '1px solid black',
-                                        borderColor: "#a88734 #9c7e31 #846a29",
-                                    }}
-                                >
-                                    Sign-In
+                            <Link to='/account' style={{ textDecoration: 'none' }}>
+                                <div style={{
+                                    justifyContent: 'center',
+                                    alignItems: 'center,',
+                                    display: 'inline-flex',
+                                    width: '100%',
+                                }}>
+                                    <Button
+                                        variant="contained"
+                                        style={{
+                                            width: '185%',
+                                            backgroundColor: '#f0c14b',
+                                            color: '#111',
+                                            fontWeight: 'normal',
+                                            boxShadow: 'none',
+                                            border: '1px solid black',
+                                            borderColor: "#a88734 #9c7e31 #846a29",
+                                        }}
+                                    >
+                                        Sign-In
                                 </Button>
-                            </div>
+                                </div>
+                            </Link>
                         </Grid>
                     </Grid>
                 </div>
@@ -87,7 +89,6 @@ class Register extends Component {
     }
 
     render() {
-        console.log('REGISTER');
         const { classes } = this.props;
 
         return (
