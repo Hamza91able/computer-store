@@ -18,6 +18,7 @@ import Register from './Screens/Register';
 import Login from './Screens/Login';
 import SearchPage from './Screens/SearchPage';
 import CategoriePage from './Screens/CategoriePage';
+import Cart from './Screens/Cart';
 
 class App extends React.Component {
 
@@ -34,6 +35,7 @@ class App extends React.Component {
             <Route path='/login' exact component={Login} />
             <Route path='/s/:k' exact component={SearchPage} />
             <Route path='/c' exact component={CategoriePage} />
+            <Route path='/cart' exact component={Cart} />
           </Switch>
           <div style={{ height: 100 }}></div>
           <Footer />

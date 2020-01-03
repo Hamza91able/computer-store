@@ -103,7 +103,7 @@ class Appbar extends React.Component {
                             <Link to='/login' style={{ textDecoration: 'none' }}>
                                 <Button style={{ color: "#ffa33a" }}>Hello, Sign in</Button>
                             </Link>
-                            <Link style={{ textDecoration: 'none' }}>
+                            <Link to='/cart' style={{ textDecoration: 'none' }}>
                                 <Button style={{ color: '#ffa33a' }}>
                                     <ShoppingCartIcon /> Cart
                                 </Button>
@@ -126,10 +126,10 @@ class Appbar extends React.Component {
                             <Link to='/login' style={{ textDecoration: 'none' }}>
                                 <Button style={{ color: "#ffa33a" }}>Hello, Sign in</Button>
                             </Link>
-                            <Link style={{ textDecoration: 'none' }}>
+                            <Link to='/cart' style={{ textDecoration: 'none' }}>
                                 <Button style={{ color: '#ffa33a' }}>
                                     <ShoppingCartIcon /> Cart
-                            </Button>
+                                </Button>
                             </Link>
                         </FormControl>
                     </Toolbar>
