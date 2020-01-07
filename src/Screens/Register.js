@@ -7,9 +7,14 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { Link } from 'react-router-dom';
+import swal from 'sweetalert2';
+import axios from 'axios';
+
+import connectionString from '../Static/Utilities/connectionString';
 
 // Static
 import '../Static/CSS/Register.css';
+
 
 const styles = theme => ({
     card: {
@@ -33,6 +38,51 @@ const styles = theme => ({
 });
 
 class Register extends Component {
+
+    state = {
+        email: '',
+        password: '',
+        confirmPassword: '',
+        name: '',
+    }
+
+    signup = () => {
+        const { email, password, confirmPassword, name } = this.state;
+
+        if (password === confirmPassword) {
+            axios({
+                url: `${connectionString}/auth/signup`,
+                method: 'PUT',
+                data: {
+                    email,
+                    password,
+                    name
+                }
+            }).then(res => {
+                console.log(res.data);
+                swal.fire({
+                    icon: 'success',
+                    title: 'User Registered',
+                }).then(() => {
+                    window.location.replace('/login')
+                })
+            }).catch(err => {
+                console.log(err);
+            })
+        } else {
+            swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: `Password doesn't match`,
+            })
+        }
+    }
+
+    handleInput = event => {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
 
     render() {
         console.log('REGISTER');
@@ -77,6 +127,8 @@ class Register extends Component {
                                                 required
                                                 id="standard-required"
                                                 variant='outlined'
+                                                name='name'
+                                                onChange={this.handleInput}
                                             />
                                         </Grid>
                                         <Grid style={{ marginTop: 10 }} item xs={12}>
@@ -87,7 +139,8 @@ class Register extends Component {
                                                 required
                                                 id="standard-required"
                                                 variant='outlined'
-
+                                                name='email'
+                                                onChange={this.handleInput}
                                             />
                                         </Grid>
                                         <Grid style={{ marginTop: 10 }} item xs={12}>
@@ -99,6 +152,9 @@ class Register extends Component {
                                                 id="standard-required"
                                                 variant='outlined'
                                                 helperText="Password Must Be 6 Characters"
+                                                type='password'
+                                                name='password'
+                                                onChange={this.handleInput}
                                             />
                                         </Grid>
                                         <Grid style={{ marginTop: 10 }} item xs={12}>
@@ -109,6 +165,9 @@ class Register extends Component {
                                                 required
                                                 id="standard-required"
                                                 variant='outlined'
+                                                type='password'
+                                                name='confirmPassword'
+                                                onChange={this.handleInput}
                                             />
                                         </Grid>
                                         <Grid style={{ marginTop: 20 }} xs={12}>
@@ -129,6 +188,7 @@ class Register extends Component {
                                                         border: '1px solid black',
                                                         borderColor: "#a88734 #9c7e31 #846a29",
                                                     }}
+                                                    onClick={this.signup}
                                                 >
                                                     Create your Computer Store account
                                                 </Button>

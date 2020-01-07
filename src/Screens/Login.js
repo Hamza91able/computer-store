@@ -7,9 +7,13 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
+import connectionString from '../Static/Utilities/connectionString';
 
 // Static
 import '../Static/CSS/Register.css';
+import swal from 'sweetalert2';
 
 const styles = theme => ({
     card: {
@@ -35,7 +39,63 @@ const styles = theme => ({
 class Register extends Component {
 
     state = {
-        renderPassword: false
+        renderPassword: false,
+        email: '',
+        password: '',
+    }
+
+    checkEmail = () => {
+        const { email } = this.state;
+
+        axios({
+            url: `${connectionString}/auth/check-email`,
+            method: 'POST',
+            data: {
+                email
+            }
+        }).then(res => {
+            console.log(res.data);
+            if (res.data.message === "Email found") {
+                this.setState({
+                    renderPassword: true
+                })
+            } else {
+                swal.fire({
+                    icon: 'error',
+                    title: `Doesn't exist`,
+                    text: "E-Mail doesn't exist",
+                })
+            }
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
+    loginAccount = () => {
+        const { email, password } = this.state;
+
+        axios({
+            url: `${connectionString}/auth/login`,
+            method: 'POST',
+            data: {
+                email,
+                password
+            }
+        }).then(res => {
+            console.log(res.data);
+            if (res.data.message === "Invalid Password") {
+                swal.fire({
+                    icon: 'error',
+                    title: `Invalid Password`,
+                    text: "Password is invalid",
+                })
+            } else {
+                localStorage.setItem('token', res.data.token);
+                localStorage.setItem('userId', res.data.userId);
+            }
+        }).catch(err => {
+            console.log(err);
+        })
     }
 
     renderPassword = () => {
@@ -55,10 +115,12 @@ class Register extends Component {
                                 id="standard-required"
                                 variant='outlined'
                                 type='password'
+                                value={this.state.value}
+                                onChange={e => this.setState({ password: e.target.value })}
                             />
                         </Grid>
                         <Grid style={{ marginTop: 20 }} xs={12}>
-                            <Link to='/account' style={{ textDecoration: 'none' }}>
+                            <Link style={{ textDecoration: 'none' }}>
                                 <div style={{
                                     justifyContent: 'center',
                                     alignItems: 'center,',
@@ -76,6 +138,7 @@ class Register extends Component {
                                             border: '1px solid black',
                                             borderColor: "#a88734 #9c7e31 #846a29",
                                         }}
+                                        onClick={this.loginAccount}
                                     >
                                         Sign-In
                                 </Button>
@@ -132,6 +195,7 @@ class Register extends Component {
                                                         required
                                                         id="standard-required"
                                                         variant='outlined'
+                                                        onChange={e => this.setState({ email: e.target.value })}
                                                     />
                                                 </Grid>
                                                 <Grid style={{ marginTop: 20 }} xs={12}>
@@ -152,7 +216,7 @@ class Register extends Component {
                                                                 border: '1px solid black',
                                                                 borderColor: "#a88734 #9c7e31 #846a29",
                                                             }}
-                                                            onClick={() => this.setState({ renderPassword: true })}
+                                                            onClick={this.checkEmail}
                                                         >
                                                             Continue
                                                         </Button>
