@@ -27,6 +27,9 @@ class AddCategories extends Component {
             method: 'POST',
             data: {
                 name: category
+            },
+            headers: {
+                Authorization: 'Bearer ' + this.props.token
             }
         })
             .then(res => {
@@ -49,7 +52,7 @@ class AddCategories extends Component {
 
         axios({
             url: `${connectionString}/categories/get-categories`,
-            method: 'GET'
+            method: 'GET',
         })
             .then(res => {
                 this.setState({

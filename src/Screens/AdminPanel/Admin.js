@@ -6,8 +6,9 @@ import Tabs from './Components/Tabs';
 import { Container } from '@material-ui/core';
 
 class Admin extends Component {
+    
     render() {
-
+        
         return (
             <div>
                 <Container maxWidth='lg'>
@@ -16,7 +17,7 @@ class Admin extends Component {
                     </Typography>
                 </Container>
                 <div style={{ height: 20 }} />
-                <Tabs />
+                <Tabs token={this.props.token} userId={this.props.userId} />
             </div>
         );
     }

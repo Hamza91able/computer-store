@@ -8,12 +8,12 @@ import Typography from '@material-ui/core/Typography';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import swal from 'sweetalert2';
 
 import connectionString from '../Static/Utilities/connectionString';
 
 // Static
 import '../Static/CSS/Register.css';
-import swal from 'sweetalert2';
 
 const styles = theme => ({
     card: {
@@ -71,34 +71,9 @@ class Register extends Component {
         })
     }
 
-    loginAccount = () => {
+    renderPassword = () => {
         const { email, password } = this.state;
 
-        axios({
-            url: `${connectionString}/auth/login`,
-            method: 'POST',
-            data: {
-                email,
-                password
-            }
-        }).then(res => {
-            console.log(res.data);
-            if (res.data.message === "Invalid Password") {
-                swal.fire({
-                    icon: 'error',
-                    title: `Invalid Password`,
-                    text: "Password is invalid",
-                })
-            } else {
-                localStorage.setItem('token', res.data.token);
-                localStorage.setItem('userId', res.data.userId);
-            }
-        }).catch(err => {
-            console.log(err);
-        })
-    }
-
-    renderPassword = () => {
         return (
             <Paper style={{ width: 450 }}>
                 <div style={{ padding: 30, width: '100%' }}>
@@ -138,7 +113,7 @@ class Register extends Component {
                                             border: '1px solid black',
                                             borderColor: "#a88734 #9c7e31 #846a29",
                                         }}
-                                        onClick={this.loginAccount}
+                                        onClick={() => this.props.onLogin({ email, password })}
                                     >
                                         Sign-In
                                 </Button>

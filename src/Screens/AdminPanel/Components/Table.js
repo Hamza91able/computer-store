@@ -9,24 +9,22 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles({
-
+    container: {
+        maxHeight: 280,
+    },
 });
-
-function createData(name, parent) {
-    return { name, parent };
-}
 
 export default function SimpleTable(props) {
     const classes = useStyles();
     const { categories } = props;
 
     return (
-        <TableContainer style={{ marginTop: 20 }} component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
+        <TableContainer style={{ marginTop: 20 }} className={classes.container} component={Paper}>
+            <Table stickyHeader className={classes.table} aria-label="simple table">
                 <TableHead>
                     <TableRow style={{ backgroundColor: '#989898' }}>
-                        <TableCell>{props.heading}</TableCell>
-                        {props.heading === "Sub-Categories" || props.heading === "Brands" && <TableCell>Parent Category</TableCell>}
+                        <TableCell style={{ backgroundColor: '#989898' }} >{props.heading}</TableCell>
+                        {props.heading === "Sub-Categories" || props.heading === "Brands" && <TableCell style={{ backgroundColor: '#989898' }} >Parent Category</TableCell>}
                     </TableRow>
                 </TableHead>
                 <TableBody>

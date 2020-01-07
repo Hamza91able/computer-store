@@ -46,38 +46,6 @@ class Register extends Component {
         name: '',
     }
 
-    signup = () => {
-        const { email, password, confirmPassword, name } = this.state;
-
-        if (password === confirmPassword) {
-            axios({
-                url: `${connectionString}/auth/signup`,
-                method: 'PUT',
-                data: {
-                    email,
-                    password,
-                    name
-                }
-            }).then(res => {
-                console.log(res.data);
-                swal.fire({
-                    icon: 'success',
-                    title: 'User Registered',
-                }).then(() => {
-                    window.location.replace('/login')
-                })
-            }).catch(err => {
-                console.log(err);
-            })
-        } else {
-            swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: `Password doesn't match`,
-            })
-        }
-    }
-
     handleInput = event => {
         this.setState({
             [event.target.name]: event.target.value
@@ -85,8 +53,8 @@ class Register extends Component {
     }
 
     render() {
-        console.log('REGISTER');
         const { classes } = this.props;
+        const { email, password, confirmPassword, name } = this.state;
 
         return (
             <div>
@@ -188,7 +156,7 @@ class Register extends Component {
                                                         border: '1px solid black',
                                                         borderColor: "#a88734 #9c7e31 #846a29",
                                                     }}
-                                                    onClick={this.signup}
+                                                    onClick={() => this.props.onRegister({ email, password, confirmPassword, name })}
                                                 >
                                                     Create your Computer Store account
                                                 </Button>

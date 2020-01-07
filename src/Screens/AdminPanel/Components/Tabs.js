@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function VerticalTabs() {
+export default function VerticalTabs(props) {
     const classes = useStyles();
     const [value, setValue] = React.useState(1);
 
@@ -85,13 +85,13 @@ export default function VerticalTabs() {
                 Item One
             </TabPanel>
             <TabPanel style={{ width: '100%' }} value={value} index={1}>
-                <AddBrands />
+                <AddBrands token={props.token} userId={props.userId} />
             </TabPanel>
             <TabPanel style={{ width: '100%' }} value={value} index={2}>
-                <AddCategories />
+                <AddCategories token={props.token} userId={props.userId} />
             </TabPanel>
             <TabPanel style={{ width: '100%' }} value={value} index={3}>
-                <AddSubCategories />
+                <AddSubCategories token={props.token} userId={props.userId} />
             </TabPanel>
             <TabPanel style={{ width: '100%' }} value={value} index={4}>
                 Item Five
