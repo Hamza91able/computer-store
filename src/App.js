@@ -1,5 +1,6 @@
 import React from 'react';
 import 'typeface-roboto';
+import { withStyles } from '@material-ui/core/styles';
 import {
   BrowserRouter as Router,
   Switch,
@@ -21,15 +22,27 @@ import CategoriePage from './Screens/CategoriePage';
 import Cart from './Screens/Cart';
 import Checkout from './Screens/Checkout';
 import UserAccount from './Screens/UserAccount';
+import Admin from './Screens/AdminPanel/Admin';
+
+const styles = theme => ({
+  placeHodlerDiv: {
+    height: 182,
+    [theme.breakpoints.up('md')]: {
+      height: 128,
+    }
+  }
+});
 
 class App extends React.Component {
 
   render() {
+    const { classes } = this.props;
 
     return (
       <React.Fragment>
         <Router>
           <Appbar />
+          <div className={classes.placeHodlerDiv} />
           <Switch>
             <Route path='/' exact component={LandingPage} />
             <Route path='/product-details' exact component={ProductDetails} />
@@ -40,6 +53,7 @@ class App extends React.Component {
             <Route path='/cart' exact component={Cart} />
             <Route path='/buy/addressselect' exact component={Checkout} />
             <Route path='/account' exact component={UserAccount} />
+            <Route path='/admin' exact component={Admin} />
           </Switch>
           <div style={{ height: 100 }}></div>
           <Footer />
@@ -49,4 +63,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withStyles(styles)(App);

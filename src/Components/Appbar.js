@@ -26,6 +26,9 @@ const styles = theme => ({
             marginLeft: 30
         }
     },
+    appBar: {
+        zIndex: theme.zIndex.drawer + 1,
+    },
     menuButton: {
         marginRight: theme.spacing(2),
     },
@@ -56,7 +59,6 @@ const styles = theme => ({
             display: 'block',
         },
     },
-
 });
 
 class Appbar extends React.Component {
@@ -78,7 +80,7 @@ class Appbar extends React.Component {
 
         return (
             <div className={classes.root}>
-                <AppBar style={{ backgroundColor: '#232f3e' }} position="static">
+                <AppBar style={{ backgroundColor: '#232f3e' }} className={classes.appBar} position="fixed">
                     <Toolbar>
                         <MenuDrawer />
                         <Link style={{ textDecoration: 'none' }} to='/'>
