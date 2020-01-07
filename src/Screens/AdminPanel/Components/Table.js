@@ -16,12 +16,9 @@ function createData(name, parent) {
     return { name, parent };
 }
 
-const rows = [
-    createData('Frozen yoghurt', 'Processors'),
-];
-
 export default function SimpleTable(props) {
     const classes = useStyles();
+    const { categories } = props;
 
     return (
         <TableContainer style={{ marginTop: 20 }} component={Paper}>
@@ -33,7 +30,7 @@ export default function SimpleTable(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map(row => (
+                    {categories && categories.map(row => (
                         <TableRow key={row.name}>
                             <TableCell component="th" scope="row">
                                 {row.name}

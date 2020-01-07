@@ -1,11 +1,69 @@
 import React, { Component } from 'react';
 import { Container, TextField, Grid, Divider, Typography, Button } from '@material-ui/core';
+import axios from 'axios';
+import swal from 'sweetalert2'
+
+import connectionString from '../../../Static/Utilities/connectionString';
 
 // Components
 import CategoriesTable from '../Components/Table';
 
 class AddCategories extends Component {
+
+    state = {
+        category: '',
+        categories: [],
+    }
+
+    componentDidMount() {
+        this.getCategories();
+    }
+
+    addCategory = () => {
+        const { category } = this.state;
+
+        axios({
+            url: `${connectionString}/admin/add-category`,
+            method: 'POST',
+            data: {
+                name: category
+            }
+        })
+            .then(res => {
+                swal.fire({
+                    icon: 'success',
+                    title: 'Category Added Successfully',
+                }).then(() => {
+                    this.getCategories();
+                    this.setState({
+                        category: '',
+                    })
+                })
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+    getCategories = () => {
+
+        axios({
+            url: `${connectionString}/categories/get-categories`,
+            method: 'GET'
+        })
+            .then(res => {
+                this.setState({
+                    categories: res.data.categories
+                })
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
     render() {
+        const { categories, category } = this.state;
+
         return (
             <div>
                 <Container maxWidth='lg'>
@@ -14,7 +72,14 @@ class AddCategories extends Component {
                             <Typography variant='body2' style={{ marginBottom: 5 }}>
                                 Add Categories
                             </Typography>
-                            <TextField id="filled-basic" label="Add Category" variant="filled" />
+                            <TextField
+                                id="filled-basic"
+                                label="Add Category"
+                                variant="filled"
+                                name='category'
+                                onChange={e => this.setState({ category: e.target.value })}
+                                value={category}
+                            />
                             <Button
                                 variant="contained"
                                 style={{
@@ -27,6 +92,7 @@ class AddCategories extends Component {
                                     height: 55,
                                     marginLeft: 10
                                 }}
+                                onClick={this.addCategory}
                             >
                                 Add Category
                             </Button>
@@ -34,7 +100,7 @@ class AddCategories extends Component {
                         <Divider style={{ marginTop: 20, marginBottom: 20 }} />
                         <Grid xs={12}>
                             Current Categories
-                            <CategoriesTable heading="Categories" />
+                            <CategoriesTable heading="Categories" categories={categories} />
                         </Grid>
                     </Grid>
 
