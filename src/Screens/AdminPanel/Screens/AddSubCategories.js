@@ -1,12 +1,44 @@
 import React, { Component } from 'react';
 import { Container, TextField, Grid, Divider, Typography, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import axios from 'axios';
+import { Dropdown } from 'semantic-ui-react'
+
+import connectionString from '../../../Static/Utilities/connectionString';
 
 // Components
 import CategoriesTable from '../Components/Table';
 
 class AddCategories extends Component {
 
+    state = {
+        categories: [],
+    }
+
+    componentDidMount() {
+        this.getCategories();
+    }
+
+    getCategories = () => {
+
+        axios({
+            url: `${connectionString}/categories/get-categories`,
+            method: 'GET',
+        })
+            .then(res => {
+                res.data.categories.forEach(category => {
+                    this.setState({
+                        categories: [...this.state.categories, { key: category._id, value: category.name, text: category.name }]
+                    })
+                })
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
     render() {
+        const { categories } = this.state;
+
         return (
             <div>
                 <Container maxWidth='lg'>
@@ -17,13 +49,12 @@ class AddCategories extends Component {
                             </Typography>
                             <FormControl>
                                 <InputLabel id="demo-simple-select-label">Category</InputLabel>
-                                <Select
-                                    style={{ width: 200 }}
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                >
-                                    <MenuItem value={10}>Processors</MenuItem>
-                                </Select>
+                                <Dropdown
+                                    placeholder='Select Category'
+                                    search
+                                    selection
+                                    options={categories}
+                                />
                             </FormControl>
                             <div style={{ marginTop: 20 }} />
                             <Typography variant='body2' style={{ marginBottom: 5 }}>
