@@ -39,7 +39,7 @@ class MenuDrawer extends React.Component {
     };
 
     renderSideList = side => {
-        const { classes } = this.props;
+        const { classes, user } = this.props;
 
         return (
             <div
@@ -54,9 +54,20 @@ class MenuDrawer extends React.Component {
                         <Typography variant='h6' style={{ fontWeight: "bold", width: 300 }}>
                             <ListItem button>
                                 <ListItemIcon><AccountCircleIcon style={{ color: "white", height: 42, width: 42 }} /></ListItemIcon>
-                                <ListItemText primary={<Typography variant='h6' style={{ fontWeight: "bold" }}>
-                                    Hello, Sign In
-                                </Typography>} />
+                                {user
+                                    ?
+                                    <Link to='/account' style={{ textDecoration: 'none', color: 'white' }}>
+                                        <ListItemText primary={<Typography variant='h6' style={{ fontWeight: "bold" }}>
+                                            HELLO, {user.name.toUpperCase()}
+                                        </Typography>} />
+                                    </Link>
+                                    :
+                                    <Link to='/login' style={{ textDecoration: 'none', color: 'white' }}>
+                                        <ListItemText primary={<Typography variant='h6' style={{ fontWeight: "bold" }}>
+                                            Hello, Sign In
+                                        </Typography>} />
+                                    </Link>
+                                }
                             </ListItem>
                         </Typography>
                         <Button onClick={this.toggleDrawer} style={{ float: 'right', color: 'white' }}>X</Button>

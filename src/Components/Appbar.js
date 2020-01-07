@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { Link, withRouter } from 'react-router-dom';
-
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 // Components
 import MenuDrawer from './MenuDrawer';
@@ -64,7 +64,7 @@ const styles = theme => ({
 class Appbar extends React.Component {
 
     state = {
-        keyword: ''
+        keyword: '',
     }
 
     handleKeyPress(target, value) {
@@ -75,14 +75,13 @@ class Appbar extends React.Component {
     }
 
     render() {
-
-        const { classes } = this.props;
+        const { classes, user } = this.props;
 
         return (
             <div className={classes.root}>
                 <AppBar style={{ backgroundColor: '#232f3e' }} className={classes.appBar} position="fixed">
                     <Toolbar>
-                        <MenuDrawer />
+                        <MenuDrawer user={user} />
                         <Link style={{ textDecoration: 'none' }} to='/'>
                             <Typography variant="h5" className={classes.title}>
                                 <strong style={{ color: '#ffa33a' }}>COMPUTER STORE</strong>
@@ -102,14 +101,24 @@ class Appbar extends React.Component {
                             />
                         </FormControl>
                         <div className={classes.greetingsWeb} style={{ width: 300 }}>
-                            <Link to='/login' style={{ textDecoration: 'none' }}>
-                                <Button style={{ color: "#ffa33a" }}>Hello, Sign in</Button>
-                            </Link>
+                            {user
+                                ?
+                                <Link to='/account' style={{ textDecoration: 'none' }}>
+                                    <Button style={{ color: "#ffa33a" }}>Hello, {user.name}</Button>
+                                </Link>
+                                :
+                                <Link to='/login' style={{ textDecoration: 'none' }}>
+                                    <Button style={{ color: "#ffa33a" }}>Hello, Sign in</Button>
+                                </Link>
+                            }
                             <Link to='/cart' style={{ textDecoration: 'none' }}>
                                 <Button style={{ color: '#ffa33a' }}>
                                     <ShoppingCartIcon /> Cart
                                 </Button>
                             </Link>
+                            {user && <Button onClick={this.props.logoutHandler} style={{ color: '#ffa33a' }}>
+                                <ExitToAppIcon style={{ marginRight: 5 }} /> Signout
+                            </Button>}
                         </div>
                     </Toolbar>
                     <Toolbar className={classes.searchBarMobile}>
@@ -125,14 +134,26 @@ class Appbar extends React.Component {
                                 onChange={e => this.setState({ keyword: e.target.value })}
                                 onKeyPress={e => this.handleKeyPress(e, e.target.value)}
                             />
-                            <Link to='/login' style={{ textDecoration: 'none' }}>
-                                <Button style={{ color: "#ffa33a" }}>Hello, Sign in</Button>
-                            </Link>
+                            {user
+                                ?
+                                <Link to='/account' style={{ textDecoration: 'none' }}>
+                                    <Button style={{ color: "#ffa33a" }}>Hello, {user.name}</Button>
+                                </Link>
+                                :
+                                <Link to='/login' style={{ textDecoration: 'none' }}>
+                                    <Button style={{ color: "#ffa33a" }}>Hello, Sign in</Button>
+                                </Link>
+                            }
                             <Link to='/cart' style={{ textDecoration: 'none' }}>
                                 <Button style={{ color: '#ffa33a' }}>
                                     <ShoppingCartIcon /> Cart
                                 </Button>
                             </Link>
+                            {user && <Link style={{ textDecoration: 'none' }}>
+                                <Button onClick={this.props.logoutHandler} style={{ color: '#ffa33a' }}>
+                                    <ExitToAppIcon style={{ marginRight: 5 }} /> Signout
+                                </Button>
+                            </Link>}
                         </FormControl>
                     </Toolbar>
                     <Toolbar className={classes.searchBarWeb}>

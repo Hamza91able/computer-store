@@ -2,7 +2,6 @@ import React from 'react';
 import 'typeface-roboto';
 import { withStyles } from '@material-ui/core/styles';
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   withRouter
@@ -32,7 +31,7 @@ import Admin from './Screens/AdminPanel/Admin';
 
 const styles = theme => ({
   placeHodlerDiv: {
-    height: 182,
+    height: 210,
     [theme.breakpoints.up('md')]: {
       height: 128,
     }
@@ -45,6 +44,7 @@ class App extends React.Component {
     isAuth: false,
     token: null,
     userId: null,
+    user: null,
   }
 
   componentDidMount() {
@@ -57,6 +57,32 @@ class App extends React.Component {
         isAuth: true,
         token,
         userId,
+      }, () => {
+        this.getUser();
+      })
+    }
+  }
+
+  getUser = () => {
+    const { token, userId, isAuth } = this.state;
+
+    if (isAuth) {
+      axios({
+        url: `${connectionString}/user/get-user`,
+        method: 'POST',
+        data: {
+          userId,
+        },
+        headers: {
+          Authorization: 'bearer ' + token,
+        }
+      }).then(res => {
+        console.log(res.data);
+        this.setState({
+          user: res.data.user
+        })
+      }).catch(err => {
+        console.log(err);
       })
     }
   }
@@ -95,6 +121,7 @@ class App extends React.Component {
         );
         localStorage.setItem('expiryDate', expiryDate.toISOString());
         this.setAutoLogout(remainingMilliseconds);
+        this.getUser();
         this.props.history.replace('/');
       }
     }).catch(err => {
@@ -145,6 +172,7 @@ class App extends React.Component {
     localStorage.removeItem('token');
     localStorage.removeItem('expiryDate');
     localStorage.removeItem('userId');
+    window.location.reload();
   };
 
   render() {
@@ -152,7 +180,7 @@ class App extends React.Component {
 
     return (
       <React.Fragment>
-        <Appbar />
+        <Appbar user={this.state.user} logoutHandler={this.logoutHandler} />
         <div className={classes.placeHodlerDiv} />
         <Switch>
           <Route path='/' exact component={LandingPage} />
