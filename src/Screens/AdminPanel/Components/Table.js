@@ -25,6 +25,7 @@ export default function SimpleTable(props) {
                     <TableRow style={{ backgroundColor: '#989898' }}>
                         <TableCell style={{ backgroundColor: '#989898' }} >Category</TableCell>
                         {(props.heading !== "Categories" && props.heading !== "Brands") && <TableCell style={{ backgroundColor: '#989898' }} >{props.heading}</TableCell>}
+                        {props.heading === "Brands" && <TableCell style={{ backgroundColor: '#989898' }} >Brands</TableCell>}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -35,6 +36,15 @@ export default function SimpleTable(props) {
                             </TableCell>
                             {(props.heading !== "Categories" && props.heading !== "Brands") && <TableCell component="th" scope="row">
                                 {row.subCategories.map(value => {
+                                    return (
+                                        <ul>
+                                            <li>{value}</li>
+                                        </ul>
+                                    )
+                                })}
+                            </TableCell>}
+                            {props.heading === "Brands" && <TableCell component="th" scope="row">
+                                {row.brands.map(value => {
                                     return (
                                         <ul>
                                             <li>{value}</li>
