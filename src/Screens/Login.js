@@ -91,7 +91,9 @@ class Register extends Component {
                                 variant='outlined'
                                 type='password'
                                 value={this.state.value}
+                                style={{ width: '100%' }}
                                 onChange={e => this.setState({ password: e.target.value })}
+                                size='small'
                             />
                         </Grid>
                         <Grid style={{ marginTop: 20 }} xs={12}>
@@ -116,7 +118,7 @@ class Register extends Component {
                                         onClick={() => this.props.onLogin({ email, password })}
                                     >
                                         Sign-In
-                                </Button>
+                                    </Button>
                                 </div>
                             </Link>
                         </Grid>
@@ -171,6 +173,8 @@ class Register extends Component {
                                                         id="standard-required"
                                                         variant='outlined'
                                                         onChange={e => this.setState({ email: e.target.value })}
+                                                        style={{ width: '100%' }}
+                                                        size='small'
                                                     />
                                                 </Grid>
                                                 <Grid style={{ marginTop: 20 }} xs={12}>

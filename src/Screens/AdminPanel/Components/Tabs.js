@@ -10,6 +10,7 @@ import Box from '@material-ui/core/Box';
 import AddCategories from '../Screens/AddCategories';
 import AddBrands from '../Screens/AddBrands';
 import AddSubCategories from '../Screens/AddSubCategories';
+import ProductSubmit from '../Screens/ProductSubmit';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -55,7 +56,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function VerticalTabs(props) {
     const classes = useStyles();
-    const [value, setValue] = React.useState(1);
+    const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -70,6 +71,7 @@ export default function VerticalTabs(props) {
                 onChange={handleChange}
                 aria-label="Vertical tabs example"
                 className={classes.tabs}
+                style={{ width: 300 }}
             >
                 <Tab label="Add Products" {...a11yProps(0)} />
                 <Tab label="Add Brands" {...a11yProps(1)} />
@@ -82,7 +84,7 @@ export default function VerticalTabs(props) {
                 <Tab label="Change Banners" {...a11yProps(8)} />
             </Tabs>
             <TabPanel style={{ width: '100%' }} value={value} index={0}>
-                Item One
+                <ProductSubmit />
             </TabPanel>
             <TabPanel style={{ width: '100%' }} value={value} index={1}>
                 <AddBrands token={props.token} userId={props.userId} />

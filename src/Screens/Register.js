@@ -97,6 +97,8 @@ class Register extends Component {
                                                 variant='outlined'
                                                 name='name'
                                                 onChange={this.handleInput}
+                                                style={{ width: '100%' }}
+                                                size='small'
                                             />
                                         </Grid>
                                         <Grid style={{ marginTop: 10 }} item xs={12}>
@@ -109,6 +111,8 @@ class Register extends Component {
                                                 variant='outlined'
                                                 name='email'
                                                 onChange={this.handleInput}
+                                                style={{ width: '100%' }}
+                                                size='small'
                                             />
                                         </Grid>
                                         <Grid style={{ marginTop: 10 }} item xs={12}>
@@ -123,6 +127,8 @@ class Register extends Component {
                                                 type='password'
                                                 name='password'
                                                 onChange={this.handleInput}
+                                                style={{ width: '100%' }}
+                                                size='small'
                                             />
                                         </Grid>
                                         <Grid style={{ marginTop: 10 }} item xs={12}>
@@ -136,6 +142,8 @@ class Register extends Component {
                                                 type='password'
                                                 name='confirmPassword'
                                                 onChange={this.handleInput}
+                                                style={{ width: '100%' }}
+                                                size='small'
                                             />
                                         </Grid>
                                         <Grid style={{ marginTop: 20 }} xs={12}>

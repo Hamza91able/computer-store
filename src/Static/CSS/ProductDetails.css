@@ -36,10 +36,4 @@ polyline {
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button {  
    opacity: 1;
-   /* height: 100%; */
-}
-
-.MuiOutlinedInput-root{
-    height: 36px;
-    width: 65px;
 }
