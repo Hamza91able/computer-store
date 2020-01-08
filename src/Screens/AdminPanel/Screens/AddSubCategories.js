@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Container, TextField, Grid, Divider, Typography, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import axios from 'axios';
-import { Dropdown } from 'semantic-ui-react'
+import { Dropdown } from 'semantic-ui-react';
+import swal from 'sweetalert2';
 
 import connectionString from '../../../Static/Utilities/connectionString';
 
@@ -12,6 +13,9 @@ class AddCategories extends Component {
 
     state = {
         categories: [],
+        subCategory: '',
+        parentCategory: '',
+        categoriesTable: [],
     }
 
     componentDidMount() {
@@ -27,17 +31,55 @@ class AddCategories extends Component {
             .then(res => {
                 res.data.categories.forEach(category => {
                     this.setState({
-                        categories: [...this.state.categories, { key: category._id, value: category.name, text: category.name }]
+                        categories: [...this.state.categories, { key: category._id, value: category.name, text: category.name }],
                     })
                 })
+                this.setState({
+                    categoriesTable: res.data.categories,
+                });
             })
             .catch(err => {
                 console.log(err);
             })
     }
 
+    addSubCategory = () => {
+        const { subCategory, parentCategory } = this.state;
+
+        axios({
+            url: `${connectionString}/admin/add-sub-category`,
+            method: 'POST',
+            data: {
+                parentCategory,
+                subCategory,
+            },
+            headers: {
+                Authorization: 'bearer ' + this.props.token,
+            }
+        }).then(res => {
+            console.log(res.data.message);
+            if (res.data.message == "Sub-Category already exists") {
+                swal.fire({
+                    icon: 'error',
+                    title: 'Error while adding category',
+                    text: 'Sub-Category already exists',
+                })
+            } else {
+                swal.fire({
+                    icon: 'success',
+                    title: 'Added Sub-Category',
+                    text: 'Sub-Cateogry Added Successfully',
+                }).then(() => {
+                    this.getCategories();
+                })
+            }
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
     render() {
-        const { categories } = this.state;
+        const { categories, categoriesTable } = this.state;
 
         return (
             <div>
@@ -54,13 +96,19 @@ class AddCategories extends Component {
                                     search
                                     selection
                                     options={categories}
+                                    onChange={e => this.setState({ parentCategory: e.target.textContent })}
                                 />
                             </FormControl>
                             <div style={{ marginTop: 20 }} />
                             <Typography variant='body2' style={{ marginBottom: 5 }}>
                                 Add Sub-Categories
                             </Typography>
-                            <TextField id="filled-basic" label="Add Category" variant="filled" />
+                            <TextField
+                                id="filled-basic"
+                                label="Add Category"
+                                variant="filled"
+                                onChange={e => this.setState({ subCategory: e.target.value })}
+                            />
                             <Button
                                 variant="contained"
                                 style={{
@@ -73,6 +121,7 @@ class AddCategories extends Component {
                                     height: 55,
                                     marginLeft: 10
                                 }}
+                                onClick={this.addSubCategory}
                             >
                                 Add Sub-Category
                             </Button>
@@ -80,7 +129,7 @@ class AddCategories extends Component {
                         <Divider style={{ marginTop: 20, marginBottom: 20 }} />
                         <Grid xs={12}>
                             Current Sub-Categories
-                            <CategoriesTable heading="Sub-Categories" />
+                            <CategoriesTable categories={categoriesTable} heading="Sub-Categories" />
                         </Grid>
                     </Grid>
 

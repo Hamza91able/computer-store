@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles({
     container: {
-        maxHeight: 280,
+        maxHeight: 440,
     },
 });
 
@@ -23,8 +23,8 @@ export default function SimpleTable(props) {
             <Table stickyHeader className={classes.table} aria-label="simple table">
                 <TableHead>
                     <TableRow style={{ backgroundColor: '#989898' }}>
-                        <TableCell style={{ backgroundColor: '#989898' }} >{props.heading}</TableCell>
-                        {props.heading === "Sub-Categories" || props.heading === "Brands" && <TableCell style={{ backgroundColor: '#989898' }} >Parent Category</TableCell>}
+                        <TableCell style={{ backgroundColor: '#989898' }} >Category</TableCell>
+                        {(props.heading !== "Categories" && props.heading !== "Brands") && <TableCell style={{ backgroundColor: '#989898' }} >{props.heading}</TableCell>}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -33,8 +33,14 @@ export default function SimpleTable(props) {
                             <TableCell component="th" scope="row">
                                 {row.name}
                             </TableCell>
-                            {props.heading === "Sub-Categories" || props.heading === "Brands" && <TableCell component="th" scope="row">
-                                {row.parent}
+                            {(props.heading !== "Categories" && props.heading !== "Brands") && <TableCell component="th" scope="row">
+                                {row.subCategories.map(value => {
+                                    return (
+                                        <ul>
+                                            <li>{value}</li>
+                                        </ul>
+                                    )
+                                })}
                             </TableCell>}
                         </TableRow>
                     ))}
