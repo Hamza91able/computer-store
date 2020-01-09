@@ -50,7 +50,7 @@ export default function NestedList(props) {
                     {props.subCategories && props.subCategories.map((subCategory, index) => {
                         return (
                             <React.Fragment>
-                                <ListItem button className={classes.nested}>
+                                <ListItem onClick={() => props.getProductsBySubCategory(subCategory)} button className={classes.nested}>
                                     <ListItemText primary={<Typography style={{ fontSize: 14 }}>{subCategory}</Typography>} />
                                 </ListItem>
                                 <Divider />

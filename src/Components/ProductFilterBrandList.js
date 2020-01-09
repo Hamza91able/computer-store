@@ -50,7 +50,7 @@ export default function NestedList(props) {
                     {props.brands && props.brands.map((brand, index) => {
                         return (
                             <React.Fragment>
-                                <ListItem button className={classes.nested}>
+                                <ListItem onClick={() => props.getProductsByBrand(brand)} button className={classes.nested}>
                                     <ListItemText primary={<Typography style={{ fontSize: 14 }}>{brand}</Typography>} />
                                 </ListItem>
                                 <Divider />
