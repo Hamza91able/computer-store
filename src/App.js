@@ -221,7 +221,7 @@ class App extends React.Component {
         <div className={classes.placeHodlerDiv} />
         <Switch>
           <Route path='/' exact component={LandingPage} />
-          <Route path='/product-details' exact component={ProductDetails} />
+          <Route path='/product-details/:id' exact component={ProductDetails} />
           <Route path='/register' exact render={props => (<Register {...props} onRegister={this.signupHandler} />)} />
           <Route path='/login' exact render={props => (<Login {...props} onLogin={this.loginHandler} />)} />
           <Route path='/s/:k' exact render={props => (<SearchPage {...props} userId={this.state.userId} token={this.state.token} />)} />

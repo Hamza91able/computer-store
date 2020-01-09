@@ -3,11 +3,20 @@ import { withStyles } from '@material-ui/core/styles';
 import { Container, AppBar, Toolbar, Typography, Paper, Grid, Card, CardContent, Divider, Box, Button, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
+import connectionString from '../Static/Utilities/connectionString';
 
 // Components
 import ProductFilterTypeList from '../Components/ProductFilterTypeList';
 import ProductFilterBrandList from '../Components/ProductFilterBrandList';
 import Pagination from '../Components/Pagination';
+
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'PKR',
+    minimumFractionDigits: 0
+})
 
 const styles = theme => ({
     rating1: {
@@ -35,8 +44,39 @@ const styles = theme => ({
 
 class CategoriePage extends Component {
 
+    state = {
+        products: [],
+        order: 10,
+    }
+
+    componentDidMount() {
+        this.getProducts();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.categoryName !== prevProps.match.params.categoryName) {
+          this.getProducts();
+        }
+      }
+
+    getProducts = () => {
+
+        axios({
+            url: `${connectionString}/products/get-products-by-category/${this.props.match.params.categoryName}/${this.state.order}`,
+            method: 'GET',
+        }).then(res => {
+            console.log(res.data);
+            this.setState({
+                products: res.data.products,
+            })
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
     render() {
         const { classes } = this.props;
+        const { products } = this.state;
 
         return (
             <div>
@@ -86,8 +126,9 @@ class CategoriePage extends Component {
                                             <Select
                                                 labelId="demo-simple-select-filled-label"
                                                 id="demo-simple-select-filled"
-                                                value={10}
+                                                value={this.state.order}
                                                 style={{ float: 'right' }}
+                                                onChange={e => this.setState({ order: e.target.value, products: [] }, () => this.getProducts())}
                                             >
                                                 <MenuItem value={10}>Price Low - High</MenuItem>
                                                 <MenuItem value={20}>Price High - Low</MenuItem>
@@ -98,43 +139,52 @@ class CategoriePage extends Component {
                                 <div style={{ height: 3 }} />
                             </AppBar>
                             <br />
-                            <Grid container spacing={5}>
-                                <Grid item xs={12} md={3}>
-                                    <div style={{
-                                        justifyContent: 'center',
-                                        alignItems: 'center,',
-                                        display: 'inline-flex',
-                                        width: '100%',
-                                    }}>
-                                        <Link to='/product-details'>
-                                            <img src="https://m.media-amazon.com/images/I/71RsweT83eL._AC_UY218_ML3_.jpg" />
-                                        </Link>
-                                    </div>
+                            {products && products.map((product, index) => {
+                                return (
+                                    <React.Fragment>
+                                        <Grid container spacing={5}>
+                                            <Grid item xs={12} md={3}>
+                                                <div style={{
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center,',
+                                                    display: 'inline-flex',
+                                                    width: '100%',
+                                                }}>
+                                                    <Link to='/product-details'>
+                                                        <img style={{ height: 218, width: 242 }} src={product.pictures[0]} />
+                                                    </Link>
+                                                </div>
 
-                                </Grid>
-                                <Grid item xs={12} md={9}>
-                                    <Link className={classes.link} to='/product-details'>
-                                        <Typography style={{ fontWeight: 'bold' }} className={classes.title} gutterBottom>
-                                            Intel Core i9-9900K Desktop Processor 8 Cores up to 5.0 GHz Turbo unlocked LGA1151 300 Series 95W
-                                        </Typography>
-                                    </Link>
-                                    <div className={classes.rating1}>
-                                        <Rating
-                                            name="hover-side"
-                                            value={5}
-                                            size='small'
-                                        />
-                                        <Box style={{ marginTop: -7, fontSize: 13 }} ml={1}><Link to='/product-details'>680</Link></Box>
-                                    </div>
-                                    <Typography variant='caption' style={{ fontSize: 14, fontWeight: 'bold' }}>
-                                        Rs. 76,641
-                                    </Typography>
-                                    <Typography style={{ fontSize: 13 }} className={classes.title} color="textSecondary" gutterBottom>
-                                        Sold and Shipped by: <strong>Computer Store</strong>
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                            <Divider style={{ marginTop: 20, marginBottom: 20 }} />
+                                            </Grid>
+                                            <Grid item xs={12} md={9}>
+                                                <Link className={classes.link} to={`/product-details/${product._id}`}>
+                                                    <Typography style={{ fontWeight: 'bold' }} className={classes.title} gutterBottom>
+                                                        {product.title}
+                                                    </Typography>
+                                                </Link>
+                                                <div className={classes.rating1}>
+                                                    <Rating
+                                                        name="hover-side"
+                                                        value={product.ratings}
+                                                        size='small'
+                                                        readOnly={true}
+                                                    />
+                                                    <Box style={{ fontSize: 13 }} ml={1}><Link to={`/product-details/${product._id}`}>{products.ratings ? products.ratings : 0}</Link></Box>
+                                                </div>
+                                                <Typography variant='caption' style={{ fontSize: 14, fontWeight: 'bold' }}>
+                                                    {formatter.format(product.price)}
+                                                </Typography>
+                                                <Typography style={{ fontSize: 13 }} className={classes.title} color="textSecondary" gutterBottom>
+                                                    Sold and Shipped by: <strong>{product.soldAndShippedBy}</strong>
+                                                </Typography>
+                                            </Grid>
+
+
+                                        </Grid>
+                                        <Divider style={{ marginTop: 20, marginBottom: 20 }} />
+                                    </React.Fragment>
+                                )
+                            })}
                             <Paper style={{ boxShadow: 'none' }}>
                                 <Grid container>
                                     <Grid style={{ marginTop: 5 }} item xs={5} md={4}>
@@ -159,7 +209,7 @@ class CategoriePage extends Component {
                     </Grid>
 
                 </Container>
-            </div>
+            </div >
         );
     }
 }

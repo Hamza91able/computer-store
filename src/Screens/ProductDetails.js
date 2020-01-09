@@ -20,6 +20,9 @@ import { Container } from 'react-bootstrap';
 import ImageGallery from 'react-image-gallery';
 import Rating from '@material-ui/lab/Rating';
 import "react-image-gallery/styles/css/image-gallery.css";
+import axios from 'axios';
+
+import connectionString from '../Static/Utilities/connectionString';
 
 // Static
 import '../Static/CSS/ProductDetails.css'
@@ -65,10 +68,47 @@ const images = [
     }
 ]
 
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'PKR',
+    minimumFractionDigits: 0
+})
+
 class ProductDetails extends Component {
+
+    state = {
+        product: '',
+    }
+
+    componentDidMount() {
+        const id = this.props.match.params.id;
+
+        axios({
+            url: `${connectionString}/products/get-specific-product/${id}`,
+            method: 'GET',
+        }).then(res => {
+            console.log(res.data);
+            let images = [];
+            if (res.data.product) {
+                res.data.product.pictures.forEach(picture => {
+                    images.push({
+                        original: picture,
+                        thumbnail: picture,
+                    });
+                })
+            }
+            this.setState({
+                product: res.data.product,
+                pictures: images
+            })
+        }).catch(err => {
+            console.log(err);
+        })
+    }
 
     render() {
         const { classes } = this.props;
+        const { product, pictures } = this.state;
 
         return (
             <div>
@@ -76,57 +116,57 @@ class ProductDetails extends Component {
                     <div style={{ height: 50 }} />
                     <Grid container spacing={1}>
                         <Grid item xs={12} md={4}>
-                            <ImageGallery
+                            {pictures && <ImageGallery
                                 showPlayButton={false}
                                 thumbnailPosition="bottom"
                                 style={{ height: 50 }}
                                 autoPlay={true}
-                                items={images}
+                                items={pictures}
                                 showNav={false}
-                            />
+                            />}
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <Typography style={{ fontWeight: 'bold' }} variant='h6'>
-                                Intel Core i9-9900K Coffee Lake 8-Core, 16-Thread,
-                                3.6 GHz (5.0 GHz Turbo) LGA 1151 (300 Series)
-                                95W BX80684I99900K Desktop Processor Intel UHD Graphics 630
+                                {product.title}
                             </Typography>
                             <Box component="fieldset" mb={3} borderColor="transparent">
                                 <div className={classes.rating1}>
                                     <Rating
                                         name="hover-side"
-                                        value={5}
+                                        value={product.rating}
                                         size="small"
                                     />
-                                    <Box style={{ fontSize: 13 }}>(520)</Box>
+                                    <Box style={{ marginTop: -10, fontSize: 13, marginLeft: 7 }}>{product.rating ? product.rating.length : "(0)"}</Box>
                                 </div>
                             </Box>
                             <Divider style={{ marginTop: 10 }} />
                             <Card className={classes.card}>
                                 <CardContent>
-                                    <Typography style={{ fontSize: 13, color: 'rgb(17, 176, 9)', fontWeight: 'bold' }} variant='body1'>
-                                        In stock.
-                                    </Typography>
+                                    {product.stock > 0
+                                        ?
+                                        <Typography style={{ fontSize: 13, color: 'rgb(17, 176, 9)', fontWeight: 'bold' }} variant='body1'>
+                                            In stock.
+                                        </Typography>
+                                        :
+                                        <Typography style={{ fontSize: 13, color: 'red', fontWeight: 'bold' }} variant='body1'>
+                                            Out of Stock.
+                                        </Typography>
+                                    }
                                     <Typography className={classes.title} color="textSecondary" gutterBottom>
-                                        Sold and Shipped by: <bold>Computer Store</bold>
+                                        Sold and Shipped by: <bold>{product.soldAndShippedBy}</bold>
                                     </Typography>
                                 </CardContent>
                             </Card>
-                            <Divider style={{ marginTop: 10 }} />
+                            <Divider />
                             <Card className={classes.card}>
                                 <CardContent>
                                     <Typography className={classes.title} >
                                         <ul>
-                                            <li>9th Gen Intel Processor</li>
-                                            <li>Intel UHD Graphics 630</li>
-                                            <li>Only Compatible with Intel 300 Series Motherboard</li>
-                                            <li>Socket LGA 1151 (300 Series)</li>
-                                            <li>Max Turbo Frequency 5.0 GHz</li>
-                                            <li>Unlocked Processor</li>
-                                            <li>DDR4 Support</li>
-                                            <li>Intel Optane Memory and SSD Supported</li>
-                                            <li>Cooling device not included - Processor Only</li>
-                                            <li>Intel Turbo Boost Technology 2.0 and Intel vPro technology offer pro-level performance for gaming, creating, and overall productivity</li>
+                                            {product.bulletPoints && product.bulletPoints.map((points, index) => {
+                                                return (
+                                                    <li key={index}>{points}</li>
+                                                )
+                                            })}
                                         </ul>
                                     </Typography>
                                 </CardContent>
@@ -136,20 +176,20 @@ class ProductDetails extends Component {
                             <Card className={classes.card} variant="outlined">
                                 <CardContent>
                                     <Typography className={classes.title} color="textSecondary" gutterBottom>
-                                        Sold and Shipped by: <strong>Computer Store</strong>
+                                        Sold and Shipped by: <strong>{product.soldAndShippedBy}</strong>
                                     </Typography>
                                     <Divider style={{ marginTop: 10 }} />
                                     <Typography style={{ marginTop: 20, fontWeight: 'bold' }} variant="h5" component="h2">
-                                        Rs.76,641
+                                        {formatter.format(product.price)}
                                     </Typography>
                                     <Divider style={{ marginTop: 10 }} />
                                     <Typography style={{ fontSize: 12, marginTop: 10 }} className={classes.pos} color="textSecondary">
                                         <LocalShippingIcon style={{ width: 22, height: 20, marginRight: 5 }} /> Shipping & Delievery
                                     </Typography>
                                     <Typography variant="caption" component="p">
-                                        <strong>Shipping Cost: Rs.300/unit</strong>
+                                        <strong>Shipping Cost: {formatter.format(product.shippingCost)}/unit</strong>
                                         <br />
-                                        Shippinh in Karachi: Rs.100/unit
+                                        Shipping in Karachi: {formatter.format(product.shippingInKarachi)}/unit
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
@@ -164,17 +204,18 @@ class ProductDetails extends Component {
                                         max={5}
                                         defaultValue={1}
                                         style={{
-                                            width: 40
+                                            width: 80
                                         }}
+                                        size='small'
                                     />
                                     <Button
                                         variant="contained"
                                         style={{
-                                            // width: '100%',
+                                            width: '100%',
                                             backgroundColor: 'rgb(255, 163, 58)',
                                             color: '#101820FF',
                                             fontWeight: 'bold',
-                                            marginLeft: 50
+                                            height: 37
                                         }}
                                     >
                                         <AddShoppingCartIcon />ADD TO CART <ArrowRightIcon style={{ marginTop: -1, marginLeft: -4 }} />
@@ -187,7 +228,7 @@ class ProductDetails extends Component {
                 <Divider style={{ marginTop: 30 }} />
                 <div style={{ height: 40 }} />
                 <MContainer maxWidth='lg'>
-                    <ProductDesriptionTabs />
+                    <ProductDesriptionTabs overview={product.overview} specifications={product.specifications} />
                 </MContainer>
             </div>
         );
