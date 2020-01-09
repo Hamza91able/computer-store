@@ -120,8 +120,57 @@ class ProductSubmit extends Component {
         });
     }
 
+    submit = () => {
+        const {
+            values,
+            pictures,
+            parentCategory,
+            subCategory,
+            brand,
+            title,
+            price,
+            stock,
+            overview,
+            specifications,
+            soldAndShippedBy,
+            shippingCost,
+            shippingCostInKarachi,
+        } = this.state;
+
+        const formData = new FormData();
+
+        formData.append('title', title);
+        formData.append('category', parentCategory);
+        formData.append('subCategory', subCategory);
+        formData.append('brand', brand);
+        formData.append('bulletPoints', values);
+        formData.append('price', price);
+        formData.append('stock', stock);
+        formData.append('overview', overview);
+        formData.append('specifications', specifications);
+        for (let x = 0; x < pictures.length; x++) {
+            formData.append('pictures', pictures[x]);
+        }
+        formData.append('soldAndShippedBy', soldAndShippedBy);
+        formData.append('shippingCost', shippingCost);
+        formData.append('shippingCostInKarachi', shippingCostInKarachi);
+
+        axios({
+            url: `${connectionString}/admin/post-product`,
+            method: 'POST',
+            data: formData
+        }).then(response => {
+            console.log(response.data);
+            swal.fire({
+                icon: 'success',
+                title: 'Product Uploaded',
+            })
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
     render() {
-        const { classes } = this.props;
         const { categories, subCategories, brands } = this.state;
 
         return (
@@ -281,10 +330,9 @@ class ProductSubmit extends Component {
                                 border: '1px solid black',
                                 borderColor: "#a88734 #9c7e31 #846a29",
                             }}
-                            onClick={() => swal.fire({
-                                icon: 'success',
-                                title: 'Product Uploaded',
-                            }).then(() => console.log(this.state))}
+                            onClick={() => {
+                                this.submit();
+                            }}
                         >
                             Submit
                     </Button>
