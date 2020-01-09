@@ -7,6 +7,7 @@ import { Dropdown } from 'semantic-ui-react';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import ImageUploader from 'react-images-upload';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import connectionString from '../../../Static/Utilities/connectionString';
 
@@ -40,6 +41,7 @@ class ProductSubmit extends Component {
         soldAndShippedBy: '',
         shippingCost: '',
         shippingCostInKarachi: '',
+        isLoading: false,
     }
 
     componentDidMount() {
@@ -121,6 +123,11 @@ class ProductSubmit extends Component {
     }
 
     submit = () => {
+
+        this.setState({
+            isLoading: true,
+        });
+
         const {
             values,
             pictures,
@@ -143,7 +150,9 @@ class ProductSubmit extends Component {
         formData.append('category', parentCategory);
         formData.append('subCategory', subCategory);
         formData.append('brand', brand);
-        formData.append('bulletPoints', values);
+        for (let x = 0; x < values.length; x++) {
+            formData.append('bulletPoints', values[x]);
+        }
         formData.append('price', price);
         formData.append('stock', stock);
         formData.append('overview', overview);
@@ -158,20 +167,30 @@ class ProductSubmit extends Component {
         axios({
             url: `${connectionString}/admin/post-product`,
             method: 'POST',
-            data: formData
+            data: formData,
+            headers: {
+                Authorization: 'bearer ' + this.props.token
+            }
         }).then(response => {
             console.log(response.data);
             swal.fire({
                 icon: 'success',
                 title: 'Product Uploaded',
-            })
+            }).then(() => window.location.reload())
         }).catch(err => {
             console.log(err);
+            this.setState({
+                isLoading: false,
+            })
+            swal.fire({
+                icon: 'error',
+                title: 'Error Occoured please try again',
+            })
         })
     }
 
     render() {
-        const { categories, subCategories, brands } = this.state;
+        const { categories, subCategories, brands, isLoading } = this.state;
 
         return (
             <Container maxWidth='lg'>
@@ -318,24 +337,44 @@ class ProductSubmit extends Component {
                         display: 'inline-flex',
                         width: '100%',
                     }}>
-                        <Button
-                            variant="contained"
-                            style={{
-                                width: '50%',
-                                height: 40,
-                                backgroundColor: '#f0c14b',
-                                color: '#111',
-                                fontWeight: 'normal',
-                                boxShadow: 'none',
-                                border: '1px solid black',
-                                borderColor: "#a88734 #9c7e31 #846a29",
-                            }}
-                            onClick={() => {
-                                this.submit();
-                            }}
-                        >
-                            Submit
-                    </Button>
+                        {!isLoading
+                            ?
+                            <Button
+                                variant="contained"
+                                style={{
+                                    width: '50%',
+                                    height: 40,
+                                    backgroundColor: '#f0c14b',
+                                    color: '#111',
+                                    fontWeight: 'normal',
+                                    boxShadow: 'none',
+                                    border: '1px solid black',
+                                    borderColor: "#a88734 #9c7e31 #846a29",
+                                }}
+                                onClick={() => {
+                                    this.submit();
+                                }}
+                            >
+                                Submit
+                            </Button>
+                            :
+                            <Button
+                                variant="contained"
+                                style={{
+                                    width: '50%',
+                                    height: 'auto',
+                                    backgroundColor: '#f0c14b',
+                                    color: '#111',
+                                    fontWeight: 'normal',
+                                    boxShadow: 'none',
+                                    border: '1px solid black',
+                                    borderColor: "#a88734 #9c7e31 #846a29",
+                                }}
+                                disabled={true}
+                            >
+                                <CircularProgress />
+                            </Button>
+                        }
                     </div>
                 </div>
             </Container>

@@ -84,7 +84,7 @@ export default function VerticalTabs(props) {
                 <Tab label="Change Banners" {...a11yProps(8)} />
             </Tabs>
             <TabPanel style={{ width: '100%' }} value={value} index={0}>
-                <ProductSubmit />
+                <ProductSubmit token={props.token} userId={props.userId} />
             </TabPanel>
             <TabPanel style={{ width: '100%' }} value={value} index={1}>
                 <AddBrands token={props.token} userId={props.userId} />
