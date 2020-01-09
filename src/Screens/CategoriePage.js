@@ -15,7 +15,7 @@ import Pagination from '../Components/Pagination';
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'PKR',
-    minimumFractionDigits: 0
+    minimumFractionDigits: 2
 })
 
 const styles = theme => ({
@@ -47,17 +47,39 @@ class CategoriePage extends Component {
     state = {
         products: [],
         order: 10,
+        totalDocuments: 0,
+        brands: [],
+        subCategories: [],
     }
 
     componentDidMount() {
         this.getProducts();
+        this.getSubCategoriesAndBrands();
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.match.params.categoryName !== prevProps.match.params.categoryName) {
-          this.getProducts();
+            this.getProducts();
+            this.getSubCategoriesAndBrands();
         }
-      }
+    }
+
+    getSubCategoriesAndBrands = () => {
+        const parentCategory = this.props.match.params.categoryName;
+
+        axios({
+            url: `${connectionString}/categories/get-sub-categories/${parentCategory}`,
+            method: 'GET',
+        }).then(res => {
+            console.log(res.data);
+            this.setState({
+                subCategories: res.data.subCategories,
+                brands: res.data.brands,
+            })
+        }).catch(err => {
+            console.log(err);
+        })
+    }
 
     getProducts = () => {
 
@@ -68,6 +90,7 @@ class CategoriePage extends Component {
             console.log(res.data);
             this.setState({
                 products: res.data.products,
+                totalDocuments: res.data.totalDocuments,
             })
         }).catch(err => {
             console.log(err);
@@ -76,7 +99,7 @@ class CategoriePage extends Component {
 
     render() {
         const { classes } = this.props;
-        const { products } = this.state;
+        const { products, totalDocuments, subCategories, brands } = this.state;
 
         return (
             <div>
@@ -85,8 +108,8 @@ class CategoriePage extends Component {
                         <Grid item xs={12} md={3}>
                             <br />
                             <div style={{ height: 10 }} />
-                            <ProductFilterTypeList />
-                            <ProductFilterBrandList />
+                            <ProductFilterTypeList subCategories={subCategories} />
+                            <ProductFilterBrandList brands={brands} />
                         </Grid>
                         <Grid item xs={12} md={9}>
                             <br />
@@ -108,7 +131,7 @@ class CategoriePage extends Component {
                                     <Grid container>
                                         <Grid style={{ marginTop: 5 }} item xs={5} md={4}>
                                             <Typography variant='caption'>
-                                                Showing <strong>1 - 10</strong> of <strong>13</strong> Results
+                                                Showing <strong>1 - {products.length}</strong> of <strong>{totalDocuments}</strong> Results
                                             </Typography>
                                         </Grid>
                                         <Grid item xs={7} md={5}>
@@ -150,7 +173,7 @@ class CategoriePage extends Component {
                                                     display: 'inline-flex',
                                                     width: '100%',
                                                 }}>
-                                                    <Link to='/product-details'>
+                                                    <Link to={`/product-details/${product._id}`}>
                                                         <img style={{ height: 218, width: 242 }} src={product.pictures[0]} />
                                                     </Link>
                                                 </div>
@@ -189,8 +212,8 @@ class CategoriePage extends Component {
                                 <Grid container>
                                     <Grid style={{ marginTop: 5 }} item xs={5} md={4}>
                                         <Typography variant='caption'>
-                                            Showing <strong>1 - 10</strong> of <strong>13</strong> Results
-                                            </Typography>
+                                            Showing <strong>1 - {products.length}</strong> of <strong>{totalDocuments}</strong> Results
+                                        </Typography>
                                     </Grid>
                                     <Grid item xs={7} md={5}>
                                         <div style={{

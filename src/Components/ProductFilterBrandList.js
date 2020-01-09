@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function NestedList() {
+export default function NestedList(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
 
@@ -47,19 +47,16 @@ export default function NestedList() {
             </ListItem>
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List style={{ border: '1px solid black', borderTop: 'none' }} component="div" disablePadding>
-                    <ListItem button className={classes.nested}>
-                        <ListItemIcon>
-                            <StarBorder />
-                        </ListItemIcon>
-                        <ListItemText primary={<Typography style={{ fontSize: 14 }}>AMD</Typography>} />
-                    </ListItem>
-                    <Divider />
-                    <ListItem button className={classes.nested}>
-                        <ListItemIcon>
-                            <StarBorder />
-                        </ListItemIcon>
-                        <ListItemText primary={<Typography style={{ fontSize: 14 }}>Intel</Typography>} />
-                    </ListItem>
+                    {props.brands && props.brands.map((brand, index) => {
+                        return (
+                            <React.Fragment>
+                                <ListItem button className={classes.nested}>
+                                    <ListItemText primary={<Typography style={{ fontSize: 14 }}>{brand}</Typography>} />
+                                </ListItem>
+                                <Divider />
+                            </React.Fragment>
+                        )
+                    })}
                 </List>
             </Collapse>
         </List>

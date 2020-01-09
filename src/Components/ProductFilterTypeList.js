@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function NestedList() {
+export default function NestedList(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
 
@@ -47,40 +47,16 @@ export default function NestedList() {
             </ListItem>
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List style={{ border: '1px solid black', borderTop: 'none' }} component="div" disablePadding>
-                    <ListItem button className={classes.nested}>
-                        <ListItemIcon>
-                            <StarBorder />
-                        </ListItemIcon>
-                        <ListItemText primary={<Typography style={{ fontSize: 14 }}>Intel Core i3 Processors</Typography>} />
-                    </ListItem>
-                    <Divider />
-                    <ListItem button className={classes.nested}>
-                        <ListItemIcon>
-                            <StarBorder />
-                        </ListItemIcon>
-                        <ListItemText primary={<Typography style={{ fontSize: 14 }}>Intel Core i5 Processors</Typography>} />
-                    </ListItem>
-                    <Divider />
-                    <ListItem button className={classes.nested}>
-                        <ListItemIcon>
-                            <StarBorder />
-                        </ListItemIcon>
-                        <ListItemText primary={<Typography style={{ fontSize: 14 }}>Intel Core i7 Processors</Typography>} />
-                    </ListItem>
-                    <Divider />
-                    <ListItem button className={classes.nested}>
-                        <ListItemIcon>
-                            <StarBorder />
-                        </ListItemIcon>
-                        <ListItemText primary={<Typography style={{ fontSize: 14 }}>Intel Core i9 Processors</Typography>} />
-                    </ListItem>
-                    <Divider />
-                    <ListItem button className={classes.nested}>
-                        <ListItemIcon>
-                            <StarBorder />
-                        </ListItemIcon>
-                        <ListItemText primary={<Typography style={{ fontSize: 14 }}>AMD Ryzen</Typography>} />
-                    </ListItem>
+                    {props.subCategories && props.subCategories.map((subCategory, index) => {
+                        return (
+                            <React.Fragment>
+                                <ListItem button className={classes.nested}>
+                                    <ListItemText primary={<Typography style={{ fontSize: 14 }}>{subCategory}</Typography>} />
+                                </ListItem>
+                                <Divider />
+                            </React.Fragment>
+                        )
+                    })}
                 </List>
             </Collapse>
         </List>
