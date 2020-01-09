@@ -26,6 +26,7 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import HomeIcon from '@material-ui/icons/Home';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import GrainIcon from '@material-ui/icons/Grain';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import connectionString from '../Static/Utilities/connectionString';
 
@@ -266,7 +267,7 @@ class CategoriePage extends Component {
                                 <div style={{ height: 3 }} />
                             </AppBar>
                             <br />
-                            {products && products.map((product, index) => {
+                            {products.length > 0 ? products.map((product, index) => {
                                 return (
                                     <React.Fragment>
                                         <Grid container spacing={5}>
@@ -304,6 +305,13 @@ class CategoriePage extends Component {
                                                 <Typography style={{ fontSize: 13 }} className={classes.title} color="textSecondary" gutterBottom>
                                                     Sold and Shipped by: <strong>{product.soldAndShippedBy}</strong>
                                                 </Typography>
+                                                <ul>
+                                                    {product.bulletPoints.map((bulletPoints, index) => {
+                                                        return (
+                                                            <li key={index}>{bulletPoints}</li>
+                                                        )
+                                                    })}
+                                                </ul>
                                             </Grid>
 
 
@@ -311,7 +319,19 @@ class CategoriePage extends Component {
                                         <Divider style={{ marginTop: 20, marginBottom: 20 }} />
                                     </React.Fragment>
                                 )
-                            })}
+                            })
+                                :
+                                <div style={{
+                                    justifyContent: 'center',
+                                    alignItems: 'center,',
+                                    display: 'inline-flex',
+                                    width: '100%',
+                                    margin: 20,
+                                    marginBottom: 30
+                                }}>
+                                    <CircularProgress />
+                                </div>
+                            }
                             <Paper style={{ boxShadow: 'none' }}>
                                 <Grid container>
                                     <Grid style={{ marginTop: 5 }} item xs={5} md={4}>
