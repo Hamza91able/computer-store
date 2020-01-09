@@ -39,7 +39,7 @@ class MenuDrawer extends React.Component {
     };
 
     renderSideList = side => {
-        const { classes, user } = this.props;
+        const { classes, user, categories } = this.props;
 
         return (
             <div
@@ -85,7 +85,16 @@ class MenuDrawer extends React.Component {
                             </ListSubheader>
                         }
                     >
-                        <ListItem button>
+                        {categories && categories.map((category, index) => {
+                            return (
+                                <Link to={`/c/${category.name}`} style={{ textDecoration: 'none', color: 'black' }}>
+                                    <ListItem button>
+                                        <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>{category.name}</Typography>} />
+                                    </ListItem>
+                                </Link>
+                            )
+                        })}
+                        {/* <ListItem button>
                             <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Laptops</Typography>} />
                         </ListItem>
                         <ListItem button>
@@ -224,7 +233,7 @@ class MenuDrawer extends React.Component {
                         </ListItem>
                         <ListItem button>
                             <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Used Products</Typography>} />
-                        </ListItem>
+                        </ListItem> */}
                     </List>
                     <Divider />
                     <List

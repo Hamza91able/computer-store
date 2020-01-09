@@ -45,9 +45,13 @@ class App extends React.Component {
     token: null,
     userId: null,
     user: null,
+    appBarCategories: [],
+    categories: [],
   }
 
   componentDidMount() {
+    this.getAppBarCategories();
+    this.getCategories();
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     const expiryDate = localStorage.getItem('expiryDate');
@@ -161,6 +165,38 @@ class App extends React.Component {
     }
   }
 
+  getAppBarCategories = () => {
+
+    axios({
+      url: `${connectionString}/categories/get-appbar-categories`,
+      method: 'GET',
+    })
+      .then(res => {
+        this.setState({
+          appBarCategories: res.data.categories
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  getCategories = () => {
+
+    axios({
+        url: `${connectionString}/categories/get-categories`,
+        method: 'GET',
+    })
+        .then(res => {
+            this.setState({
+                categories: res.data.categories
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
   setAutoLogout = milliseconds => {
     setTimeout(() => {
       this.logoutHandler();
@@ -177,10 +213,11 @@ class App extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const { appBarCategories, categories } = this.state;
 
     return (
       <React.Fragment>
-        <Appbar user={this.state.user} logoutHandler={this.logoutHandler} />
+        <Appbar categories={categories} appBarCategories={appBarCategories} user={this.state.user} logoutHandler={this.logoutHandler} />
         <div className={classes.placeHodlerDiv} />
         <Switch>
           <Route path='/' exact component={LandingPage} />
@@ -188,7 +225,7 @@ class App extends React.Component {
           <Route path='/register' exact render={props => (<Register {...props} onRegister={this.signupHandler} />)} />
           <Route path='/login' exact render={props => (<Login {...props} onLogin={this.loginHandler} />)} />
           <Route path='/s/:k' exact render={props => (<SearchPage {...props} userId={this.state.userId} token={this.state.token} />)} />
-          <Route path='/c' exact render={props => (<CategoriePage {...props} userId={this.state.userId} token={this.state.token} />)} />
+          <Route path='/c/:categoryName' exact render={props => (<CategoriePage {...props} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/cart' exact render={props => (<Cart {...props} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/buy/addressselect' exact render={props => (<Checkout {...props} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/account' exact render={props => (<UserAccount {...props} userId={this.state.userId} token={this.state.token} />)} />

@@ -75,13 +75,13 @@ class Appbar extends React.Component {
     }
 
     render() {
-        const { classes, user } = this.props;
+        const { classes, user, appBarCategories, categories } = this.props;
 
         return (
             <div className={classes.root}>
                 <AppBar style={{ backgroundColor: '#232f3e' }} className={classes.appBar} position="fixed">
                     <Toolbar>
-                        <MenuDrawer user={user} />
+                        <MenuDrawer categories={categories} user={user} />
                         <Link style={{ textDecoration: 'none' }} to='/'>
                             <Typography variant="h5" className={classes.title}>
                                 <strong style={{ color: '#ffa33a' }}>COMPUTER STORE</strong>
@@ -158,7 +158,14 @@ class Appbar extends React.Component {
                     </Toolbar>
                     <Toolbar className={classes.searchBarWeb}>
                         <Container maxWidth='lg'>
-                            <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>DESKTOPS</Button>
+                            {appBarCategories && appBarCategories.map((category, index) => {
+                                return (
+                                    <Link key={index} to={`/c/${category.name}`} style={{ textDecoration: 'none' }}>
+                                        <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>{category.name}</Button>
+                                    </Link>
+                                )
+                            })}
+                            {/* <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>DESKTOPS</Button>
                             <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>LAPTOPS</Button>
                             <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>MONITOR</Button>
                             <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>MOUSE</Button>
@@ -168,7 +175,7 @@ class Appbar extends React.Component {
                                 <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>PROCESSORS</Button>
                             </Link>
                             <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>GRAPHIC CARDS</Button>
-                            <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>SOLID STATE DRIVES</Button>
+                            <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>SOLID STATE DRIVES</Button> */}
                         </Container>
                     </Toolbar>
                 </AppBar>
