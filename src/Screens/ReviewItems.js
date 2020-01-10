@@ -134,7 +134,7 @@ class ReviewItem extends Component {
                 <Container maxWidth='lg'>
                     <CheckoutStepper />
                     <Grid>
-                        <Typography style={{color: 'rgb(240, 193, 75)'}} variant='h4'>
+                        <Typography style={{ color: 'rgb(240, 193, 75)' }} variant='h4'>
                             Order Review
                         </Typography>
                         When finished, click the "Proceed to Payment" button to proceed with your order.
