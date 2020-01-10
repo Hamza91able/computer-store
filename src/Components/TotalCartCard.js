@@ -39,7 +39,8 @@ export default function OutlinedCard(props) {
             justifyContent: 'center',
             alignItems: 'center,',
             display: 'inline-flex',
-            width: '100%'
+            width: '100%',
+            marginBottom: 32,
         }}>
             <Card className={classes.card} variant="outlined">
                 <CardContent>
@@ -48,33 +49,62 @@ export default function OutlinedCard(props) {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Link to='/buy/addressselect' style={{ textDecoration: 'none', width: '100%' }}>
-                        <div style={{
-                            justifyContent: 'center',
-                            alignItems: 'center,',
-                            display: 'inline-flex',
-                            width: '100%',
-                            paddingBottom: 20
-                        }}>
+                    {props.origin !== "review"
+                        ?
+                        <Link to='/buy/addressselect' style={{ textDecoration: 'none', width: '100%' }}>
+                            <div style={{
+                                justifyContent: 'center',
+                                alignItems: 'center,',
+                                display: 'inline-flex',
+                                width: '100%',
+                                paddingBottom: 20
+                            }}>
 
-                            <Button
-                                variant="contained"
-                                style={{
-                                    width: '90%',
-                                    backgroundColor: '#f0c14b',
-                                    color: '#111',
-                                    fontWeight: 'normal',
-                                    boxShadow: 'none',
-                                    border: '1px solid black',
-                                    borderColor: "#a88734 #9c7e31 #846a29",
-                                }}
-                            >
-                                Proceed to checkout
-                        </Button>
-                        </div>
-                    </Link>
+                                <Button
+                                    variant="contained"
+                                    style={{
+                                        width: '90%',
+                                        backgroundColor: '#f0c14b',
+                                        color: '#111',
+                                        fontWeight: 'normal',
+                                        boxShadow: 'none',
+                                        border: '1px solid black',
+                                        borderColor: "#a88734 #9c7e31 #846a29",
+                                    }}
+                                >
+                                    Proceed to checkout
+                            </Button>
+                            </div>
+                        </Link>
+                        :
+                        <Link style={{ textDecoration: 'none', width: '100%' }}>
+                            <div style={{
+                                justifyContent: 'center',
+                                alignItems: 'center,',
+                                display: 'inline-flex',
+                                width: '100%',
+                                paddingBottom: 20
+                            }}>
+
+                                <Button
+                                    variant="contained"
+                                    style={{
+                                        width: '90%',
+                                        backgroundColor: '#f0c14b',
+                                        color: '#111',
+                                        fontWeight: 'normal',
+                                        boxShadow: 'none',
+                                        border: '1px solid black',
+                                        borderColor: "#a88734 #9c7e31 #846a29",
+                                    }}
+                                >
+                                    Proceed to Payment
+                            </Button>
+                            </div>
+                        </Link>
+                    }
                 </CardActions>
             </Card>
-        </div>
+        </div >
     );
 }

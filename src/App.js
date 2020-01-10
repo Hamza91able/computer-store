@@ -28,6 +28,7 @@ import Cart from './Screens/Cart';
 import Checkout from './Screens/Checkout';
 import UserAccount from './Screens/UserAccount';
 import Admin from './Screens/AdminPanel/Admin';
+import ReviewItems from './Screens/ReviewItems';
 
 const styles = theme => ({
   placeHodlerDiv: {
@@ -230,6 +231,7 @@ class App extends React.Component {
           <Route path='/buy/addressselect' exact render={props => (<Checkout {...props} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/account' exact render={props => (<UserAccount {...props} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/admin' exact render={props => (<Admin {...props} userId={this.state.userId} token={this.state.token} />)} />
+          <Route path='/review-items' exact render={props => (<ReviewItems {...props} userId={this.state.userId} token={this.state.token} />)} />
         </Switch>
         <div style={{ height: 100 }}></div>
         <Footer />

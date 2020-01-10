@@ -47,7 +47,7 @@ export default function HorizontalLinearStepper() {
                 </Step>
                 <Step>
                     <StepLabel
-                        style={{ color: 'rgb(255, 163, 58)' }}
+                        style={{ color: 'grey' }}
                         StepIconComponent={order ? LaptopIcon : FiberManualRecordRoundedIcon}
 
                     >
