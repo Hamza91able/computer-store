@@ -27,6 +27,7 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import HomeIcon from '@material-ui/icons/Home';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import GrainIcon from '@material-ui/icons/Grain';
+import swal from 'sweetalert2';
 
 import connectionString from '../Static/Utilities/connectionString';
 
@@ -70,18 +71,6 @@ const styles = theme => ({
             marginTop: -9
         }
     },
-    tabs: {
-        dispay: 'none',
-        // [theme.breakpoints.up('md')]: {
-        //     dispay: 'block',
-        // }
-    },
-    // tabsMobile: {
-    //     dispay: 'block',
-    //     [theme.breakpoints.up('md')]: {
-    //         dispay: 'none'
-    //     }
-    // },
 });
 
 const formatter = new Intl.NumberFormat('en-US', {
@@ -94,6 +83,7 @@ class ProductDetails extends Component {
 
     state = {
         product: '',
+        quantity: '',
     }
 
     componentDidMount() {
@@ -122,10 +112,38 @@ class ProductDetails extends Component {
         })
     }
 
+    postCart = () => {
+        const { product, quantity } = this.state;
+        const productId = product._id;
+
+        axios({
+            url: `${connectionString}/products/post-cart`,
+            method: 'POST',
+            data: {
+                prodId: productId,
+                quantity: quantity,
+            },
+            headers: {
+                Authorization: 'bearer ' + this.props.token
+            }
+        }).then(res => {
+            console.log(res.data);
+            swal.fire({
+                icon: 'success',
+                title: 'Added to cart'
+            })
+        }).catch(err => {
+            console.log(err);
+            swal.fire({
+                icon: 'error',
+                title: `${err.res.data.message}`
+            })
+        })
+    }
+
     render() {
         const { classes } = this.props;
         const { product, pictures } = this.state;
-        let heading;
 
         return (
             <div>
@@ -248,6 +266,7 @@ class ProductDetails extends Component {
                                             width: 80
                                         }}
                                         size='small'
+                                        onChange={e => this.setState({ quantity: e.target.value })}
                                     />
                                     <Button
                                         variant="contained"
@@ -258,6 +277,7 @@ class ProductDetails extends Component {
                                             fontWeight: 'bold',
                                             height: 37
                                         }}
+                                        onClick={this.postCart}
                                     >
                                         <AddShoppingCartIcon />ADD TO CART <ArrowRightIcon style={{ marginTop: -1, marginLeft: -4 }} />
                                     </Button>

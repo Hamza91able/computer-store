@@ -184,18 +184,18 @@ class App extends React.Component {
   getCategories = () => {
 
     axios({
-        url: `${connectionString}/categories/get-categories`,
-        method: 'GET',
+      url: `${connectionString}/categories/get-categories`,
+      method: 'GET',
     })
-        .then(res => {
-            this.setState({
-                categories: res.data.categories
-            })
+      .then(res => {
+        this.setState({
+          categories: res.data.categories
         })
-        .catch(err => {
-            console.log(err);
-        })
-}
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
 
   setAutoLogout = milliseconds => {
     setTimeout(() => {
@@ -221,7 +221,7 @@ class App extends React.Component {
         <div className={classes.placeHodlerDiv} />
         <Switch>
           <Route path='/' exact component={LandingPage} />
-          <Route path='/product-details/:id' exact component={ProductDetails} />
+          <Route path='/product-details/:id' exact render={props => (<ProductDetails {...props} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/register' exact render={props => (<Register {...props} onRegister={this.signupHandler} />)} />
           <Route path='/login' exact render={props => (<Login {...props} onLogin={this.loginHandler} />)} />
           <Route path='/s/:k' exact render={props => (<SearchPage {...props} userId={this.state.userId} token={this.state.token} />)} />

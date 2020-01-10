@@ -24,7 +24,13 @@ const useStyles = makeStyles({
     },
 });
 
-export default function OutlinedCard() {
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'PKR',
+    minimumFractionDigits: 2
+})
+
+export default function OutlinedCard(props) {
     const classes = useStyles();
     const bull = <span className={classes.bullet}>•</span>;
 
@@ -38,11 +44,11 @@ export default function OutlinedCard() {
             <Card className={classes.card} variant="outlined">
                 <CardContent>
                     <Typography variant="h6" >
-                        Subtotal(1 item): <strong style={{ color: '#B12704' }}>Rs. 76,641</strong>
+                        Subtotal(1 item): <strong style={{ color: '#B12704' }}>{formatter.format(props.price)}</strong>
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Link to='/buy/addressselect' style={{textDecoration: 'none', width: '100%'}}>
+                    <Link to='/buy/addressselect' style={{ textDecoration: 'none', width: '100%' }}>
                         <div style={{
                             justifyContent: 'center',
                             alignItems: 'center,',

@@ -16,10 +16,9 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function SimpleSelect() {
+export default function SimpleSelect(props) {
     const classes = useStyles();
-    const [quantity, setQuantity] = React.useState(1);
-    const [margin, setMargin] = React.useState(-10);
+    const [quantity, setQuantity] = React.useState(props.value);
 
     const inputLabel = React.useRef(null);
     const [labelWidth, setLabelWidth] = React.useState(0);
@@ -43,7 +42,7 @@ export default function SimpleSelect() {
                     value={quantity}
                     onChange={handleChange}
                     labelWidth={labelWidth}
-                    style={{ width: '100%' }}
+                    style={{ width: '100%', height: 36 }}
                 >
                     <MenuItem value={1}>1</MenuItem>
                     <MenuItem value={2}>2</MenuItem>
