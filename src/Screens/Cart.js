@@ -69,6 +69,10 @@ class Cart extends Component {
         subTotal: 0,
     }
 
+    componentDidMount() {
+        this.getCart();
+    }
+
     componentDidUpdate(prevProps) {
         if (this.props.token !== prevProps.token) {
             this.getCart();
@@ -84,18 +88,36 @@ class Cart extends Component {
                 Authorization: 'bearer ' + this.props.token,
             }
         }).then(res => {
-            console.log(res.data);
             this.setState({
                 products: res.data.products,
             }, () => {
                 let subtotal = 0;
                 this.state.products.forEach(product => {
-                    subtotal = subtotal + product.productId.price
+                    subtotal = subtotal + (product.productId.price * product.quantity)
                 })
                 this.setState({
                     subTotal: subtotal,
                 })
             })
+        }).catch(err => {
+            console.log(err.response.statusText);
+        })
+    }
+
+    deleteFromCart = prodId => {
+
+        axios({
+            url: `${connectionString}/products/post-delete-from-cart`,
+            method: 'POST',
+            data: {
+                prodId
+            },
+            headers: {
+                Authorization: 'bearer ' + this.props.token,
+            }
+        }).then(res => {
+            console.log(res.data)
+            this.getCart();
         }).catch(err => {
             console.log(err.response.statusText);
         })
@@ -115,48 +137,51 @@ class Cart extends Component {
                             <Divider style={{ marginTop: 20, marginBottom: 20 }} />
                             {products.map((value, index) => {
                                 return (
-                                    < Grid container spacing={2}>
-                                        <Grid item xs={12} md={4}>
-                                            <div style={{
-                                                justifyContent: 'center',
-                                                alignItems: 'center,',
-                                                display: 'inline-flex',
-                                                width: '100%',
-                                            }}>
-                                                {value.productId.pictures && <Link to={`/product-details/${value.productId._id}`}>
-                                                    <img style={{ height: 218, width: 242 }} src={value.productId.pictures[0]} />
-                                                </Link>}
-                                            </div>
-                                        </Grid>
-                                        <Grid item xs={9} md={6}>
-                                            <Link className={classes.link} to={`/product-details/${value.productId._id}`}>
-                                                <Typography style={{ fontWeight: 'bold' }} className={classes.title} gutterBottom>
-                                                    {value.productId.title}
+                                    <React.Fragment>
+                                        <Grid container spacing={2}>
+                                            <Grid item xs={12} md={4}>
+                                                <div style={{
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center,',
+                                                    display: 'inline-flex',
+                                                    width: '100%',
+                                                }}>
+                                                    {value.productId.pictures && <Link to={`/product-details/${value.productId._id}`}>
+                                                        <img style={{ height: 218, width: 242 }} src={value.productId.pictures[0]} />
+                                                    </Link>}
+                                                </div>
+                                            </Grid>
+                                            <Grid item xs={9} md={6}>
+                                                <Link className={classes.link} to={`/product-details/${value.productId._id}`}>
+                                                    <Typography style={{ fontWeight: 'bold' }} className={classes.title} gutterBottom>
+                                                        {value.productId.title}
+                                                    </Typography>
+                                                </Link>
+                                                <div className={classes.rating1}>
+                                                    <Rating
+                                                        name="hover-side"
+                                                        value={value.productId.ratings}
+                                                        size='small'
+                                                    />
+                                                    <Box style={{ marginTop: -7, fontSize: 13 }} ml={1}><Link to={`/product-details/${value.productId._id}`}>{value.productId.ratings ? value.productId.ratings : 0}</Link></Box>
+                                                </div>
+                                                <Typography style={{ fontSize: 13 }} className={classes.title} color="textSecondary" gutterBottom>
+                                                    Sold and Shipped by: <strong>{value.productId.soldAndShippedBy}</strong>
                                                 </Typography>
-                                            </Link>
-                                            <div className={classes.rating1}>
-                                                <Rating
-                                                    name="hover-side"
-                                                    value={value.productId.ratings}
-                                                    size='small'
-                                                />
-                                                <Box style={{ marginTop: -7, fontSize: 13 }} ml={1}><Link to={`/product-details/${value.productId._id}`}>{value.productId.ratings ? value.productId.ratings : 0}</Link></Box>
-                                            </div>
-                                            <Typography style={{ fontSize: 13 }} className={classes.title} color="textSecondary" gutterBottom>
-                                                Sold and Shipped by: <strong>{value.productId.soldAndShippedBy}</strong>
-                                            </Typography>
-                                            <br />
-                                            <Grid container>
-                                                <QuantitySelect value={value.quantity} />
-                                                <Button style={{ height: 36, width: 100, marginTop: 8 }} variant='outlined'>Delete</Button>
+                                                <br />
+                                                <Grid container>
+                                                    <QuantitySelect value={value.quantity} />
+                                                    <Button style={{ height: 36, width: 100, marginTop: 8 }} onClick={() => this.deleteFromCart(value.productId._id)} variant='outlined'>Delete</Button>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid item xs={3} md={2}>
+                                                <Typography variant='caption' style={{ fontSize: 16, fontWeight: 'bold', color: '#B12704', float: 'right' }}>
+                                                    {formatter.format(value.productId.price)}
+                                                </Typography>
                                             </Grid>
                                         </Grid>
-                                        <Grid item xs={3} md={2}>
-                                            <Typography variant='caption' style={{ fontSize: 16, fontWeight: 'bold', color: '#B12704', float: 'right' }}>
-                                                {formatter.format(value.productId.price)}
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
+                                        <Divider style={{ marginTop: 20, marginBottom: 20 }} />
+                                    </React.Fragment>
                                 )
                             })}
                             <Divider style={{ marginTop: 10, marginBottom: 20 }} />
