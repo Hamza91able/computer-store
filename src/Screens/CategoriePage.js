@@ -354,7 +354,6 @@ class CategoriePage extends Component {
                             </Paper>
                         </Grid>
                     </Grid>
-
                 </Container>
             </div >
         );

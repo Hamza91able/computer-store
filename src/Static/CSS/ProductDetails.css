@@ -37,3 +37,15 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {  
    opacity: 1;
 }
+
+@media only screen and (max-width: 1086px) {
+    .ProductDesriptionTabsDesktop {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 1086px) {
+    .ProductDesriptionTabsMobile {
+        display: none;
+    }
+}

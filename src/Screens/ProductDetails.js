@@ -11,7 +11,9 @@ import {
     Divider,
     Box,
     TextField,
-    Container as MContainer
+    Container as MContainer,
+    List,
+    ListItem,
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
@@ -21,6 +23,10 @@ import ImageGallery from 'react-image-gallery';
 import Rating from '@material-ui/lab/Rating';
 import "react-image-gallery/styles/css/image-gallery.css";
 import axios from 'axios';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import HomeIcon from '@material-ui/icons/Home';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
+import GrainIcon from '@material-ui/icons/Grain';
 
 import connectionString from '../Static/Utilities/connectionString';
 
@@ -29,6 +35,7 @@ import '../Static/CSS/ProductDetails.css'
 
 // Components
 import ProductDesriptionTabs from '../Components/ProductDescriptionTabs';
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
     paper: {
@@ -51,22 +58,31 @@ const styles = theme => ({
         display: 'flex',
         alignItems: 'center',
     },
+    breadcrumb: {
+        height: 'auto',
+        [theme.breakpoints.up('md')]: {
+            height: 37,
+        }
+    },
+    listItem: {
+        marginTop: 0,
+        [theme.breakpoints.up('md')]: {
+            marginTop: -9
+        }
+    },
+    tabs: {
+        dispay: 'none',
+        // [theme.breakpoints.up('md')]: {
+        //     dispay: 'block',
+        // }
+    },
+    // tabsMobile: {
+    //     dispay: 'block',
+    //     [theme.breakpoints.up('md')]: {
+    //         dispay: 'none'
+    //     }
+    // },
 });
-
-const images = [
-    {
-        original: 'https://c1.neweggimages.com/NeweggImage/ProductImageCompressAll1280/19-117-957-V01.jpg',
-        thumbnail: 'https://c1.neweggimages.com/NeweggImage/ProductImageCompressAll1280/19-117-957-V01.jpg',
-    },
-    {
-        original: "https://c1.neweggimages.com/NeweggImage/ProductImageCompressAll1280/19-117-957-V02.jpg",
-        thumbnail: "https://c1.neweggimages.com/NeweggImage/ProductImageCompressAll1280/19-117-957-V02.jpg",
-    },
-    {
-        original: 'https://c1.neweggimages.com/NeweggImage/ProductImageCompressAll1280/19-117-957-V03.jpg',
-        thumbnail: 'https://c1.neweggimages.com/NeweggImage/ProductImageCompressAll1280/19-117-957-V03.jpg',
-    }
-]
 
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -109,13 +125,35 @@ class ProductDetails extends Component {
     render() {
         const { classes } = this.props;
         const { product, pictures } = this.state;
+        let heading;
 
         return (
             <div>
+                <div style={{ height: 30 }} />
+                <MContainer maxWidth='lg'>
+                    <List className={classes.breadcrumb} style={{ border: '1px solid #34495E' }}>
+                        <ListItem className={classes.listItem}>
+                            <Breadcrumbs style={{ fontSize: 13 }} aria-label="breadcrumb">
+                                <Link className={classes.link} to="/">
+                                    <HomeIcon className={classes.icon} />
+                                    Home
+                                </Link>
+                                <Link className={classes.link} to={`/c/${product.category}`}>
+                                    <WhatshotIcon className={classes.icon} />
+                                    {product.category}
+                                </Link>
+                                <Typography color="textPrimary">
+                                    <GrainIcon className={classes.icon} />
+                                    {product.title}
+                                </Typography>
+                            </Breadcrumbs>
+                        </ListItem>
+                    </List>
+                </MContainer>
                 <Container fluid={true}>
                     <div style={{ height: 50 }} />
-                    <Grid container spacing={1}>
-                        <Grid item xs={12} md={4}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} md={3}>
                             {pictures && <ImageGallery
                                 showPlayButton={false}
                                 thumbnailPosition="bottom"
@@ -125,7 +163,10 @@ class ProductDetails extends Component {
                                 showNav={false}
                             />}
                         </Grid>
-                        <Grid item xs={12} md={4}>
+                        <Grid item xs={1}>
+
+                        </Grid>
+                        <Grid item xs={12} md={5}>
                             <Typography style={{ fontWeight: 'bold' }} variant='h6'>
                                 {product.title}
                             </Typography>
@@ -227,9 +268,23 @@ class ProductDetails extends Component {
                 </Container>
                 <Divider style={{ marginTop: 30 }} />
                 <div style={{ height: 40 }} />
-                <MContainer maxWidth='lg'>
-                    <ProductDesriptionTabs overview={product.overview} specifications={product.specifications} />
-                </MContainer>
+                <div style={{
+                    justifyContent: 'center',
+                    alignItems: 'center,',
+                    display: 'inline-flex',
+                    width: '100%',
+                    margin: 20,
+                    marginBottom: 30
+                }}>
+                    <div style={{ width: 1512 }} className='ProductDesriptionTabsDesktop'>
+                        <ProductDesriptionTabs overview={product.overview} specifications={product.specifications} />
+                    </div>
+                </div>
+                <div className='ProductDesriptionTabsMobile' >
+                    <MContainer maxWidth='lg'>.
+                        <ProductDesriptionTabs overview={product.overview} specifications={product.specifications} />
+                    </MContainer>
+                </div>
             </div>
         );
     }
