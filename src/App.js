@@ -32,6 +32,7 @@ import ReviewItems from './Screens/ReviewItems';
 import PaymentPage from './Screens/PaymentPage';
 import PaymentMethod from './Screens/PaymentMethod';
 import PlaceOrder from './Screens/PlaceOrder';
+import PaymentCompletionPage from './Screens/PaymentCompletionPage';
 
 const styles = theme => ({
   placeHodlerDiv: {
@@ -238,6 +239,7 @@ class App extends React.Component {
           <Route path='/pay' exact render={props => (<PaymentPage {...props} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/buy/payselect' exact render={props => (<PaymentMethod {...props} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/buy/placeorder/:n/:c/:m/:y' exact render={props => (<PlaceOrder {...props} userId={this.state.userId} token={this.state.token} />)} />
+          <Route path='/buy/complete/:id' exact render={props => (<PaymentCompletionPage {...props} userId={this.state.userId} token={this.state.token} />)} />
         </Switch>
         <div style={{ height: 100 }}></div>
         <Footer />

@@ -41,7 +41,7 @@ export default function HorizontalLinearStepper(props) {
                         style={{ color: 'rgb(255, 163, 58)' }}
                         StepIconComponent={!origin ? ShoppingCartIcon : DoneRoundedIcon}
                     >
-                        <Typography style={{ fontSize: 13, marginTop: -18, fontWeight: 'bold' }}>
+                        <Typography style={{ fontSize: 13, marginTop: -18, fontWeight: !origin && 'bold' }}>
                             SHIPPING & PAYMENT
                         </Typography>
                     </StepLabel>
@@ -49,11 +49,10 @@ export default function HorizontalLinearStepper(props) {
                 <Step>
                     <StepLabel
                         style={{ color: !origin ? 'grey' : 'rgb(255, 163, 58)' }}
-                        StepIconComponent={origin ? ShoppingCartIcon : FiberManualRecordRoundedIcon}
-
+                        StepIconComponent={origin === "placeorder" ? ShoppingCartIcon : origin === "complete" ? DoneRoundedIcon : FiberManualRecordRoundedIcon}
                     >
-                        <Typography style={{ fontSize: 13, marginTop: -18 }}>
-                            Place Order
+                        <Typography variant='body1' style={{ fontSize: 13, marginTop: -18, fontWeight: origin && 'bold' }}>
+                            PLACE ORDER
                         </Typography>
                     </StepLabel>
                 </Step>

@@ -19,12 +19,14 @@ import {
 } from '@material-ui/core';
 import axios from 'axios';
 import Rating from '@material-ui/lab/Rating';
+import swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
 import connectionString from '../Static/Utilities/connectionString';
 
 // Components
 import CheckoutStepper from '../Components/CheckoutStepper';
-import { Link } from 'react-router-dom';
+import ChangeCardInfoModal from '../Components/ChangeCardInfoModal';
 
 const styles = theme => ({
     rating1: {
@@ -91,6 +93,15 @@ class PlaceOrder extends Component {
         if (this.props.token !== prevProps.token) {
             this.getShippingInformation();
         }
+    }
+
+    changeCardInformation = (name, cardNumber, month, year) => {
+        this.setState({
+            name,
+            cardNumber,
+            month,
+            year,
+        })
     }
 
     getCart = () => {
@@ -169,8 +180,20 @@ class PlaceOrder extends Component {
             },
         }).then(res => {
             console.log(res.data);
+            swal.fire({
+                icon: 'success',
+                title: 'Order Placed',
+                message: 'Payment Approved!'
+            }).then(() => {
+                this.props.history.replace(`/buy/complete/${res.data.id}`)
+            })
         }).catch(err => {
-            console.log(err);
+            console.log(err.response);
+            swal.fire({
+                icon: 'error',
+                title: 'Error while placing order',
+                text: `${err.response.data.message}`,
+            })
         })
     }
 
@@ -225,6 +248,14 @@ class PlaceOrder extends Component {
                                                     />
                                                 </li>
                                             </ul>
+                                            {name && cardNumber && month && year &&
+                                                <ChangeCardInfoModal
+                                                    changeCardInformation={this.changeCardInformation}
+                                                    name={name}
+                                                    cardNumber={cardNumber}
+                                                    month={month}
+                                                    year={year}
+                                                />}
                                         </Grid>
                                     </Grid>
                                 </Typography>
