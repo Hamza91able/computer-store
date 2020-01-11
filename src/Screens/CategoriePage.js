@@ -76,10 +76,11 @@ class CategoriePage extends Component {
     state = {
         products: [],
         order: 10,
-        totalDocuments: 0,
+        totalItems: 0,
         brands: [],
         subCategories: [],
         subCategory: '',
+        page: 1,
     }
 
     componentDidMount() {
@@ -95,6 +96,14 @@ class CategoriePage extends Component {
                 heading: '',
             })
         }
+    }
+
+    changePage = page => {
+
+        this.setState({
+            products: [],
+            page: page,
+        }, () => this.getProducts())
     }
 
     sortByOrder = e => {
@@ -133,15 +142,17 @@ class CategoriePage extends Component {
     }
 
     getProducts = () => {
+        const { page } = this.state;
+        console.log(page);
 
         axios({
-            url: `${connectionString}/products/get-products-by-category/${this.props.match.params.categoryName}/${this.state.order}`,
+            url: `${connectionString}/products/get-products-by-category/${this.props.match.params.categoryName}/${this.state.order}?page=${page}`,
             method: 'GET',
         }).then(res => {
             console.log(res.data);
             this.setState({
                 products: res.data.products,
-                totalDocuments: res.data.totalDocuments,
+                totalItems: res.data.totalItems,
                 heading: ''
             })
         }).catch(err => {
@@ -158,7 +169,7 @@ class CategoriePage extends Component {
             console.log(res.data);
             this.setState({
                 products: res.data.products,
-                totalDocuments: res.data.totalDocuments,
+                totalItems: res.data.totalItems,
                 heading: subCategory,
             })
         }).catch(err => {
@@ -175,7 +186,7 @@ class CategoriePage extends Component {
             console.log(res.data);
             this.setState({
                 products: res.data.products,
-                totalDocuments: res.data.totalDocuments,
+                totalItems: res.data.totalItems,
                 heading: brand,
             })
         }).catch(err => {
@@ -185,7 +196,8 @@ class CategoriePage extends Component {
 
     render() {
         const { classes } = this.props;
-        const { products, totalDocuments, subCategories, brands, heading } = this.state;
+        const { products, totalItems, subCategories, brands, heading } = this.state;
+        console.log(this.state.page)
 
         return (
             <div>
@@ -236,7 +248,7 @@ class CategoriePage extends Component {
                                     <Grid container>
                                         <Grid style={{ marginTop: 5 }} item xs={5} md={4}>
                                             <Typography variant='caption'>
-                                                Showing <strong>1 - {products.length}</strong> of <strong>{totalDocuments}</strong> Results
+                                                Showing <strong>{this.state.page} - {products.length}</strong> of <strong>{totalItems}</strong> Results
                                             </Typography>
                                         </Grid>
                                         <Grid item xs={7} md={5}>
@@ -246,7 +258,11 @@ class CategoriePage extends Component {
                                                 display: 'inline-flex',
                                                 width: '100%',
                                             }}>
-                                                <Pagination />
+                                                <Pagination
+                                                    page={this.state.page}
+                                                    totalItems={this.state.totalItems}
+                                                    changePage={this.changePage}
+                                                />
                                             </div>
 
                                         </Grid>
@@ -336,7 +352,7 @@ class CategoriePage extends Component {
                                 <Grid container>
                                     <Grid style={{ marginTop: 5 }} item xs={5} md={4}>
                                         <Typography variant='caption'>
-                                            Showing <strong>1 - {products.length}</strong> of <strong>{totalDocuments}</strong> Results
+                                            Showing <strong>1 - {products.length}</strong> of <strong>{totalItems}</strong> Results
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={7} md={5}>
@@ -346,7 +362,11 @@ class CategoriePage extends Component {
                                             display: 'inline-flex',
                                             width: '100%',
                                         }}>
-                                            <Pagination />
+                                            <Pagination
+                                                page={this.state.page}
+                                                totalItems={this.state.totalItems}
+                                                changePage={this.changePage}
+                                            />
                                         </div>
 
                                     </Grid>
