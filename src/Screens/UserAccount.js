@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { Container, Grid, Typography, Divider, Button } from '@material-ui/core';
+import axios from 'axios';
+import swal from 'sweetalert2';
+
+import connectionString from '../Static/Utilities/connectionString';
 
 // Components
 import UserAccountOptionsList from '../Components/UserAccountOptionsList';
@@ -19,6 +23,43 @@ class UserAccount extends Component {
         })
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.token !== prevProps.token) {
+            this.getUserInformation();
+        }
+    }
+
+
+    componentDidMount() {
+        this.getUserInformation();
+    }
+
+    getUserInformation = () => {
+
+        axios({
+            url: `${connectionString}/user/get-user-delievery-information`,
+            method: 'GET',
+            headers: {
+                Authorization: 'bearer ' + this.props.token
+            }
+        }).then(res => {
+            const user = res.data.user;
+            this.setState({
+                fullName: user.fullName,
+                addressLine1: user.addressLine1,
+                addressLine2: user.addressLine2,
+                city: user.city,
+                state: user.state,
+                zip: user.zip,
+                phoneNumber: user.phoneNumber,
+                delieveryInformation: user.delieveryInformation,
+                email: user.email
+            })
+        }).catch(err => {
+            console.log(err.response)
+        })
+    }
+
     renderMyProfile = () => {
 
         return (
@@ -31,15 +72,15 @@ class UserAccount extends Component {
                 <table style={{ width: "100%" }}>
                     <tr>
                         <th style={{ background: "#f0f3f6" }}>Full Name:</th>
-                        <td>Muhammad Hamza Khan</td>
+                        <td>{this.state.fullName || "No name given"}</td>
                     </tr>
                     <tr>
                         <th style={{ background: "#f0f3f6" }}>Email Address:</th>
-                        <td>hamza@gmail.com</td>
+                        <td>{this.state.email || "No email given"}</td>
                     </tr>
                     <tr>
                         <th style={{ background: "#f0f3f6" }}>Phone</th>
-                        <td>030023*****</td>
+                        <td>{this.state.phoneNumber || "No phone number given"}</td>
                     </tr>
                 </table>
                 <Typography variant='h5' style={{ paddingTop: 20, paddingBottom: 6, color: 'rgb(255, 163, 58)', fontWeight: 'bold' }}>
@@ -50,7 +91,7 @@ class UserAccount extends Component {
                 <table style={{ width: "100%" }}>
                     <tr>
                         <th style={{ background: "#f0f3f6" }}>Address</th>
-                        <td>There is no address saved with your account.</td>
+                        {this.state.addressLine1 ? <td>{this.state.addressLine1} {this.state.addressLine2},{this.state.state} {this.state.city}</td> : <td>No address given</td>}
                     </tr>
                 </table>
             </React.Fragment>
