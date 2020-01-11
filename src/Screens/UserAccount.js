@@ -60,6 +60,42 @@ class UserAccount extends Component {
         })
     }
 
+    changePassword = () => {
+        const { oldPassword, newPassword, confirmPassword } = this.state;
+
+        if (newPassword === confirmPassword) {
+            axios({
+                url: `${connectionString}/auth/change-password`,
+                method: 'POST',
+                data: {
+                    oldPassword,
+                    newPassword,
+                    confirmPassword,
+                },
+                headers: {
+                    Authorization: 'bearer ' + this.props.token
+                }
+            }).then(res => {
+                console.log(res.data);
+                swal.fire({
+                    icon: 'success',
+                    title: 'Password Changed'
+                }).then(() => window.location.reload())
+            }).catch(err => {
+                console.log(err);
+                swal.fire({
+                    icon: 'error',
+                    title: err.response.data.message,
+                })
+            })
+        } else {
+            swal.fire({
+                icon: 'error',
+                title: "New password and confirm password not equal",
+            })
+        }
+    }
+
     renderMyProfile = () => {
 
         return (
@@ -109,24 +145,19 @@ class UserAccount extends Component {
                 <div>
                     <div style={{ height: 13 }} />
                     <Typography style={{ fontWeight: 700, fontSize: 13 }}>
-                        Email:
-                    </Typography>
-                    <input style={{ width: '100%', color: '-internal-light-dark-color(black, white);' }} />
-                    <div style={{ height: 13 }} />
-                    <Typography style={{ fontWeight: 700, fontSize: 13 }}>
                         Old password
                     </Typography>
-                    <input style={{ width: '100%' }} />
+                    <input type='password' onChange={e => this.setState({ oldPassword: e.target.value })} style={{ width: '100%' }} />
                     <div style={{ height: 13 }} />
                     <Typography style={{ fontWeight: 700, fontSize: 13 }}>
                         New password
                     </Typography>
-                    <input style={{ width: '100%' }} />
+                    <input type='password' onChange={e => this.setState({ newPassword: e.target.value })} style={{ width: '100%' }} />
                     <div style={{ height: 13 }} />
                     <Typography style={{ fontWeight: 700, fontSize: 13 }}>
                         Confirm password
                      </Typography>
-                    <input style={{ width: '100%' }} />
+                    <input type='password' onChange={e => this.setState({ confirmPassword: e.target.value })} style={{ width: '100%' }} />
                     <div style={{ height: 13 }} />
                 </div>
                 <Button
@@ -139,6 +170,7 @@ class UserAccount extends Component {
                         border: '1px solid black',
                         borderColor: "#a88734 #9c7e31 #846a29",
                     }}
+                    onClick={this.changePassword}
                 >
                     Change Password
                 </Button>
