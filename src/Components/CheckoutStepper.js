@@ -16,11 +16,12 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function HorizontalLinearStepper() {
+export default function HorizontalLinearStepper(props) {
     const classes = useStyles();
     const [signIn, setSignIn] = React.useState(false);
     const [shipping, setShipping] = React.useState(true);
     const [order, setOrder] = React.useState(false);
+    const { origin } = props;
 
     return (
         <div className={classes.root}>
@@ -38,7 +39,7 @@ export default function HorizontalLinearStepper() {
                 <Step>
                     <StepLabel
                         style={{ color: 'rgb(255, 163, 58)' }}
-                        StepIconComponent={shipping ? ShoppingCartIcon : DoneRoundedIcon}
+                        StepIconComponent={!origin ? ShoppingCartIcon : DoneRoundedIcon}
                     >
                         <Typography style={{ fontSize: 13, marginTop: -18, fontWeight: 'bold' }}>
                             SHIPPING & PAYMENT
@@ -47,8 +48,8 @@ export default function HorizontalLinearStepper() {
                 </Step>
                 <Step>
                     <StepLabel
-                        style={{ color: 'grey' }}
-                        StepIconComponent={order ? LaptopIcon : FiberManualRecordRoundedIcon}
+                        style={{ color: !origin ? 'grey' : 'rgb(255, 163, 58)' }}
+                        StepIconComponent={origin ? ShoppingCartIcon : FiberManualRecordRoundedIcon}
 
                     >
                         <Typography style={{ fontSize: 13, marginTop: -18 }}>

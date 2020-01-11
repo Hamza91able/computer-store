@@ -16,6 +16,7 @@ const useStyles = makeStyles({
 export default function OutlinedCard(props) {
     const classes = useStyles();
     const { disable } = props;
+    const { name, cardNumber, month, year } = props;
 
     return (
         <div style={{
@@ -50,7 +51,7 @@ export default function OutlinedCard(props) {
                         </Button>
                         </div>
                         :
-                        <Link to='/pay' style={{ textDecoration: 'none', width: '100%' }}>
+                        <Link to={`/buy/placeorder/${name}/${cardNumber}/${month}/${year}`} style={{ textDecoration: 'none', width: '100%' }}>
                             <div style={{
                                 justifyContent: 'center',
                                 alignItems: 'center,',

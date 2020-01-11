@@ -30,6 +30,23 @@ class PaymentMethod extends Component {
     state = {
         disable: true,
         cards: [],
+        name: '',
+        cardNumber: '',
+        month: 1,
+        year: 2020
+    }
+
+    handleInput = e => {
+
+        this.setState({
+            [e.target.name]: e.target.value,
+        }, () => {
+            if (this.state.name.length >= 3 && this.state.cardNumber.length === 16) {
+                this.setState({
+                    disable: false
+                })
+            }
+        })
     }
 
     render() {
@@ -49,7 +66,13 @@ class PaymentMethod extends Component {
                         <Grid item md={1}>
                         </Grid>
                         <Grid item md={1}>
-                            <PaymentMethodCard disable={this.state.disable} />
+                            <PaymentMethodCard
+                                disable={this.state.disable}
+                                name={this.state.name}
+                                cardNumber={this.state.cardNumber}
+                                month={this.state.month}
+                                year={this.state.year}
+                            />
                         </Grid>
                     </Grid>
                     <Grid container spacing={3}>
@@ -63,7 +86,7 @@ class PaymentMethod extends Component {
                                     <Typography style={{ fontWeight: 'bold' }} variant='h6'>
                                         Credit or Debit Cards
                                 </Typography>
-                                    <p style={{ fontSize: 14 }}>Amazon accepts all major credit and debit cards.</p>
+                                    <p style={{ fontSize: 14 }}>Computer Store accepts all major credit and debit cards.</p>
                                 </Grid>
                                 <Grid item md={4}>
                                     <img src={cards} />
@@ -84,9 +107,12 @@ class PaymentMethod extends Component {
                                                     required
                                                     id="standard-required"
                                                     variant='outlined'
-                                                    onChange={e => this.setState({ email: e.target.value })}
+                                                    value={this.state.name}
+                                                    name='name'
+                                                    onChange={this.handleInput}
                                                     style={{ width: '100%' }}
                                                     size='small'
+                                                    error={this.state.name.length < 3}
                                                 />
                                             </Grid>
                                             <Grid item md={3}>
@@ -97,9 +123,13 @@ class PaymentMethod extends Component {
                                                     required
                                                     id="standard-required"
                                                     variant='outlined'
-                                                    onChange={e => this.setState({ email: e.target.value })}
+                                                    type='number'
+                                                    value={this.state.cardNumber}
+                                                    name='cardNumber'
+                                                    onChange={this.handleInput}
                                                     style={{ width: '100%' }}
                                                     size='small'
+                                                    error={this.state.cardNumber.length !== 16}
                                                 />
                                             </Grid>
                                             <Grid item md={5}>
@@ -110,8 +140,9 @@ class PaymentMethod extends Component {
                                                     <Select
                                                         labelId="demo-simple-select-outlined-label"
                                                         id="demo-simple-select-outlined"
-                                                        value={1}
+                                                        value={this.state.month}
                                                         style={{ backgroundColor: '#eff0f3' }}
+                                                        onChange={e => this.setState({ month: e.target.value })}
                                                     >
                                                         <MenuItem value={1}>01</MenuItem>
                                                         <MenuItem value={2}>02</MenuItem>
@@ -132,7 +163,8 @@ class PaymentMethod extends Component {
                                                         labelId="demo-simple-select-outlined-label"
                                                         id="demo-simple-select-outlined"
                                                         style={{ backgroundColor: '#eff0f3' }}
-                                                        value={2020}
+                                                        value={this.state.year}
+                                                        onChange={e => this.setState({ year: e.target.value })}
                                                     >
                                                         {years.map((year, i) => {
                                                             return (
@@ -141,19 +173,6 @@ class PaymentMethod extends Component {
                                                         })}
                                                     </Select>
                                                 </FormControl>
-                                                <Button style={{
-                                                    backgroundColor: '#f0c14b',
-                                                    color: '#111',
-                                                    fontWeight: 'normal',
-                                                    bomdhadow: 'none',
-                                                    border: '1px solid black',
-                                                    borderColor: "#a88734 #9c7e31 #846a29",
-                                                    height: 37,
-                                                    marginLeft: 8,
-                                                    boxShadow: 'none'
-                                                }} variant='contained'>
-                                                    Add your card
-                                                </Button>
                                             </Grid>
                                         </Grid>
                                     </Grid>

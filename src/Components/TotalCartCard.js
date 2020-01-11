@@ -77,7 +77,7 @@ export default function OutlinedCard(props) {
                             </div>
                         </Link>
                         :
-                        <Link to='/pay' style={{ textDecoration: 'none', width: '100%' }}>
+                        <Link to='/buy/payselect' style={{ textDecoration: 'none', width: '100%' }}>
                             <div style={{
                                 justifyContent: 'center',
                                 alignItems: 'center,',
