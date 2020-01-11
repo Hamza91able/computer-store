@@ -22,6 +22,41 @@ class Checkout extends Component {
         delieveryInformation: '',
     }
 
+    componentDidMount() {
+        this.getUserInformation();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.token !== prevProps.token) {
+            this.getUserInformation();
+        }
+    }
+
+    getUserInformation = () => {
+
+        axios({
+            url: `${connectionString}/user/get-user-delievery-information`,
+            method: 'GET',
+            headers: {
+                Authorization: 'bearer ' + this.props.token
+            }
+        }).then(res => {
+            const user = res.data.user;
+            this.setState({
+                fullName: user.fullName,
+                addressLine1: user.addressLine1,
+                addressLine2: user.addressLine2,
+                city: user.city,
+                state: user.state,
+                zip: user.zip,
+                phoneNumber: user.phoneNumber,
+                delieveryInformation: user.delieveryInformation,
+            })
+        }).catch(err => {
+            console.log(err.response)
+        })
+    }
+
     saveUserInformation = () => {
         const {
             fullName,
@@ -54,12 +89,7 @@ class Checkout extends Component {
             }
         }).then(res => {
             console.log(res.data);
-            swal.fire({
-                icon: 'success',
-                title: 'Delievery information successfully saved',
-            }).then(() => {
-                this.props.history.replace('/review-items');
-            })
+            this.props.history.push('/review-items');
         }).catch(err => {
             console.log(err.response.statusText);
             swal.fire({
@@ -89,6 +119,7 @@ class Checkout extends Component {
                                 <input
                                     style={{ width: '100%', color: '-internal-light-dark-color(black, white);' }}
                                     onChange={e => this.setState({ fullName: e.target.value })}
+                                    value={this.state.fullName}
                                 />
                                 <div style={{ height: 13 }} />
                                 <Typography style={{ fontWeight: 700, fontSize: 13 }}>
@@ -97,6 +128,7 @@ class Checkout extends Component {
                                 <input
                                     style={{ width: '100%' }}
                                     onChange={e => this.setState({ addressLine1: e.target.value })}
+                                    value={this.state.addressLine1}
                                 />
                                 <div style={{ height: 13 }} />
                                 <Typography style={{ fontWeight: 700, fontSize: 13 }}>
@@ -105,6 +137,7 @@ class Checkout extends Component {
                                 <input
                                     style={{ width: '100%' }}
                                     onChange={e => this.setState({ addressLine2: e.target.value })}
+                                    value={this.state.addressLine2}
                                 />
                                 <div style={{ height: 13 }} />
                                 <Typography style={{ fontWeight: 700, fontSize: 13 }}>
@@ -113,6 +146,7 @@ class Checkout extends Component {
                                 <input
                                     style={{ width: '100%' }}
                                     onChange={e => this.setState({ city: e.target.value })}
+                                    value={this.state.city}
                                 />
                                 <div style={{ height: 13 }} />
                                 <Typography style={{ fontWeight: 700, fontSize: 13 }}>
@@ -121,6 +155,7 @@ class Checkout extends Component {
                                 <input
                                     style={{ width: '100%' }}
                                     onChange={e => this.setState({ state: e.target.value })}
+                                    value={this.state.state}
                                 />
                                 <div style={{ height: 13 }} />
                                 <Typography style={{ fontWeight: 700, fontSize: 13 }}>
@@ -129,6 +164,7 @@ class Checkout extends Component {
                                 <input
                                     style={{ width: '100%' }}
                                     onChange={e => this.setState({ zip: e.target.value })}
+                                    value={this.state.zip}
                                 />
                                 <div style={{ height: 13 }} />
                                 <Typography style={{ fontWeight: 700, fontSize: 13 }}>
@@ -142,6 +178,7 @@ class Checkout extends Component {
                                 <input
                                     style={{ width: '100%' }}
                                     onChange={e => this.setState({ phoneNumber: e.target.value })}
+                                    value={this.state.phoneNumber}
                                 />
                                 <div style={{ height: 13 }} />
                                 <Typography style={{ fontWeight: 700, fontSize: 15 }}>
@@ -153,6 +190,7 @@ class Checkout extends Component {
                                 <input
                                     style={{ width: '100%' }}
                                     onChange={e => this.setState({ delieveryInformation: e.target.value })}
+                                    value={this.state.delieveryInformation}
                                 />
                             </div>
                             <br />
