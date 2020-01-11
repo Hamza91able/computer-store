@@ -6,6 +6,7 @@ import Axios from 'axios';
 
 import connectionString from '../Static/Utilities/connectionString';
 import swal from 'sweetalert2';
+import moment from 'moment';
 
 const styles = theme => ({
     root: {
@@ -88,7 +89,7 @@ class OrderHistory extends Component {
                                             </Button>
                                                 <br />
                                                 <Typography style={{ fontSize: 13 }} variant='caption' color="textSecondary" gutterBottom>
-                                                    <strong>Placed on 17 Sep 2019 18:54:10</strong>
+                                                    <strong>Placed on {moment(order.createdAt).format('MMMM Do YYYY, h:mm a')}</strong>
                                                 </Typography>
                                             </Typography>
                                             <Divider />
