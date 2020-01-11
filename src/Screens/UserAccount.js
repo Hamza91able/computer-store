@@ -201,7 +201,7 @@ class UserAccount extends Component {
                                     ?
                                     this.renderChangePassword()
                                     :
-                                    <OrderHistory />
+                                    <OrderHistory token={this.props.token} userId={this.props.tokenId} />
                             }
                         </Grid>
                     </Grid>

@@ -381,7 +381,7 @@ class PlaceOrder extends Component {
                                                 </Link>}
                                             </div>
                                         </Grid>
-                                        <Grid item xs={9} md={5}>
+                                        <Grid item xs={9} md={9}>
                                             <Link className={classes.link} to={`/product-details/${value.productId._id}`}>
                                                 <Typography style={{ fontWeight: 'bold' }} className={classes.title} gutterBottom>
                                                     {value.productId.title}
