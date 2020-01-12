@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Divider, InputLabel, CircularProgress, Button } from '@material-ui/core';
+import { Container, Divider, InputLabel, CircularProgress, Button, Grid } from '@material-ui/core';
 import ImageUploader from 'react-images-upload';
 import axios from 'axios';
 import swal from 'sweetalert2';
@@ -11,7 +11,12 @@ class ChangeBanners extends Component {
 
     state = {
         pictures: [],
+        banners: [],
         isLoading: false,
+    }
+
+    componentDidMount() {
+        this.getBanners();
     }
 
     onDrop = picture => {
@@ -20,6 +25,19 @@ class ChangeBanners extends Component {
         });
     }
 
+    getBanners = () => {
+        axios({
+            url: `${connectionString}/products/get-banners`,
+            method: 'GET',
+        }).then(res => {
+            this.setState({
+                banners: res.data.banners
+            });
+        })
+            .catch(err => {
+                console.log(err);
+            })
+    }
 
     changeBanners = () => {
         const { pictures } = this.state;
@@ -41,12 +59,38 @@ class ChangeBanners extends Component {
             swal.fire({
                 icon: 'success',
                 title: 'Pictures Uploaded',
-            }).then(() => window.location.reload())
+            }).then(() => this.getBanners())
         }).catch(err => {
             console.log(err);
             this.setState({
                 isLoading: false,
             })
+            swal.fire({
+                icon: 'error',
+                title: 'Error Occoured please try again',
+            })
+        })
+    }
+
+    deleteBanner = bannerId => {
+
+        axios({
+            url: `${connectionString}/admin/delete-banner`,
+            method: 'POST',
+            data: {
+                bannerId
+            },
+            headers: {
+                Authorization: 'bearer ' + this.props.token
+            }
+        }).then(response => {
+            console.log(response.data);
+            swal.fire({
+                icon: 'success',
+                title: 'Banner Deleted',
+            }).then(() => this.getBanners())
+        }).catch(err => {
+            console.log(err);
             swal.fire({
                 icon: 'error',
                 title: 'Error Occoured please try again',
@@ -88,7 +132,7 @@ class ChangeBanners extends Component {
                                 backgroundColor: '#f0c14b',
                                 color: '#111',
                                 fontWeight: 'normal',
-                                boxShadow: 'none',
+                                bomdhadow: 'none',
                                 border: '1px solid black',
                                 borderColor: "#a88734 #9c7e31 #846a29",
                             }}
@@ -109,7 +153,7 @@ class ChangeBanners extends Component {
                                 backgroundColor: '#f0c14b',
                                 color: '#111',
                                 fontWeight: 'normal',
-                                boxShadow: 'none',
+                                bomdhadow: 'none',
                                 border: '1px solid black',
                                 borderColor: "#a88734 #9c7e31 #846a29",
                             }}
@@ -119,7 +163,49 @@ class ChangeBanners extends Component {
                         </Button>
                     }
                 </div>
-            </div>
+                <Divider style={{ marginTop: 20, marginBottom: 20 }} />
+                <div>
+                    <Grid container>
+                        {this.state.banners.map((banner, i) => {
+                            return (
+                                <Grid item md={6}>
+                                    <Grid container>
+                                        <Grid item md={12}>
+                                            <img src={banner.src} />
+                                            <div style={{ height: 20 }} />
+                                        </Grid>
+                                        <Grid item md={6}>
+                                            <div style={{
+                                                justifyContent: 'center',
+                                                alignItems: 'center,',
+                                                display: 'inline-flex',
+                                                width: '100%',
+                                            }}>
+                                                <Button
+                                                    variant="contained"
+                                                    style={{
+                                                        backgroundColor: '#f0c14b',
+                                                        color: '#111',
+                                                        fontWeight: 'normal',
+                                                        bomdhadow: 'none',
+                                                        border: '1px solid black',
+                                                        borderColor: "#a88734 #9c7e31 #846a29",
+                                                    }}
+                                                    onClick={() => this.deleteBanner(banner._id)}
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </div>
+                                        </Grid>
+                                    </Grid>
+                                    <br />
+                                </Grid>
+                            )
+                        })}
+                    </Grid>
+
+                </div>
+            </div >
         );
     }
 }
