@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Container, AppBar, Toolbar, Typography, Grid } from '@material-ui/core';
+import axios from 'axios';
+import swal from 'sweetalert2'
+
+import connectionString from '../Static/Utilities/connectionString';
 
 // Components
 import BannerAds from '../Components/BannerAds';
@@ -14,8 +18,31 @@ const styles = theme => ({
 
 class LandingPage extends Component {
 
+    state = {
+        featuredProducts: [],
+    }
+
+    componentDidMount() {
+        this.getFeaturedProducts();
+    }
+
+    getFeaturedProducts = () => {
+
+        axios({
+            url: `${connectionString}/products/get-featured-products`,
+            method: 'GET',
+        }).then(res => {
+            this.setState({
+                featuredProducts: res.data.products,
+            })
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
     render() {
         const { classes } = this.props;
+        const { featuredProducts } = this.state;
 
         return (
             <div>
@@ -31,24 +58,16 @@ class LandingPage extends Component {
                     </AppBar>
                     <br />
                     <Grid container spacing={3}>
-                        <Grid item xs={6} sm={5} md={4} lg={3}>
-                            <FeaturedProductsCard />
-                        </Grid>
-                        <Grid item xs={6} sm={5} md={4} lg={3}>
-                            <FeaturedProductsCard />
-                        </Grid>
-                        <Grid item xs={6} sm={5} md={4} lg={3}>
-                            <FeaturedProductsCard />
-                        </Grid>
-                        <Grid item xs={6} sm={5} md={4} lg={3}>
-                            <FeaturedProductsCard />
-                        </Grid>
-                        <Grid item xs={6} sm={5} md={4} lg={3}>
-                            <FeaturedProductsCard />
-                        </Grid>
-                        <Grid item xs={6} sm={5} md={4} lg={3}>
-                            <FeaturedProductsCard />
-                        </Grid>
+                        {
+                            featuredProducts.length > 0 && featuredProducts.map((product, i) => {
+                                console.log(product);
+                                return (
+                                    <Grid item xs={6} sm={5} md={4} lg={3}>
+                                        <FeaturedProductsCard product={product.productId} />
+                                    </Grid>
+                                )
+                            })
+                        }
                     </Grid>
                 </Container>
             </div>

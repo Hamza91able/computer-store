@@ -1,21 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { Divider, Button, Grid } from '@material-ui/core';
+import { Button, Grid, Divider } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
@@ -42,18 +34,20 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function RecipeReviewCard() {
-    const classes = useStyles();
-    const [expanded, setExpanded] = React.useState(false);
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'PKR',
+    minimumFractionDigits: 2
+})
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
+export default function RecipeReviewCard(props) {
+    const classes = useStyles();
+    const { product } = props;
 
     return (
         <Card className={classes.card}>
-            <Link to='/product-details'>
-                <CardHeader
+            <Link to={`/product-details/${product._id}`}>
+                <CardHeader style={{ height: 72 }}
                     title={
                         <Typography style={{
                             fontSize: 20, justifyContent: 'center',
@@ -62,30 +56,32 @@ export default function RecipeReviewCard() {
                             width: '100%',
                             color: "blue",
                             cursor: 'pointer',
-                        }}>Dell G5 15 5590</Typography>
+                            fontSize: 13
+                        }}>
+                            {product.title}
+                        </Typography>
                     }
                 />
             </Link>
-            <CardMedia
+            {product.pictures && <CardMedia
                 style={{ cursor: "pointer" }}
                 className={classes.media}
-                image="https://m.media-amazon.com/images/I/91JA5-hAnoL._AC_UY218_ML3_.jpg"
+                image={product.pictures[0]}
                 title="Paella dish"
-            />
-            <CardContent>
-                <Typography variant='body2' color="textSecondary" component="p">
-                    5590 | 15-inch gaming laptop with a 24mm desi...
-                    <br />
-                    * 9th Generation Intel® Core™ i7-9750H (12MB Cache, up to 4.5 GHz, 6 cores)
-                    <br />
-                    * 16GB DDR4 Memory | 128GB M.2 PCIe NVMe Solid State Drive + 1TB 5400 HDD
-                    <br />
-                    * NVIDIA® GeForce® RTX™ 2060 6GB GDDR6
-                    <br />
-                    * Windows® 10 | Backlit full-size, spill-resistant WASD keyboard
-                    <br />
+            />}
+            <CardContent style={{ height: 220 }}>
+                <br />
+                <Typography color='textSecondary'>
+                    <ul>
+                        {product.bulletPoints && product.bulletPoints.map((points, index) => {
+                            return (
+                                <li>{points}</li>
+                            )
+                        })}
+                    </ul>
                 </Typography>
             </CardContent>
+            <Divider style={{ marginTop: 10, marginBottom: 10 }} />
             <CardActions disableSpacing>
                 <Grid container spacing={3}>
                     <Grid xs={12}>
@@ -97,7 +93,7 @@ export default function RecipeReviewCard() {
                             fontWeight: 'bold',
                             fontSize: 20
                         }}>
-                            Rs. 205,000
+                            {formatter.format(product.price)}
                         </Typography>
                     </Grid>
                     <Grid xs={12}>
@@ -107,7 +103,14 @@ export default function RecipeReviewCard() {
                             display: 'inline-flex',
                             width: '100%',
                         }}>
-                            <Button variant="contained" style={{ width: 200, backgroundColor: 'rgb(255, 163, 58)', color: '#101820FF' }}>VIEW DETAILS</Button>
+                            <Link style={{ textDecoration: 'none' }} to={`/product-details/${product._id}`}>
+                                <Button
+                                    variant="contained"
+                                    style={{ width: 200, backgroundColor: 'rgb(255, 163, 58)', color: '#101820FF' }}
+                                >
+                                    VIEW DETAILS
+                                </Button>
+                            </Link>
                         </div>
                     </Grid>
                 </Grid>
