@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Container, AppBar, Toolbar, Typography, Grid } from '@material-ui/core';
+import { Container, AppBar, Toolbar, Typography, Grid, CircularProgress } from '@material-ui/core';
 import axios from 'axios';
 import swal from 'sweetalert2'
 
@@ -59,7 +59,7 @@ class LandingPage extends Component {
                     <br />
                     <Grid container spacing={3}>
                         {
-                            featuredProducts.length > 0 && featuredProducts.map((product, i) => {
+                            featuredProducts.length > 0 ? featuredProducts.map((product, i) => {
                                 console.log(product);
                                 return (
                                     <Grid item xs={6} sm={5} md={4} lg={3}>
@@ -67,6 +67,31 @@ class LandingPage extends Component {
                                     </Grid>
                                 )
                             })
+                                :
+
+                                <Grid container>
+                                    <Grid item xs={12}>
+                                        <div style={{
+                                            justifyContent: 'center',
+                                            alignItems: 'center,',
+                                            display: 'inline-flex',
+                                            width: '100%',
+                                            marginTop: 20
+                                        }}>
+                                            <CircularProgress />
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <div style={{
+                                            justifyContent: 'center',
+                                            alignItems: 'center,',
+                                            display: 'inline-flex',
+                                            width: '100%',
+                                        }}>
+                                            <Typography>Loading...</Typography>
+                                        </div>
+                                    </Grid>
+                                </Grid>
                         }
                     </Grid>
                 </Container>
