@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Carousel } from 'react-bootstrap';
+import axios from 'axios';
+
+import connectionString from '../Static/Utilities/connectionString';
 
 // Banners
 import BannerAd1 from '../Assets/images/banner1.jpg'
@@ -10,45 +13,46 @@ import BannerAd5 from '../Assets/images/banner5.jpg'
 
 
 class BannerAds extends Component {
+
+    state = {
+        banners: [],
+    }
+
+    componentDidMount() {
+        this.getBanners();
+    }
+
+    getBanners = () => {
+        axios({
+            url: `${connectionString}/products/get-banners`,
+            method: 'GET',
+        }).then(res => {
+            this.setState({
+                banners: res.data.banners
+            });
+        })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
     render() {
+        const { banners } = this.state;
+
         return (
             <div>
                 <Carousel>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src={BannerAd5}
-                            alt="First slide"
-                        />
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src={BannerAd2}
-                            alt="First slide"
-                        />
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src={BannerAd3}
-                            alt="First slide"
-                        />
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src={BannerAd4}
-                            alt="First slide"
-                        />
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src={BannerAd1}
-                            alt="First slide"
-                        />
-                    </Carousel.Item>
+                    {banners.map((banner, i) => {
+                        return (
+                            <Carousel.Item>
+                                <img
+                                    className="d-block w-100"
+                                    src={banner.src}
+                                    alt="First slide"
+                                />
+                            </Carousel.Item>
+                        )
+                    })}
                 </Carousel>
             </div>
         );
