@@ -14,6 +14,7 @@ import ProductSubmit from '../Screens/ProductSubmit';
 import AddFeaturedProduct from '../Screens/AddFeaturedProduct';
 import StockManagement from '../Screens/StockManagement';
 import ChangeBanners from '../Screens/ChangeBanners';
+import Orders from '../Screens/Orders';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -59,7 +60,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function VerticalTabs(props) {
     const classes = useStyles();
-    const [value, setValue] = React.useState(8);
+    const [value, setValue] = React.useState(9);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -85,6 +86,7 @@ export default function VerticalTabs(props) {
                 <Tab label="Stock Management" {...a11yProps(6)} />
                 <Tab label="Products Management" {...a11yProps(7)} />
                 <Tab label="Change Banners" {...a11yProps(8)} />
+                <Tab label="Orders" {...a11yProps(9)} />
             </Tabs>
             <TabPanel style={{ width: '100%' }} value={value} index={0}>
                 <ProductSubmit token={props.token} userId={props.userId} />
@@ -112,6 +114,9 @@ export default function VerticalTabs(props) {
             </TabPanel>
             <TabPanel style={{ width: '100%' }} value={value} index={8}>
                 <ChangeBanners token={props.token} userId={props.userId} />
+            </TabPanel>
+            <TabPanel style={{ width: '100%' }} value={value} index={9}>
+                <Orders token={props.token} userId={props.userId} />
             </TabPanel>
         </div>
     );

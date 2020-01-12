@@ -86,7 +86,7 @@ class OrderHistory extends Component {
                                                     );
                                                 }}>
                                                     Open receipt
-                                            </Button>
+                                                </Button>
                                                 <br />
                                                 <Typography style={{ fontSize: 13 }} variant='caption' color="textSecondary" gutterBottom>
                                                     <strong>Placed on {moment(order.createdAt).format('MMMM Do YYYY, h:mm a')}</strong>
@@ -112,14 +112,14 @@ class OrderHistory extends Component {
                                                                 </Typography> <strong style={{ fontSize: 15 }}>{product.quantity}</strong>
                                                                 </Typography>
                                                             </Grid>
-                                                            {product.product.delivered ?
+                                                            {order.delievery === "Delievered" ?
                                                                 <React.Fragment>
                                                                     <Grid item md={2}>
                                                                         <Chip style={{ height: 20 }} label="Delivered" />
                                                                     </Grid>
                                                                     <Grid item md={3}>
                                                                         <Typography style={{ fontSize: 13 }} variant='caption' color="textSecondary" gutterBottom>
-                                                                            <strong>Delivered on 19 Aug 2019</strong>
+                                                                            <strong>Delivered on {moment(order.updatedAt).format('MMM Do YYYY')}</strong>
                                                                         </Typography>
                                                                     </Grid>
                                                                 </React.Fragment>
