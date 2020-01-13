@@ -15,6 +15,7 @@ import AddFeaturedProduct from '../Screens/AddFeaturedProduct';
 import StockManagement from '../Screens/StockManagement';
 import ChangeBanners from '../Screens/ChangeBanners';
 import Orders from '../Screens/Orders';
+import ProductsManagement from '../Screens/ProductsManaement';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -60,7 +61,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function VerticalTabs(props) {
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = React.useState(7);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -110,7 +111,7 @@ export default function VerticalTabs(props) {
                 <StockManagement token={props.token} userId={props.userId} />
             </TabPanel>
             <TabPanel style={{ width: '100%' }} value={value} index={7}>
-                Item Seven
+                <ProductsManagement token={props.token} userId={props.userId} />
             </TabPanel>
             <TabPanel style={{ width: '100%' }} value={value} index={8}>
                 <ChangeBanners token={props.token} userId={props.userId} />
