@@ -9,7 +9,8 @@ import {
     FormControl,
     OutlinedInput,
     InputAdornment,
-    Container
+    Container,
+    Grid
 } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { Link, withRouter } from 'react-router-dom';
@@ -35,7 +36,7 @@ const styles = theme => ({
     title: {
         flexGrow: 1,
         minWidth: 50,
-        width: 300,
+        width: 200,
         margin: 5,
     },
     margin: {
@@ -59,6 +60,11 @@ const styles = theme => ({
             display: 'block',
         },
     },
+    categoriesButton: {
+        "&:hover": {
+            border: '1px solid #7a7a7a'
+        },
+    }
 });
 
 class Appbar extends React.Component {
@@ -84,7 +90,7 @@ class Appbar extends React.Component {
                         <MenuDrawer categories={categories} user={user} />
                         <Link style={{ textDecoration: 'none' }} to='/'>
                             <Typography variant="h5" className={classes.title}>
-                                <strong style={{ color: '#ffa33a' }}>COMPUTER STORE</strong>
+                                <strong style={{ color: '#ffff' }}>COMPUTER STORE</strong>
                             </Typography>
                         </Link>
                         <FormControl fullWidth className={classes.margin} variant="outlined">
@@ -100,25 +106,36 @@ class Appbar extends React.Component {
                                 onKeyPress={e => this.handleKeyPress(e, e.target.value)}
                             />
                         </FormControl>
-                        <div className={classes.greetingsWeb} style={{ width: 300 }}>
-                            {user
-                                ?
-                                <Link to='/account' style={{ textDecoration: 'none' }}>
-                                    <Button style={{ color: "#ffa33a" }}>Hello, {user.name}</Button>
-                                </Link>
-                                :
-                                <Link to='/login' style={{ textDecoration: 'none' }}>
-                                    <Button style={{ color: "#ffa33a" }}>Hello, Sign in</Button>
-                                </Link>
-                            }
-                            <Link to='/cart' style={{ textDecoration: 'none' }}>
-                                <Button style={{ color: '#ffa33a' }}>
-                                    <ShoppingCartIcon /> Cart
-                                </Button>
-                            </Link>
-                            {user && <Button onClick={this.props.logoutHandler} style={{ color: '#ffa33a' }}>
-                                <ExitToAppIcon style={{ marginRight: 5 }} /> Signout
-                            </Button>}
+                        <div className={classes.greetingsWeb} style={{ width: 500 }}>
+                            <Grid container>
+                                <Grid item xs={4}>
+                                    {user
+                                        ?
+                                        <Link to='/account' style={{ textDecoration: 'none' }}>
+                                            <Button style={{ color: "#ffff" }}>Hello, {user.name}</Button>
+                                        </Link>
+                                        :
+                                        <Link to='/login' style={{ textDecoration: 'none' }}>
+                                            <Button style={{ color: "#ffff" }}>Hello, Sign in</Button>
+                                        </Link>
+                                    }
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Link to='/cart' style={{ textDecoration: 'none' }}>
+                                        <Button style={{ color: '#ffff' }}>
+                                            <ShoppingCartIcon /> Cart
+                                        </Button>
+                                    </Link>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    {user &&
+                                        <Button onClick={this.props.logoutHandler} style={{ color: '#ffff' }}>
+                                            <ExitToAppIcon style={{ marginRight: 5 }} /> Signout
+                                        </Button>
+                                    }
+                                </Grid>
+                            </Grid>
+
                         </div>
                     </Toolbar>
                     <Toolbar className={classes.searchBarMobile}>
@@ -137,20 +154,20 @@ class Appbar extends React.Component {
                             {user
                                 ?
                                 <Link to='/account' style={{ textDecoration: 'none' }}>
-                                    <Button style={{ color: "#ffa33a" }}>Hello, {user.name}</Button>
+                                    <Button style={{ color: "#ffff" }}>Hello, {user.name}</Button>
                                 </Link>
                                 :
                                 <Link to='/login' style={{ textDecoration: 'none' }}>
-                                    <Button style={{ color: "#ffa33a" }}>Hello, Sign in</Button>
+                                    <Button style={{ color: "#ffff" }}>Hello, Sign in</Button>
                                 </Link>
                             }
                             <Link to='/cart' style={{ textDecoration: 'none' }}>
-                                <Button style={{ color: '#ffa33a' }}>
+                                <Button style={{ color: '#ffff' }}>
                                     <ShoppingCartIcon /> Cart
                                 </Button>
                             </Link>
                             {user && <Link style={{ textDecoration: 'none' }}>
-                                <Button onClick={this.props.logoutHandler} style={{ color: '#ffa33a' }}>
+                                <Button onClick={this.props.logoutHandler} style={{ color: '#ffff' }}>
                                     <ExitToAppIcon style={{ marginRight: 5 }} /> Signout
                                 </Button>
                             </Link>}
@@ -161,21 +178,14 @@ class Appbar extends React.Component {
                             {appBarCategories && appBarCategories.map((category, index) => {
                                 return (
                                     <Link key={index} to={`/c/${category.name}`} style={{ textDecoration: 'none' }}>
-                                        <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>{category.name}</Button>
+                                        <Button
+                                            variant='text'
+                                            style={{ margin: 5, color: '#ccc' }}
+                                            className={classes.categoriesButton}
+                                        >{category.name}</Button>
                                     </Link>
                                 )
                             })}
-                            {/* <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>DESKTOPS</Button>
-                            <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>LAPTOPS</Button>
-                            <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>MONITOR</Button>
-                            <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>MOUSE</Button>
-                            <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>KEYBOARDS</Button>
-                            <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>HEADPHONES</Button>
-                            <Link to='/c' style={{ textDecoration: 'none' }}>
-                                <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>PROCESSORS</Button>
-                            </Link>
-                            <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>GRAPHIC CARDS</Button>
-                            <Button variant='text' style={{ margin: 5, color: '#ffa33a' }}>SOLID STATE DRIVES</Button> */}
                         </Container>
                     </Toolbar>
                 </AppBar>
