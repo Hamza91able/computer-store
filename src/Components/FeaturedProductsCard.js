@@ -73,11 +73,18 @@ export default function RecipeReviewCard(props) {
                 <br />
                 <Typography color='textSecondary'>
                     <ul>
-                        {product.bulletPoints && product.bulletPoints.map((points, index) => {
+                        <li>{product.bulletPoints[0]}</li>
+                        <li>{product.bulletPoints[1]}</li>
+                        <li>{product.bulletPoints[2]}</li>
+
+                        {/* {product.bulletPoints && product.bulletPoints.map((points, index) => {
+                            if (index > 3) {
+                                return false;
+                            }
                             return (
                                 <li>{points}</li>
                             )
-                        })}
+                        })} */}
                     </ul>
                 </Typography>
             </CardContent>
