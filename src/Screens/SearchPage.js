@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Container, AppBar, Toolbar, Typography, Paper, Grid, Card, CardContent, Divider, Box } from '@material-ui/core';
+import { Container, AppBar, Toolbar, Typography, Paper, Grid, Card, CardContent, Divider, Box, CircularProgress } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
@@ -136,7 +136,14 @@ class SearchPage extends Component {
                                 <Divider style={{ marginTop: 20, marginBottom: 20 }} />
                             </React.Fragment>
                         )
-                    }) : <h1>Loading</h1>}
+                    }) : <div style={{
+                        justifyContent: 'center',
+                        alignItems: 'center,',
+                        display: 'inline-flex',
+                        width: '100%',
+                    }}>
+                            <CircularProgress style={{ marginTop: 20 }} />
+                        </div>}}
                 </Container>
             </div>
         );
