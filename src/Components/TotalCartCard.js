@@ -45,7 +45,7 @@ export default function OutlinedCard(props) {
             <Card className={classes.card} variant="outlined">
                 <CardContent>
                     <Typography variant="h6" >
-                        Subtotal(1 item): <strong style={{ color: '#B12704' }}>{formatter.format(props.price)}</strong>
+                        Subtotal({props.noOfItems} items): <strong style={{ color: '#B12704' }}>{formatter.format(props.price)}</strong>
                     </Typography>
                 </CardContent>
                 <CardActions>

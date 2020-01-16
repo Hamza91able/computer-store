@@ -238,8 +238,13 @@ class ProductDetails extends Component {
                                         Sold and Shipped by: <strong>{product.soldAndShippedBy}</strong>
                                     </Typography>
                                     <Divider style={{ marginTop: 10 }} />
+                                    {product.onSale &&
+                                        <Typography variant="h5" component="h2" style={{ fontWeight: 'bold', color: '#cc1c39' }}>
+                                            Discounted Price {formatter.format(product.priceAfterDiscount)}
+                                        </Typography>
+                                    }
                                     <Typography style={{ marginTop: 20, fontWeight: 'bold' }} variant="h5" component="h2">
-                                        {formatter.format(product.price)}
+                                        {product.onSale ? <del>{formatter.format(product.price)}</del> : formatter.format(product.price)}
                                     </Typography>
                                     <Divider style={{ marginTop: 10 }} />
                                     <Typography style={{ fontSize: 12, marginTop: 10 }} className={classes.pos} color="textSecondary">

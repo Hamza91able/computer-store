@@ -315,8 +315,11 @@ class CategoriePage extends Component {
                                                     />
                                                     <Box style={{ fontSize: 13 }} ml={1}><Link to={`/product-details/${product._id}`}>{products.ratings ? products.ratings : 0}</Link></Box>
                                                 </div>
+                                                {product.onSale && <Typography style={{ fontSize: 14, fontWeight: 'bold', color: '#cc1c39' }}>
+                                                    Discounted Price {formatter.format(product.priceAfterDiscount)}
+                                                </Typography>}
                                                 <Typography variant='caption' style={{ fontSize: 14, fontWeight: 'bold' }}>
-                                                    {formatter.format(product.price)}
+                                                    {product.onSale ? <del>{formatter.format(product.price)}</del> : formatter.format(product.price)}
                                                 </Typography>
                                                 <Typography style={{ fontSize: 13 }} className={classes.title} color="textSecondary" gutterBottom>
                                                     Sold and Shipped by: <strong>{product.soldAndShippedBy}</strong>
