@@ -2,6 +2,8 @@
 
 #### Node JS Server => [Link](https://github.com/Hamza91able/computer-store-server)
 
+#### (Under Development. Not all features might be present at the momment)
+
 ### Features
 -----------------------------------------
 * Custom Login/Signup with E*Mail verification and hashing and salting for security
