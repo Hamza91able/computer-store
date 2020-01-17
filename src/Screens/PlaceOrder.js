@@ -118,6 +118,7 @@ class PlaceOrder extends Component {
             }, () => {
                 let subtotal = 0;
                 let shippingCost = 0;
+                let discount = 0;
                 this.state.products.forEach((product, index) => {
                     subtotal = subtotal + (product.productId.price * product.quantity)
                     console.log(this.state.shippingInformation.city === "Karachi")
@@ -126,10 +127,14 @@ class PlaceOrder extends Component {
                     } else {
                         shippingCost = shippingCost + product.productId.shippingCost
                     }
+                    if (product.productId.onSale) {
+                        discount = discount + (product.productId.price - product.productId.priceAfterDiscount)
+                    }
                 })
                 this.setState({
                     subTotal: subtotal,
-                    shippingCost: shippingCost
+                    shippingCost: shippingCost,
+                    discount,
                 })
             })
         }).catch(err => {
@@ -354,7 +359,7 @@ class PlaceOrder extends Component {
                                                 fontWeight: 'bold',
                                                 fontSize: 18
                                             }}>
-                                                Order Total: {formatter.format(subTotal + discount + shippingCost)}
+                                                Order Total: {formatter.format((subTotal - discount) + shippingCost)}
                                             </div>
                                         </Grid>
                                     </Grid>
@@ -407,8 +412,14 @@ class PlaceOrder extends Component {
                                             </Grid>
                                         </Grid>
                                         <Grid item xs={3} md={1}>
-                                            <Typography variant='caption' style={{ fontSize: 16, fontWeight: 'bold', color: '#B12704', float: 'right' }}>
+                                            {/* <Typography variant='caption' style={{ fontSize: 16, fontWeight: 'bold', color: '#B12704', float: 'right' }}>
                                                 {formatter.format(value.productId.price)}
+                                            </Typography> */}
+                                            {value.productId.onSale && <Typography style={{ fontSize: 14, fontWeight: 'bold', color: '#cc1c39', float: 'right' }}>
+                                                {formatter.format(value.productId.priceAfterDiscount)}
+                                            </Typography>}
+                                            <Typography variant='caption' style={{ fontSize: 14, fontWeight: 'bold', float: 'right' }}>
+                                                {value.productId.onSale ? <del>{formatter.format(value.productId.price)}</del> : formatter.format(value.productId.price)}
                                             </Typography>
                                         </Grid>
                                     </Grid>

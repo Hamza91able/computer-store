@@ -187,8 +187,14 @@ class ReviewItem extends Component {
                                                     </Grid>
                                                 </Grid>
                                                 <Grid item xs={3} md={2}>
-                                                    <Typography variant='caption' style={{ fontSize: 16, fontWeight: 'bold', color: '#B12704', float: 'right' }}>
+                                                    {/* <Typography variant='caption' style={{ fontSize: 16, fontWeight: 'bold', color: '#B12704', float: 'right' }}>
                                                         {formatter.format(value.productId.price)}
+                                                    </Typography> */}
+                                                    {value.productId.onSale && <Typography style={{ fontSize: 14, fontWeight: 'bold', color: '#cc1c39', float: 'right' }}>
+                                                        Discounted Price {formatter.format(value.productId.priceAfterDiscount)}
+                                                    </Typography>}
+                                                    <Typography variant='caption' style={{ fontSize: 14, fontWeight: 'bold' }}>
+                                                        {value.productId.onSale ? <del>{formatter.format(value.productId.price)}</del> : formatter.format(value.productId.price)}
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
@@ -198,11 +204,11 @@ class ReviewItem extends Component {
                                 })}
                                 <Divider style={{ marginTop: 10, marginBottom: 20 }} />
                                 <Typography style={{ float: 'right' }}>
-                                    Subtotal(1 item): <strong style={{ color: '#B12704' }}>{formatter.format(subTotal)}</strong>
+                                    Subtotal({products.length} item): <strong style={{ color: '#B12704' }}>{formatter.format(subTotal)}</strong>
                                 </Typography>
                             </Grid>
                             <Grid item md={3} style={{ width: '100%' }}>
-                                <TotalCartCard origin="review" price={subTotal} />
+                                <TotalCartCard noOfItems={products.length} origin="review" price={subTotal} />
                                 <AddressRenderCard user={user} />
                             </Grid>
                         </Grid>
