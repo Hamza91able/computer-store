@@ -4,8 +4,11 @@ import { Container, AppBar, Toolbar, Typography, Paper, Grid, Card, CardContent,
 import Rating from '@material-ui/lab/Rating';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
+import moment from 'moment';
 
 import connectionString from '../Static/Utilities/connectionString';
+
+import CountDownTimer from '../Components/CountDownTimer'
 
 const styles = theme => ({
     rating1: {
@@ -125,9 +128,25 @@ class SearchPage extends Component {
                                             </Typography>
                                         </Link>
                                         <br />
-                                        <Typography variant='caption' style={{ fontSize: 14, fontWeight: 'bold' }}>
+                                        {/* <Typography variant='caption' style={{ fontSize: 14, fontWeight: 'bold' }}>
                                             {formatter.format(product.price)}
+                                        </Typography> */}
+                                        {product.onSale && <Typography style={{ fontSize: 14, fontWeight: 'bold', color: '#cc1c39' }}>
+                                            Discounted Price {formatter.format(product.priceAfterDiscount)}
+                                        </Typography>}
+                                        <Typography variant='caption' style={{ fontSize: 14, fontWeight: 'bold' }}>
+                                            {product.onSale ? <del>{formatter.format(product.price)}</del> : formatter.format(product.price)}
                                         </Typography>
+                                        {product.onSale
+                                            && <Typography style={{ padding: 10, color: '#cc1c39' }}>
+                                                Sale Ends In: {product.onSale
+                                                    ?
+                                                    <CountDownTimer
+                                                        timeTillDate={moment(product.saleEndDate).format('MM DD YYYY, h:mm a')}
+                                                        timeFormat="MM DD YYYY, h:mm a" />
+                                                    :
+                                                    "Currently Not on Sale"}
+                                            </Typography>}
                                         <Typography style={{ fontSize: 13 }} className={classes.title} color="textSecondary" gutterBottom>
                                             Sold and Shipped by: <strong>{product.soldAndShippedBy}</strong>
                                         </Typography>
@@ -143,7 +162,7 @@ class SearchPage extends Component {
                         width: '100%',
                     }}>
                             <CircularProgress style={{ marginTop: 20 }} />
-                        </div>}}
+                        </div>}
                 </Container>
             </div>
         );

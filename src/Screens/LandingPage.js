@@ -9,6 +9,7 @@ import connectionString from '../Static/Utilities/connectionString';
 // Components
 import BannerAds from '../Components/BannerAds';
 import FeaturedProductsCard from '../Components/FeaturedProductsCard';
+import OnSaleProductCard from '../Components/OnSaleProductCard';
 
 const styles = theme => ({
     title: {
@@ -20,10 +21,12 @@ class LandingPage extends Component {
 
     state = {
         featuredProducts: [],
+        onSaleProducts: [],
     }
 
     componentDidMount() {
         this.getFeaturedProducts();
+        this.getOnSaleProducts();
     }
 
     getFeaturedProducts = () => {
@@ -40,14 +43,51 @@ class LandingPage extends Component {
         })
     }
 
+    getOnSaleProducts = () => {
+
+        axios({
+            url: `${connectionString}/products/get-on-sale-products`,
+            method: 'GET',
+        }).then(res => {
+            console.log(res.data.products);
+            this.setState({
+                onSaleProducts: res.data.products,
+            })
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
     render() {
         const { classes } = this.props;
-        const { featuredProducts } = this.state;
+        const { featuredProducts, onSaleProducts } = this.state;
 
         return (
             <div>
                 <Container maxWidth='lg'>
                     <BannerAds />
+                    <br />
+                    {onSaleProducts.length > 0 && < AppBar style={{ boxShadow: 'none', backgroundColor: '#282828' }} position="static">
+                        <Toolbar>
+                            <Typography variant="h6" className={classes.title}>
+                                CURRENT DEALS
+                            </Typography>
+                        </Toolbar>
+                    </AppBar>}
+                    <br />
+                    <Grid container spacing={3}>
+                        {
+                            onSaleProducts.length > 0 && onSaleProducts.map((product, i) => {
+                                console.log(product);
+                                return (
+                                    <Grid item xs={6} sm={5} md={4} lg={3}>
+                                        <OnSaleProductCard product={product} />
+                                    </Grid>
+                                )
+                            })
+                        }
+                    </Grid>
+                    <br />
                     <br />
                     <AppBar style={{ boxShadow: 'none', backgroundColor: '#282828' }} position="static">
                         <Toolbar>
@@ -94,8 +134,9 @@ class LandingPage extends Component {
                                 </Grid>
                         }
                     </Grid>
+
                 </Container>
-            </div>
+            </div >
         );
     }
 }

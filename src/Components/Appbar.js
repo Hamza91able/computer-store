@@ -76,7 +76,9 @@ class Appbar extends React.Component {
     handleKeyPress(target, value) {
         const { history } = this.props;
         if (target.charCode == 13) {
-            history.push(`/s/${value}`);
+            if(value.length > 0) {
+                history.push(`/s/${value}`);
+            }
         }
     }
 

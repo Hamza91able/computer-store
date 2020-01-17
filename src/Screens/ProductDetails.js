@@ -36,7 +36,9 @@ import '../Static/CSS/ProductDetails.css'
 
 // Components
 import ProductDesriptionTabs from '../Components/ProductDescriptionTabs';
+import CountDownTimer from '../Components/CountDownTimer'
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 const styles = theme => ({
     paper: {
@@ -239,12 +241,21 @@ class ProductDetails extends Component {
                                     </Typography>
                                     <Divider style={{ marginTop: 10 }} />
                                     {product.onSale &&
-                                        <Typography variant="h5" component="h2" style={{ fontWeight: 'bold', color: '#cc1c39' }}>
-                                            Discounted Price {formatter.format(product.priceAfterDiscount)}
+                                        <Typography variant="h5" component="h2" style={{ fontWeight: 'bold', color: '#cc1c39', padding: 10, }}>
+                                            {formatter.format(product.priceAfterDiscount)}
                                         </Typography>
                                     }
-                                    <Typography style={{ marginTop: 20, fontWeight: 'bold' }} variant="h5" component="h2">
+                                    <Typography style={{ fontWeight: 'bold', padding: 10, }} variant="h5" component="h2">
                                         {product.onSale ? <del>{formatter.format(product.price)}</del> : formatter.format(product.price)}
+                                    </Typography>
+                                    <Typography style={{ padding: 10, color: '#cc1c39' }}>
+                                        Sale Ends In: {product.onSale
+                                            ?
+                                            <CountDownTimer
+                                                timeTillDate={moment(product.saleEndDate).format('MM DD YYYY, h:mm a')}
+                                                timeFormat="MM DD YYYY, h:mm a" />
+                                            :
+                                            "Currently Not on Sale"}
                                     </Typography>
                                     <Divider style={{ marginTop: 10 }} />
                                     <Typography style={{ fontSize: 12, marginTop: 10 }} className={classes.pos} color="textSecondary">

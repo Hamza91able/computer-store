@@ -10,16 +10,20 @@ import { red } from '@material-ui/core/colors';
 import { Button, Grid, Divider } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
+// Components
+import CountDownTimer from './CountDownTimer'
+import moment from 'moment';
+
 const useStyles = makeStyles(theme => ({
     card: {
         maxWidth: 345,
-        height: 580,
+        height: 650,
         [theme.breakpoints.up('md')]: {
-            height: 557,
+            height: 580,
         }
     },
     middleCard: {
-        height: 280,
+        height: 320,
         [theme.breakpoints.up('md')]: {
             height: 220,
         }
@@ -79,21 +83,21 @@ export default function RecipeReviewCard(props) {
                 title="Paella dish"
             />}
             <CardContent className={classes.middleCard}>
+                <Typography style={{ padding: 10, color: '#cc1c39' }}>
+                    Sale Ends In: {product.onSale
+                        ?
+                        <CountDownTimer
+                            timeTillDate={moment(product.saleEndDate).format('MM DD YYYY, h:mm a')}
+                            timeFormat="MM DD YYYY, h:mm a" />
+                        :
+                        "Currently Not on Sale"}
+                </Typography>
                 <br />
                 <Typography color='textSecondary'>
                     <ul>
                         <li>{product.bulletPoints[0]}</li>
                         <li>{product.bulletPoints[1]}</li>
                         <li>{product.bulletPoints[2]}</li>
-
-                        {/* {product.bulletPoints && product.bulletPoints.map((points, index) => {
-                            if (index > 3) {
-                                return false;
-                            }
-                            return (
-                                <li>{points}</li>
-                            )
-                        })} */}
                     </ul>
                 </Typography>
             </CardContent>
@@ -107,9 +111,20 @@ export default function RecipeReviewCard(props) {
                             display: 'inline-flex',
                             width: '100%',
                             fontWeight: 'bold',
-                            fontSize: 20
+                            fontSize: 15
                         }}>
-                            {formatter.format(product.price)}
+                            <del>{formatter.format(product.price)}</del>
+                        </Typography>
+                        <Typography variant='caption' style={{
+                            justifyContent: 'center',
+                            alignItems: 'center,',
+                            display: 'inline-flex',
+                            width: '100%',
+                            fontWeight: 'bold',
+                            fontSize: 20,
+                            color: '#cc1c39'
+                        }}>
+                            {formatter.format(product.priceAfterDiscount)}
                         </Typography>
                     </Grid>
                     <Grid xs={12}>

@@ -27,6 +27,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import GrainIcon from '@material-ui/icons/Grain';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import moment from 'moment';
 
 import connectionString from '../Static/Utilities/connectionString';
 
@@ -34,6 +35,7 @@ import connectionString from '../Static/Utilities/connectionString';
 import ProductFilterTypeList from '../Components/ProductFilterTypeList';
 import ProductFilterBrandList from '../Components/ProductFilterBrandList';
 import Pagination from '../Components/Pagination';
+import CountDownTimer from '../Components/CountDownTimer'
 
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -321,6 +323,16 @@ class CategoriePage extends Component {
                                                 <Typography variant='caption' style={{ fontSize: 14, fontWeight: 'bold' }}>
                                                     {product.onSale ? <del>{formatter.format(product.price)}</del> : formatter.format(product.price)}
                                                 </Typography>
+                                                {product.onSale
+                                                    && <Typography style={{ padding: 10, color: '#cc1c39' }}>
+                                                        Sale Ends In: {product.onSale
+                                                            ?
+                                                            <CountDownTimer
+                                                                timeTillDate={moment(product.saleEndDate).format('MM DD YYYY, h:mm a')}
+                                                                timeFormat="MM DD YYYY, h:mm a" />
+                                                            :
+                                                            "Currently Not on Sale"}
+                                                    </Typography>}
                                                 <Typography style={{ fontSize: 13 }} className={classes.title} color="textSecondary" gutterBottom>
                                                     Sold and Shipped by: <strong>{product.soldAndShippedBy}</strong>
                                                 </Typography>
