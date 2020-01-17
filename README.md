@@ -1,4 +1,6 @@
-# Online Computer Store (Single Vendor)
+# Online Computer Store (Single Vendor) (Front-End)
+
+#### Node JS Server => [Link](https://github.com/Hamza91able/computer-store-server)
 
 ### Features
 -----------------------------------------
@@ -21,5 +23,3 @@
 * MongoDB
 * StripJS for Payments
 * MaterialUI for frontend framework
-
-#### Node JS Server => [Link](https://github.com/Hamza91able/computer-store-server)
