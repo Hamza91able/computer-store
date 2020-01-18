@@ -39,7 +39,7 @@ class BannerAds extends Component {
                     {banners.map((banner, i) => {
                         return (
                             <Carousel.Item>
-                                <Link to={`/${banner.link}`}>
+                                <Link target='_blank' to={`/${banner.link}`}>
                                     <img
                                         className="d-block w-100"
                                         src={banner.src}
