@@ -62,7 +62,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function VerticalTabs(props) {
     const classes = useStyles();
-    const [value, setValue] = React.useState(5);
+    const [value, setValue] = React.useState(8);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

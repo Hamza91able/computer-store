@@ -5,6 +5,8 @@ import axios from 'axios';
 import swal from 'sweetalert2';
 
 import connectionString from '../../../Static/Utilities/connectionString';
+import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
 
 class ChangeBanners extends Component {
@@ -172,6 +174,7 @@ class ChangeBanners extends Component {
                                     <Grid container>
                                         <Grid item md={12}>
                                             <img src={banner.src} />
+                                            <p>Link: <Link target='_blank' to={`/${banner.link}`}>{banner.link}</Link></p>
                                             <div style={{ height: 20 }} />
                                         </Grid>
                                         <Grid item md={6}>
@@ -181,6 +184,56 @@ class ChangeBanners extends Component {
                                                 display: 'inline-flex',
                                                 width: '100%',
                                             }}>
+                                                <Button
+                                                    variant="contained"
+                                                    style={{
+                                                        backgroundColor: '#f0c14b',
+                                                        color: '#111',
+                                                        fontWeight: 'normal',
+                                                        bomdhadow: 'none',
+                                                        border: '1px solid black',
+                                                        borderColor: "#a88734 #9c7e31 #846a29",
+                                                        marginRight: 5
+                                                    }}
+                                                    onClick={() => {
+                                                        Swal.fire({
+                                                            title: 'Enter Link',
+                                                            input: 'text',
+                                                            inputAttributes: {
+                                                                autocapitalize: 'off'
+                                                            },
+                                                            showCancelButton: true,
+                                                            confirmButtonText: 'Add',
+                                                            showLoaderOnConfirm: true,
+                                                            preConfirm: (link) => {
+                                                                return axios({
+                                                                    url: `${connectionString}/admin/change-banner-link`,
+                                                                    method: 'POST',
+                                                                    data: {
+                                                                        link,
+                                                                        bannerId: banner._id
+                                                                    },
+                                                                    headers: {
+                                                                        Authorization: 'bearer ' + this.props.token
+                                                                    }
+                                                                })
+                                                            },
+                                                            allowOutsideClick: () => !Swal.isLoading()
+                                                        }).then((result) => {
+                                                            Swal.fire({
+                                                                icon: 'success',
+                                                                title: 'Link Saved in Banner',
+                                                            }).then(() => this.getBanners())
+                                                        }).catch(err => {
+                                                            Swal.fire({
+                                                                icon: 'error',
+                                                                title: 'Internal Server Error'
+                                                            })
+                                                        })
+                                                    }}
+                                                >
+                                                    Add Link
+                                                </Button>
                                                 <Button
                                                     variant="contained"
                                                     style={{

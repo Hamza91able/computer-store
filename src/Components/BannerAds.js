@@ -3,13 +3,7 @@ import { Carousel } from 'react-bootstrap';
 import axios from 'axios';
 
 import connectionString from '../Static/Utilities/connectionString';
-
-// Banners
-import BannerAd1 from '../Assets/images/banner1.jpg'
-import BannerAd2 from '../Assets/images/banner2.jpg'
-import BannerAd3 from '../Assets/images/banner3.jpg'
-import BannerAd4 from '../Assets/images/banner4.jpg'
-import BannerAd5 from '../Assets/images/banner5.jpg'
+import { Link } from 'react-router-dom';
 
 
 class BannerAds extends Component {
@@ -45,11 +39,13 @@ class BannerAds extends Component {
                     {banners.map((banner, i) => {
                         return (
                             <Carousel.Item>
-                                <img
-                                    className="d-block w-100"
-                                    src={banner.src}
-                                    alt="First slide"
-                                />
+                                <Link to={`/${banner.link}`}>
+                                    <img
+                                        className="d-block w-100"
+                                        src={banner.src}
+                                        alt="First slide"
+                                    />
+                                </Link>
                             </Carousel.Item>
                         )
                     })}
