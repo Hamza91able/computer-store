@@ -172,6 +172,7 @@ class ReviewItem extends Component {
                                                             name="hover-side"
                                                             value={value.productId.averageRating}
                                                             size="small"
+                                                            readOnly={true}
                                                         />
                                                         <Box style={{ marginTop: -10, fontSize: 13, marginLeft: 7 }}>{value.productId.reviews ? value.productId.reviews.length : "(0)"}</Box>
                                                     </div>

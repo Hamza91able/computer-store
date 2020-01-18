@@ -243,11 +243,11 @@ export default function FullScreenDialog(props) {
                                                 <div className={classes.rating1}>
                                                     <Rating
                                                         name="hover-side"
-                                                        value={value.product.ratings}
-                                                        size='small'
-                                                        readOnly
+                                                        value={value.product.averageRating}
+                                                        size="small"
+                                                        readOnly={true}
                                                     />
-                                                    <Box style={{ marginTop: -7, fontSize: 13 }} ml={1}><Link to={`/product-details/${value.product._id}`}>{value.product.ratings ? value.product.ratings : 0}</Link></Box>
+                                                    <Box style={{ marginTop: -10, fontSize: 13, marginLeft: 7 }}>{value.product.reviews ? value.product.reviews.length : "(0)"}</Box>
                                                 </div>
                                                 <Typography style={{ fontSize: 13 }} className={classes.title} color="textSecondary" gutterBottom>
                                                     Sold and Shipped by: <strong>{value.product.soldAndShippedBy}</strong>
@@ -260,8 +260,14 @@ export default function FullScreenDialog(props) {
                                                 </Grid>
                                             </Grid>
                                             <Grid item md={3} md={1}>
-                                                <Typography variant='caption' style={{ fontSize: 16, fontWeight: 'bold', color: '#B12704', float: 'right' }}>
+                                                {/* <Typography variant='caption' style={{ fontSize: 16, fontWeight: 'bold', color: '#B12704', float: 'right' }}>
                                                     {formatter.format(value.product.price)}
+                                                </Typography> */}
+                                                {value.product.onSale && <Typography style={{ fontSize: 14, fontWeight: 'bold', color: '#cc1c39', float: 'right' }}>
+                                                    {formatter.format(value.product.priceAfterDiscount)}
+                                                </Typography>}
+                                                <Typography variant='caption' style={{ fontSize: 14, fontWeight: 'bold', float: 'right' }}>
+                                                    {value.product.onSale ? <del>{formatter.format(value.product.price)}</del> : formatter.format(value.product.price)}
                                                 </Typography>
                                             </Grid>
                                         </Grid>
