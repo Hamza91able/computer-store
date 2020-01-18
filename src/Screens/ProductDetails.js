@@ -257,11 +257,14 @@ class ProductDetails extends Component {
                                             {product.onSale ? <del>{formatter.format(product.price)}</del> : formatter.format(product.price)}
                                         </Typography>
                                         <Typography style={{ padding: 10, color: '#cc1c39' }}>
-                                            Sale Ends In: {product.onSale
-                                                ?
-                                                <CountDownTimer
-                                                    timeTillDate={moment(product.saleEndDate).format('MM DD YYYY, h:mm a')}
-                                                    timeFormat="MM DD YYYY, h:mm a" />
+                                            Sale Ends In: {product.onSale ?
+                                                moment(product.saleEndDate).toISOString() > new Date().toISOString()
+                                                    ?
+                                                    <CountDownTimer
+                                                        timeTillDate={moment(product.saleEndDate).format('MM DD YYYY, h:mm a')}
+                                                        timeFormat="MM DD YYYY, h:mm a" />
+                                                    :
+                                                    "00:00:00"
                                                 :
                                                 "Currently Not on Sale"}
                                         </Typography>
