@@ -245,7 +245,7 @@ class App extends React.Component {
           <Route path='/*' render={props => (<h1>not found</h1>)} />
         </Switch>
         <div style={{ height: 100 }}></div>
-        <Footer />
+        <Footer isAuth={isAuth} appBarCategories={appBarCategories} />
       </React.Fragment>
     )
   }

@@ -8,9 +8,9 @@ const styles = theme => ({
         flexGrow: 1,
     },
     appbar: {
-        height: 750,
+        height: 'auto',
         [theme.breakpoints.up('md')]: {
-            height: 250
+            height: 'auto'
         },
     },
     developBy: {
@@ -23,13 +23,18 @@ const styles = theme => ({
         [theme.breakpoints.up('md')]: {
             height: 70
         },
+    },
+    liStyle: {
+        '&:hover': {
+            color: 'rgb(255, 163, 58)'
+        }
     }
 });
 
 class Footer extends React.Component {
 
     render() {
-        const { classes } = this.props;
+        const { classes, appBarCategories } = this.props;
 
         return (
             <React.Fragment>
@@ -50,21 +55,13 @@ class Footer extends React.Component {
                                         PRODUCTS
                                     </Typography>
                                     <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
-                                        <Link style={{ textDecoration: 'none', color: 'white' }}>
-                                            <li style={{ padding: 3 }}>Laptop</li>
-                                        </Link>
-                                        <Link style={{ textDecoration: 'none', color: 'white' }}>
-                                            <li style={{ padding: 3 }}>Tablets</li>
-                                        </Link>
-                                        <Link style={{ textDecoration: 'none', color: 'white' }}>
-                                            <li style={{ padding: 3 }}>Printers</li>
-                                        </Link>
-                                        <Link style={{ textDecoration: 'none', color: 'white' }}>
-                                            <li style={{ padding: 3 }}>Hard Drives</li>
-                                        </Link>
-                                        <Link style={{ textDecoration: 'none', color: 'white' }}>
-                                            <li style={{ padding: 3 }}>Network Products</li>
-                                        </Link>
+                                        {appBarCategories.map((category, ind) => {
+                                            return (
+                                                <Link key={ind} to={`/c/${category.name}`} style={{ textDecoration: 'none', color: 'white' }}>
+                                                    <li className={classes.liStyle} style={{ padding: 3 }}>{category.name}</li>
+                                                </Link>
+                                            )
+                                        })}
                                     </ul>
                                 </Grid>
                                 <Grid item xs={12} md={3} xl={3}>
@@ -72,18 +69,18 @@ class Footer extends React.Component {
                                         ACCOUNT
                                     </Typography>
                                     <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
-                                        <Link style={{ textDecoration: 'none', color: 'white' }}>
-                                            <li style={{ padding: 3 }}>Sign Ip</li>
+                                        {!this.props.isAuth && <Link to='/register' style={{ textDecoration: 'none', color: 'white' }}>
+                                            <li className={classes.liStyle} style={{ padding: 3 }}>Sign Up</li>
+                                        </Link>}
+                                        {this.props.isAuth && <Link to='/account' style={{ textDecoration: 'none', color: 'white' }}>
+                                            <li className={classes.liStyle} style={{ padding: 3 }}>My Account</li>
+                                        </Link>}
+                                        <Link to='/cart' style={{ textDecoration: 'none', color: 'white' }}>
+                                            <li className={classes.liStyle} style={{ padding: 3 }}>Shopping Cart</li>
                                         </Link>
-                                        <Link style={{ textDecoration: 'none', color: 'white' }}>
-                                            <li style={{ padding: 3 }}>My Account</li>
-                                        </Link>
-                                        <Link style={{ textDecoration: 'none', color: 'white' }}>
-                                            <li style={{ padding: 3 }}>Shopping Cart</li>
-                                        </Link>
-                                        <Link style={{ textDecoration: 'none', color: 'white' }}>
-                                            <li style={{ padding: 3 }}>Order History</li>
-                                        </Link>
+                                        {this.props.isAuth && <Link to='/account/order-history' style={{ textDecoration: 'none', color: 'white' }}>
+                                            <li className={classes.liStyle} style={{ padding: 3 }}>Order History</li>
+                                        </Link>}
                                     </ul>
                                 </Grid>
                                 <Grid item xs={12} md={3} xl={3}>
@@ -92,10 +89,10 @@ class Footer extends React.Component {
                                     </Typography>
                                     <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
                                         <Link style={{ textDecoration: 'none', color: 'white' }}>
-                                            <li style={{ padding: 3 }}>Contact Form</li>
+                                            <li className={classes.liStyle} style={{ padding: 3 }}>Contact Form</li>
                                         </Link>
                                         <Link style={{ textDecoration: 'none', color: 'white' }}>
-                                            <li style={{ padding: 3 }}>+92 300 23** ***</li>
+                                            <li className={classes.liStyle} style={{ padding: 3 }}>+92 300 23** ***</li>
                                         </Link>
                                     </ul>
                                 </Grid>
