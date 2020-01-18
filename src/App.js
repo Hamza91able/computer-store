@@ -7,6 +7,7 @@ import {
   withRouter
 } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { CircleArrow as ScrollUpButton } from "react-scroll-up-button";
 
 import axios from 'axios';
 import swal from 'sweetalert2';
@@ -223,6 +224,12 @@ class App extends React.Component {
 
     return (
       <React.Fragment>
+        <ScrollUpButton
+          ShowAtPosition={150}
+          EasingType='easeOutCubic'
+          AnimationDuration={500}
+          style={{ zIndex: 9999 }}
+        />
         <Appbar isAuth={isAuth} categories={categories} appBarCategories={appBarCategories} user={this.state.user} logoutHandler={this.logoutHandler} />
         <div className={classes.placeHodlerDiv} />
         <Switch>
