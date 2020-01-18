@@ -34,6 +34,7 @@ import PaymentPage from './Screens/PaymentPage';
 import PaymentMethod from './Screens/PaymentMethod';
 import PlaceOrder from './Screens/PlaceOrder';
 import PaymentCompletionPage from './Screens/PaymentCompletionPage';
+import ErrorFourZeroFour from './Screens/ErrorFourZeroFour';
 
 const styles = theme => ({
   placeHodlerDiv: {
@@ -249,7 +250,8 @@ class App extends React.Component {
           <Route path='/buy/payselect' exact render={props => (<PaymentMethod {...props} isAuth={isAuth} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/buy/placeorder/:n/:c/:m/:y' exact render={props => (<PlaceOrder {...props} isAuth={isAuth} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/buy/complete/:id' exact render={props => (<PaymentCompletionPage {...props} userId={this.state.userId} token={this.state.token} />)} />
-          <Route path='/*' render={props => (<h1>not found</h1>)} />
+          <Route path='/404' render={props => (<ErrorFourZeroFour />)} />
+          <Route path='/*' render={props => (<ErrorFourZeroFour />)} />
         </Switch>
         <div style={{ height: 100 }}></div>
         <Footer isAuth={isAuth} appBarCategories={appBarCategories} />
