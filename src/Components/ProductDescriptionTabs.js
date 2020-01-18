@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -15,6 +14,7 @@ import '../Static/CSS/ProductDescriptionTabs.css';
 import ProductOverview from './ProductOverview';
 import ProductSpecifications from './ProductSpecifications';
 import ProductReviews from './ProductReviews';
+import ProductReviewModal from './ProductReviewModal';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -45,55 +45,60 @@ function a11yProps(index) {
         'aria-controls': `full-width-tabpanel-${index}`,
     };
 }
+export default class FullWidthTabs extends React.Component {
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        backgroundColor: theme.palette.background.paper,
-    },
-}));
+    state = {
+        value: 0,
+        product: null
+    }
 
-export default function FullWidthTabs(props) {
-    const classes = useStyles();
-    const theme = useTheme();
-    const [value, setValue] = React.useState(0);
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
+    handleChange = (event, newValue) => {
+        this.setState({
+            value: newValue,
+        })
     };
 
-    const handleChangeIndex = index => {
-        setValue(index);
-    };
+    componentDidMount() {
+        if (this.props.currentProduct) {
+            this.setState({
+                product: this.props.currentProduct
+            })
+        }
+    }
 
-    return (
-        <div className={classes.root}>
-            <AppBar position="static" color="default">
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    aria-label="simple tabs example"
-                    variant="fullWidth"
-                >
-                    <Tab label="Overview" {...a11yProps(0)} />
-                    <Tab label="Specifications" {...a11yProps(1)} />
-                    <Tab label="Reviews" {...a11yProps(2)} />
-                </Tabs>
-            </AppBar>
-            <SwipeableViews
-                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                index={value}
-                onChangeIndex={handleChangeIndex}
-            >
-                <TabPanel value={value} index={0} dir={theme.direction}>
-                    <ProductOverview overview={props.overview} />
-                </TabPanel>
-                <TabPanel value={value} index={1} dir={theme.direction}>
-                    <ProductSpecifications specifications={props.specifications} />
-                </TabPanel>
-                <TabPanel value={value} index={2} dir={theme.direction}>
-                    <ProductReviews />
-                </TabPanel>
-            </SwipeableViews>
-        </div>
-    );
+    render() {
+        const { value } = this.state;
+
+        return (
+            <React.Fragment>
+                <div>
+                    <AppBar position="static" color="default">
+                        <Tabs
+                            value={value}
+                            onChange={this.handleChange}
+                            aria-label="simple tabs example"
+                            variant="fullWidth"
+                        >
+                            <Tab label="Overview" {...a11yProps(0)} />
+                            <Tab label="Specifications" {...a11yProps(1)} />
+                            <Tab label="Reviews" {...a11yProps(2)} />
+                        </Tabs>
+                    </AppBar>
+                    <TabPanel value={value} index={0}>
+                        <ProductOverview overview={this.props.overview} />
+                    </TabPanel>
+                    <TabPanel value={value} index={1}>
+                        <ProductSpecifications specifications={this.props.specifications} />
+                    </TabPanel>
+                    <TabPanel value={value} index={2}>
+                        <div style={{ float: 'right' }}>
+                            <ProductReviewModal userId={this.props.userId} token={this.props.token} currentProduct={this.props.product} />
+                        </div>
+                        <ProductReviews currentProduct={this.props.product} />
+                    </TabPanel>
+                </div>
+            </React.Fragment>
+        );
+    }
+
 }

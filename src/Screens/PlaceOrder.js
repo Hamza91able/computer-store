@@ -395,11 +395,10 @@ class PlaceOrder extends Component {
                                             <div className={classes.rating1}>
                                                 <Rating
                                                     name="hover-side"
-                                                    value={value.productId.ratings}
-                                                    size='small'
-                                                    readOnly
+                                                    value={value.productId.averageRating}
+                                                    size="small"
                                                 />
-                                                <Box style={{ marginTop: -7, fontSize: 13 }} ml={1}><Link to={`/product-details/${value.productId._id}`}>{value.productId.ratings ? value.productId.ratings : 0}</Link></Box>
+                                                <Box style={{ marginTop: -10, fontSize: 13, marginLeft: 7 }}>{value.productId.reviews ? value.productId.reviews.length : "(0)"}</Box>
                                             </div>
                                             <Typography style={{ fontSize: 13 }} className={classes.title} color="textSecondary" gutterBottom>
                                                 Sold and Shipped by: <strong>{value.productId.soldAndShippedBy}</strong>

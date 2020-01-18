@@ -309,13 +309,12 @@ class CategoriePage extends Component {
                                                     </Typography>
                                                 </Link>
                                                 <div className={classes.rating1}>
-                                                    <Rating
+                                                <Rating
                                                         name="hover-side"
-                                                        value={product.ratings}
-                                                        size='small'
-                                                        readOnly={true}
+                                                        value={product.averageRating}
+                                                        size="small"
                                                     />
-                                                    <Box style={{ fontSize: 13 }} ml={1}><Link to={`/product-details/${product._id}`}>{products.ratings ? products.ratings : 0}</Link></Box>
+                                                    <Box style={{ marginTop: -10, fontSize: 13, marginLeft: 7 }}>{product.reviews ? product.reviews.length : "(0)"}</Box>
                                                 </div>
                                                 {product.onSale && <Typography style={{ fontSize: 14, fontWeight: 'bold', color: '#cc1c39' }}>
                                                     Discounted Price {formatter.format(product.priceAfterDiscount)}

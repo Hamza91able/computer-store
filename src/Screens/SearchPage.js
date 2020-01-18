@@ -117,10 +117,10 @@ class SearchPage extends Component {
                                         <div className={classes.rating1}>
                                             <Rating
                                                 name="hover-side"
-                                                value={product.rating}
-                                                size='small'
+                                                value={product.averageRating}
+                                                size="small"
                                             />
-                                            <Box style={{ marginTop: -7, fontSize: 13 }} ml={1}><Link to={`/product-details/${product._id}`}>{product.rating ? product.rating.length : "0"}</Link></Box>
+                                            <Box style={{ marginTop: -10, fontSize: 13, marginLeft: 7 }}>{product.reviews ? product.reviews.length : "(0)"}</Box>
                                         </div>
                                         <Link>
                                             <Typography variant='caption' style={{ fontSize: 14, fontWeight: 'bold' }}>
