@@ -8,6 +8,7 @@ import connectionString from '../../../Static/Utilities/connectionString';
 
 // Components
 import CategoriesTable from '../Components/Table';
+import Swal from 'sweetalert2';
 
 class AddFeaturedProducts extends Component {
 
@@ -61,6 +62,27 @@ class AddFeaturedProducts extends Component {
             })
     }
 
+    deleteProduct = prodId => {
+        console.log(prodId, this.props.token);
+        axios({
+            url: `${connectionString}/admin/delete-product/${prodId}`,
+            method: 'GET',
+            headers: {
+                Authorization: 'bearer ' + this.props.token,
+            },
+        }).then(res => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Product Deleted',
+            }, () => this.getProducts());
+        }).catch(err => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Internal Server Error',
+            });
+        });
+    }
+
     render() {
         const { categoriesDropDown, products } = this.state;
 
@@ -110,7 +132,9 @@ class AddFeaturedProducts extends Component {
                                                         bomdhadow: 'none',
                                                         border: '1px solid black',
                                                         borderColor: "#a88734 #9c7e31 #846a29",
-                                                    }}>
+                                                    }}
+                                                        onClick={() => this.deleteProduct(product._id)}
+                                                    >
                                                         Delete Product
                                                     </Button>
                                                     <Button style={{

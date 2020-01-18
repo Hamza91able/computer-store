@@ -15,10 +15,12 @@ import {
     Select,
     MenuItem,
     FormControl,
-    InputLabel
+    InputLabel,
+    IconButton
 } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import { Link } from 'react-router-dom';
+import DeleteIcon from '@material-ui/icons/DeleteOutline';
 import axios from 'axios';
 
 import connectionString from '../Static/Utilities/connectionString';
@@ -67,6 +69,7 @@ class Cart extends Component {
     state = {
         products: [],
         subTotal: 0,
+        deletedItem: false,
     }
 
     componentDidMount() {
@@ -93,10 +96,16 @@ class Cart extends Component {
             }, () => {
                 let subtotal = 0;
                 this.state.products.forEach(product => {
-                    if (product.productId.onSale) {
-                        subtotal = subtotal + (product.productId.priceAfterDiscount * product.quantity)
+                    if (Boolean(product.productId)) {
+                        if (product.productId.onSale) {
+                            subtotal = subtotal + (product.productId.priceAfterDiscount * product.quantity)
+                        } else {
+                            subtotal = subtotal + (product.productId.price * product.quantity)
+                        }
                     } else {
-                        subtotal = subtotal + (product.productId.price * product.quantity)
+                        this.setState({
+                            deletedItem: true
+                        })
                     }
                 })
                 this.setState({
@@ -109,6 +118,7 @@ class Cart extends Component {
     }
 
     deleteFromCart = prodId => {
+        console.log(prodId);
 
         axios({
             url: `${connectionString}/products/post-delete-from-cart`,
@@ -127,6 +137,26 @@ class Cart extends Component {
         })
     }
 
+    deleteDeletedItemFromCart = prodId => {
+        console.log(prodId);
+
+        axios({
+            url: `${connectionString}/products/delete-deleted-item-from-cart`,
+            method: 'POST',
+            data: {
+                itemId: prodId,
+            },
+            headers: {
+                Authorization: 'bearer ' + this.props.token,
+            }
+        }).then(res => {
+            console.log(res.data)
+            window.location.reload();
+        }).catch(err => {
+            console.log(err.response.statusText);
+        })
+    }
+
     render() {
         const { classes } = this.props;
         const { products, subTotal } = this.state;
@@ -140,68 +170,85 @@ class Cart extends Component {
                             <p style={{ float: 'right', fontSize: 13 }} className={classes.pricePara}>Price</p>
                             <Divider style={{ marginTop: 20, marginBottom: 20 }} />
                             {products.length > 0 ? products.map((value, index) => {
-                                return (
-                                    <React.Fragment>
-                                        <Grid container spacing={2}>
-                                            <Grid item xs={12} md={4}>
-                                                <div style={{
-                                                    justifyContent: 'center',
-                                                    alignItems: 'center,',
-                                                    display: 'inline-flex',
-                                                    width: '100%',
-                                                }}>
-                                                    {value.productId.pictures && <Link to={`/product-details/${value.productId._id}`}>
-                                                        <img style={{ height: 218, width: 242 }} src={value.productId.pictures[0]} />
-                                                    </Link>}
-                                                </div>
-                                            </Grid>
-                                            <Grid item xs={9} md={6}>
-                                                <Link className={classes.link} to={`/product-details/${value.productId._id}`}>
-                                                    <Typography style={{ fontWeight: 'bold' }} className={classes.title} gutterBottom>
-                                                        {value.productId.title}
+                                console.log(value);
+                                if (Boolean(value.productId)) {
+                                    return (
+                                        <React.Fragment>
+                                            <Grid container spacing={2}>
+                                                <Grid item xs={12} md={4}>
+                                                    <div style={{
+                                                        justifyContent: 'center',
+                                                        alignItems: 'center,',
+                                                        display: 'inline-flex',
+                                                        width: '100%',
+                                                    }}>
+                                                        {value.productId.pictures && <Link to={`/product-details/${value.productId._id}`}>
+                                                            <img style={{ height: 218, width: 242 }} src={value.productId.pictures[0]} />
+                                                        </Link>}
+                                                    </div>
+                                                </Grid>
+                                                <Grid item xs={9} md={6}>
+                                                    <Link className={classes.link} to={`/product-details/${value.productId._id}`}>
+                                                        <Typography style={{ fontWeight: 'bold' }} className={classes.title} gutterBottom>
+                                                            {value.productId.title}
+                                                        </Typography>
+                                                    </Link>
+                                                    <div className={classes.rating1}>
+                                                        <Rating
+                                                            name="hover-side"
+                                                            value={value.productId.averageRating}
+                                                            size="small"
+                                                        />
+                                                        <Box style={{ marginTop: -10, fontSize: 13, marginLeft: 7 }}>{value.productId.reviews ? value.productId.reviews.length : "(0)"}</Box>
+                                                    </div>
+                                                    <Typography style={{ fontSize: 13 }} className={classes.title} color="textSecondary" gutterBottom>
+                                                        Sold and Shipped by: <strong>{value.productId.soldAndShippedBy}</strong>
                                                     </Typography>
-                                                </Link>
-                                                <div className={classes.rating1}>
-                                                    <Rating
-                                                        name="hover-side"
-                                                        value={value.productId.averageRating}
-                                                        size="small"
-                                                    />
-                                                    <Box style={{ marginTop: -10, fontSize: 13, marginLeft: 7 }}>{value.productId.reviews ? value.productId.reviews.length : "(0)"}</Box>
-                                                </div>
-                                                <Typography style={{ fontSize: 13 }} className={classes.title} color="textSecondary" gutterBottom>
-                                                    Sold and Shipped by: <strong>{value.productId.soldAndShippedBy}</strong>
-                                                </Typography>
-                                                <br />
-                                                <Grid container>
-                                                    <QuantitySelect value={value.quantity} />
-                                                    <Button style={{ height: 36, width: 100, marginTop: 8 }} onClick={() => this.deleteFromCart(value.productId._id)} variant='outlined'>Delete</Button>
+                                                    <br />
+                                                    <Grid container>
+                                                        <QuantitySelect value={value.quantity} />
+                                                        <Button style={{ height: 36, width: 100, marginTop: 8 }} onClick={() => this.deleteFromCart(value.productId._id)} variant='outlined'>Delete</Button>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid item xs={3} md={2}>
+                                                    {/* <Typography variant='caption' style={{ fontSize: 16, fontWeight: 'bold', color: '#B12704', float: 'right' }}>
+                                                        {formatter.format(value.productId.price)}
+                                                    </Typography> */}
+                                                    {value.productId.onSale && <Typography style={{ fontSize: 14, fontWeight: 'bold', color: '#cc1c39', float: 'right' }}>
+                                                        Discounted Price {formatter.format(value.productId.priceAfterDiscount)}
+                                                    </Typography>}
+                                                    <Typography variant='caption' style={{ fontSize: 14, fontWeight: 'bold' }}>
+                                                        {value.productId.onSale ? <del>{formatter.format(value.productId.price)}</del> : formatter.format(value.productId.price)}
+                                                    </Typography>
                                                 </Grid>
                                             </Grid>
-                                            <Grid item xs={3} md={2}>
-                                                {/* <Typography variant='caption' style={{ fontSize: 16, fontWeight: 'bold', color: '#B12704', float: 'right' }}>
-                                                    {formatter.format(value.productId.price)}
-                                                </Typography> */}
-                                                {value.productId.onSale && <Typography style={{ fontSize: 14, fontWeight: 'bold', color: '#cc1c39', float: 'right' }}>
-                                                    Discounted Price {formatter.format(value.productId.priceAfterDiscount)}
-                                                </Typography>}
-                                                <Typography variant='caption' style={{ fontSize: 14, fontWeight: 'bold' }}>
-                                                    {value.productId.onSale ? <del>{formatter.format(value.productId.price)}</del> : formatter.format(value.productId.price)}
-                                                </Typography>
-                                            </Grid>
-                                        </Grid>
-                                        <Divider style={{ marginTop: 20, marginBottom: 20 }} />
-                                    </React.Fragment>
-                                )
+                                            <Divider style={{ marginTop: 20, marginBottom: 20 }} />
+                                        </React.Fragment>
+                                    )
+                                } else {
+                                    return (
+                                        <Paper style={{ backgroundColor: "#f4f4f4", boxShadow: 'none' }} className={classes.paper}>
+                                            <Paper style={{ boxShadow: 'none', padding: 20 }}>
+                                                <div>
+                                                    An item in your cart has been deleted from the store.
+                                                    <IconButton style={{ float: 'right', marginTop: -15 }} onClick={() => this.deleteDeletedItemFromCart(value._id)} >
+                                                        <DeleteIcon style={{ color: 'red' }} />
+                                                    </IconButton>
+                                                </div>
+                                            </Paper>
+                                            <Divider />
+                                        </Paper>
+                                    )
+                                }
                             }) : <h1>No Items in cart</h1>}
                             <Divider style={{ marginTop: 10, marginBottom: 20 }} />
                             <Typography style={{ float: 'right' }}>
                                 Subtotal({products.length} items): <strong style={{ color: '#B12704' }}>{formatter.format(subTotal)}</strong>
                             </Typography>
                         </Grid>
-                        <Grid item md={3} style={{ width: '100%' }}>
+                        {!this.state.deletedItem ? <Grid item md={3} style={{ width: '100%' }}>
                             {products.length > 0 && < TotalCartCard noOfItems={products.length} price={subTotal} />}
-                        </Grid>
+                        </Grid> : <h1>PLEASE REMOVE DELETED ITEMS FROM CART</h1>}
                     </Grid>
                 </Container> : <Container maxWidth='lg' style={{ marginTop: 30 }}><h1>Please login first.</h1></Container>}
             </div >

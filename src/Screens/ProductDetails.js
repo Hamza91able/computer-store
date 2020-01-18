@@ -256,18 +256,16 @@ class ProductDetails extends Component {
                                         <Typography style={{ fontWeight: 'bold', padding: 10, }} variant="h5" component="h2">
                                             {product.onSale ? <del>{formatter.format(product.price)}</del> : formatter.format(product.price)}
                                         </Typography>
-                                        <Typography style={{ padding: 10, color: '#cc1c39' }}>
-                                            Sale Ends In: {product.onSale ?
+                                        {product.onSale && <Typography style={{ padding: 10, color: '#cc1c39' }}>
+                                            Sale Ends In: {product.onSale &&
                                                 moment(product.saleEndDate).toISOString() > new Date().toISOString()
-                                                    ?
-                                                    <CountDownTimer
-                                                        timeTillDate={moment(product.saleEndDate).format('MM DD YYYY, h:mm a')}
-                                                        timeFormat="MM DD YYYY, h:mm a" />
-                                                    :
-                                                    "00:00:00"
+                                                ?
+                                                <CountDownTimer
+                                                    timeTillDate={moment(product.saleEndDate).format('MM DD YYYY, h:mm a')}
+                                                    timeFormat="MM DD YYYY, h:mm a" />
                                                 :
-                                                "Currently Not on Sale"}
-                                        </Typography>
+                                                "00:00:00"}
+                                        </Typography>}
                                         <Divider style={{ marginTop: 10 }} />
                                         <Typography style={{ fontSize: 12, marginTop: 10 }} className={classes.pos} color="textSecondary">
                                             <LocalShippingIcon style={{ width: 22, height: 20, marginRight: 5 }} /> Shipping & Delievery
