@@ -61,7 +61,7 @@ class ChangeBanners extends Component {
             swal.fire({
                 icon: 'success',
                 title: 'Pictures Uploaded',
-            }).then(() => this.getBanners())
+            }).then(() => window.location.reload())
         }).catch(err => {
             console.log(err);
             this.setState({

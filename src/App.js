@@ -92,6 +92,7 @@ class App extends React.Component {
         })
       }).catch(err => {
         console.log(err);
+        this.logoutHandler();
       })
     }
   }
@@ -234,13 +235,14 @@ class App extends React.Component {
           <Route path='/cart' exact render={props => (<Cart {...props} isAuth={isAuth} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/buy/addressselect' exact render={props => (<Checkout {...props} isAuth={isAuth} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/account' exact render={props => (<UserAccount {...props} isAuth={isAuth} userId={this.state.userId} token={this.state.token} />)} />
-          <Route path='/admin' exact render={props => (<Admin {...props} user={user} userId={this.state.userId} token={this.state.token} />)} />
+          <Route path='/account/:option' exact render={props => (<UserAccount {...props} isAuth={isAuth} userId={this.state.userId} token={this.state.token} />)} />
+          <Route path='/admin/:tab' exact render={props => (<Admin {...props} user={user} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/review-items' exact render={props => (<ReviewItems {...props} isAuth={isAuth} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/pay' exact render={props => (<PaymentPage {...props} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/buy/payselect' exact render={props => (<PaymentMethod {...props} isAuth={isAuth} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/buy/placeorder/:n/:c/:m/:y' exact render={props => (<PlaceOrder {...props} isAuth={isAuth} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/buy/complete/:id' exact render={props => (<PaymentCompletionPage {...props} userId={this.state.userId} token={this.state.token} />)} />
-          <Route path='/*' render={props => (<h1>not found</h1>)}/>
+          <Route path='/*' render={props => (<h1>not found</h1>)} />
         </Switch>
         <div style={{ height: 100 }}></div>
         <Footer />

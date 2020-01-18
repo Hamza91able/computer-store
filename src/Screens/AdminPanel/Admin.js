@@ -24,7 +24,7 @@ class Admin extends Component {
                         </Typography>
                         </Container>
                         <div style={{ height: 20 }} />
-                        <Tabs token={this.props.token} userId={this.props.userId} />
+                        <Tabs {...this.props} token={this.props.token} userId={this.props.userId} />
                     </div>
                     :
                     <Container maxWidth='lg' style={{ marginTop: 20 }}>

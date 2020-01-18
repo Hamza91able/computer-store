@@ -250,7 +250,7 @@ class MenuDrawer extends React.Component {
                                 <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Your Account</Typography>} />
                             </ListItem>}
                         </Link>
-                        <Link style={{ textDecoration: 'none', color: 'black' }} to='/admin'>
+                        <Link style={{ textDecoration: 'none', color: 'black' }} to='/admin/add-products'>
                             {user && user.isAdmin && <ListItem button>
 
                                 <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Admin Panel</Typography>} />

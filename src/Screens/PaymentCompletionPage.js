@@ -153,7 +153,7 @@ class PaymentCompletionPage extends Component {
                                         borderColor: "#a88734 #9c7e31 #846a29",
                                         width: "50%",
                                         height: 40,
-                                    }} size="small" onClick={() => this.props.history.push('/account')} >
+                                    }} size="small" onClick={() => this.props.history.push('/account/order-history')} >
                                         <ShoppingCartIcon style={{ marginRight: 10 }} /> View Order History
                                     </Button>
                                     {!this.state.loader

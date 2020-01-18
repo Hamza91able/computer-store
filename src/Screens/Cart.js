@@ -200,7 +200,7 @@ class Cart extends Component {
                             </Typography>
                         </Grid>
                         <Grid item md={3} style={{ width: '100%' }}>
-                            <TotalCartCard noOfItems={products.length} price={subTotal} />
+                            {products.length > 0 && < TotalCartCard noOfItems={products.length} price={subTotal} />}
                         </Grid>
                     </Grid>
                 </Container> : <Container maxWidth='lg' style={{ marginTop: 30 }}><h1>Please login first.</h1></Container>}

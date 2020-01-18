@@ -32,8 +32,12 @@ class UserAccount extends Component {
 
     componentDidMount() {
         this.getUserInformation();
-        if (!this.props.isAuth) {
-            window.location.replace('/');
+
+        console.log(this.props.match.params);
+
+        if (this.props.match.params.option === "order-history") {
+            console.log('TEST');
+            this.handleSelectedLink("orderHistory")
         }
     }
 
@@ -185,7 +189,7 @@ class UserAccount extends Component {
         const { selectedLink } = this.state;
 
         return (
-            this.props.isAuth && <div>
+            this.props.isAuth ? <div>
                 <br />
                 <Container maxWidth='lg'>
                     <Typography variant='h5' style={{ padding: 20 }}>
@@ -204,12 +208,16 @@ class UserAccount extends Component {
                                     ?
                                     this.renderChangePassword()
                                     :
-                                    <OrderHistory token={this.props.token} userId={this.props.tokenId} />
+                                    selectedLink === 'orderHistory'
+                                        ?
+                                        <OrderHistory token={this.props.token} userId={this.props.tokenId} />
+                                        :
+                                        <h1>Invalid option</h1>
                             }
                         </Grid>
                     </Grid>
                 </Container>
-            </div>
+            </div> : <Container maxWidth='lg' style={{ marginTop: 20 }}><h1>Please Login First</h1></Container>
         );
     }
 }
