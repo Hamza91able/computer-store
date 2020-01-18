@@ -218,7 +218,7 @@ class App extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { appBarCategories, categories } = this.state;
+    const { appBarCategories, categories, user } = this.state;
 
     return (
       <React.Fragment>
@@ -234,7 +234,7 @@ class App extends React.Component {
           <Route path='/cart' exact render={props => (<Cart {...props} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/buy/addressselect' exact render={props => (<Checkout {...props} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/account' exact render={props => (<UserAccount {...props} userId={this.state.userId} token={this.state.token} />)} />
-          <Route path='/admin' exact render={props => (<Admin {...props} userId={this.state.userId} token={this.state.token} />)} />
+          <Route path='/admin' exact render={props => (<Admin {...props} user={user} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/review-items' exact render={props => (<ReviewItems {...props} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/pay' exact render={props => (<PaymentPage {...props} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/buy/payselect' exact render={props => (<PaymentMethod {...props} userId={this.state.userId} token={this.state.token} />)} />

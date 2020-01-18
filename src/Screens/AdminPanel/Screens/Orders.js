@@ -92,7 +92,7 @@ class PendingOrders extends Component {
     }
 
     componentDidMount() {
-        console.log("did mount")
+        console.log(this.props.token)
         this.getPendingOrders();
     }
 
@@ -102,6 +102,9 @@ class PendingOrders extends Component {
         axios({
             url: `${connectionString}/admin/get-pending-orders`,
             method: 'GET',
+            headers: {
+                Authorization: 'bearer ' + this.props.token,
+            }
         }).then(res => {
             this.setState({
                 orders: res.data.orders,
@@ -114,7 +117,10 @@ class PendingOrders extends Component {
     getOrder = orderId => {
         axios({
             url: `${connectionString}/admin/get-order/${orderId}`,
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                Authorization: 'bearer ' + this.props.token,
+            }
         }).then(res => {
             console.log(res.data);
             this.setState({
@@ -198,6 +204,9 @@ class CompletedOrders extends Component {
         axios({
             url: `${connectionString}/admin/get-completed-orders`,
             method: 'GET',
+            headers: {
+                Authorization: 'bearer ' + this.props.token,
+            }
         }).then(res => {
             // console.log(res.data.orders);
             this.setState({
@@ -211,7 +220,10 @@ class CompletedOrders extends Component {
     getOrder = orderId => {
         axios({
             url: `${connectionString}/admin/get-order/${orderId}`,
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                Authorization: 'bearer ' + this.props.token,
+            }
         }).then(res => {
             console.log(res.data);
             this.setState({

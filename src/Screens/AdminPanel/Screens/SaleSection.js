@@ -70,8 +70,8 @@ class SaleSection extends Component {
             url: `${connectionString}/admin/end-sale/${prodId}`,
             method: 'GET',
             headers: {
-                Authorization: this.props.token
-            }
+                Authorization: 'bearer ' + this.props.token,
+            },
         })
             .then(res => {
                 Swal.fire({

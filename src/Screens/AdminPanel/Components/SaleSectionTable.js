@@ -73,7 +73,7 @@ export default function SimpleTable(props) {
                 saleEndDate: date,
             },
             headers: {
-                Authorization: props.token,
+                Authorization: 'bearer ' + props.token,
             },
         }).then(res => {
             console.log(res.data);

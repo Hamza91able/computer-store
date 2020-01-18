@@ -245,18 +245,30 @@ class MenuDrawer extends React.Component {
                             </ListSubheader>
                         }
                     >
-                        <ListItem button>
-                            <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Your Account</Typography>} />
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Help</Typography>} />
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Sign In</Typography>} />
-                        </ListItem>
+                        <Link style={{ textDecoration: 'none', color: 'black' }} to='/account'>
+                            <ListItem button>
+                                <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Your Account</Typography>} />
+                            </ListItem>
+                        </Link>
+                        <Link style={{ textDecoration: 'none', color: 'black' }} to='/admin'>
+                            {user && user.isAdmin && <ListItem button>
+
+                                <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Admin Panel</Typography>} />
+                            </ListItem>}
+                        </Link>
+                        <Link style={{ textDecoration: 'none', color: 'black' }} to='/account'>
+                            <ListItem button>
+                                <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Help</Typography>} />
+                            </ListItem>
+                        </Link>
+                        <Link style={{ textDecoration: 'none', color: 'black' }} to='/account'>
+                            {!user && <ListItem button>
+                                <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Sign In</Typography>} />
+                            </ListItem>}
+                        </Link>
                     </List>
                 </div>
-            </div>
+            </div >
         )
     }
 
