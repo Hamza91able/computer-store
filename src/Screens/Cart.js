@@ -133,13 +133,13 @@ class Cart extends Component {
 
         return (
             <div>
-                <Container style={{ marginTop: 30 }}>
+                {this.props.isAuth ? <Container style={{ marginTop: 30 }}>
                     <Typography variant='h5' style={{ fontWeight: 'bold' }}>Shopping Cart</Typography>
                     <Grid container spacing={2}>
                         <Grid item md={9}>
                             <p style={{ float: 'right', fontSize: 13 }} className={classes.pricePara}>Price</p>
                             <Divider style={{ marginTop: 20, marginBottom: 20 }} />
-                            {products.map((value, index) => {
+                            {products.length > 0 ? products.map((value, index) => {
                                 return (
                                     <React.Fragment>
                                         <Grid container spacing={2}>
@@ -193,7 +193,7 @@ class Cart extends Component {
                                         <Divider style={{ marginTop: 20, marginBottom: 20 }} />
                                     </React.Fragment>
                                 )
-                            })}
+                            }) : <h1>No Items in cart</h1>}
                             <Divider style={{ marginTop: 10, marginBottom: 20 }} />
                             <Typography style={{ float: 'right' }}>
                                 Subtotal({products.length} items): <strong style={{ color: '#B12704' }}>{formatter.format(subTotal)}</strong>
@@ -203,7 +203,7 @@ class Cart extends Component {
                             <TotalCartCard noOfItems={products.length} price={subTotal} />
                         </Grid>
                     </Grid>
-                </Container>
+                </Container> : <Container maxWidth='lg' style={{ marginTop: 30 }}><h1>Please login first.</h1></Container>}
             </div >
         );
     }

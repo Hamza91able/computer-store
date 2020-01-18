@@ -123,7 +123,7 @@ class ReviewModal extends React.Component {
                             borderColor: "#a88734 #9c7e31 #846a29",
                             height: 55,
                         }}
-                        onClick={() => this.setState({ modalShow: true })}
+                        onClick={() => { if (this.props.isAuth) { this.setState({ modalShow: true }) } else Swal.fire({ icon: 'error', title: 'Please login first' }) }}
                     >
                         Edit Review
                     </Button>
@@ -139,7 +139,7 @@ class ReviewModal extends React.Component {
                             borderColor: "#a88734 #9c7e31 #846a29",
                             height: 55,
                         }}
-                        onClick={() => this.setState({ modalShow: true })}
+                        onClick={() => { if (this.props.isAuth) { this.setState({ modalShow: true }) } else Swal.fire({ icon: 'error', title: 'Please login first' }) }}
                     >
                         Leave a Review
                 </Button>}

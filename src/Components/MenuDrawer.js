@@ -246,9 +246,9 @@ class MenuDrawer extends React.Component {
                         }
                     >
                         <Link style={{ textDecoration: 'none', color: 'black' }} to='/account'>
-                            <ListItem button>
+                            {this.props.isAuth && <ListItem button>
                                 <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Your Account</Typography>} />
-                            </ListItem>
+                            </ListItem>}
                         </Link>
                         <Link style={{ textDecoration: 'none', color: 'black' }} to='/admin'>
                             {user && user.isAdmin && <ListItem button>
@@ -256,12 +256,12 @@ class MenuDrawer extends React.Component {
                                 <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Admin Panel</Typography>} />
                             </ListItem>}
                         </Link>
-                        <Link style={{ textDecoration: 'none', color: 'black' }} to='/account'>
+                        <Link style={{ textDecoration: 'none', color: 'black' }} to='/help'>
                             <ListItem button>
                                 <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Help</Typography>} />
                             </ListItem>
                         </Link>
-                        <Link style={{ textDecoration: 'none', color: 'black' }} to='/account'>
+                        <Link style={{ textDecoration: 'none', color: 'black' }} to={`/login`} >
                             {!user && <ListItem button>
                                 <ListItemText primary={<Typography variant='button' style={{ marginLeft: 20 }}>Sign In</Typography>} />
                             </ListItem>}

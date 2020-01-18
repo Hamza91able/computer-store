@@ -74,6 +74,9 @@ class ReviewItem extends Component {
     componentDidMount() {
         this.getCart();
         this.getUserDelieveryInformation();
+        if (!this.props.isAuth) {
+            window.location.replace('/');
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -131,7 +134,7 @@ class ReviewItem extends Component {
 
         return (
             <div>
-                <Container maxWidth='lg'>
+                {this.props.isAuth && <Container maxWidth='lg'>
                     <CheckoutStepper />
                     <Grid>
                         <Typography style={{ color: 'rgb(240, 193, 75)' }} variant='h4'>
@@ -213,7 +216,7 @@ class ReviewItem extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                </Container>
+                </Container>}
             </div >
         );
     }

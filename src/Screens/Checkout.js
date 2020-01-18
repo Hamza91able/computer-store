@@ -24,6 +24,9 @@ class Checkout extends Component {
 
     componentDidMount() {
         this.getUserInformation();
+        if (!this.props.isAuth) {
+            window.location.replace('/');
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -102,7 +105,7 @@ class Checkout extends Component {
     render() {
         return (
             <div>
-                <Container maxWidth='lg'>
+                {this.props.isAuth && <Container maxWidth='lg'>
                     <CheckoutStepper />
                     <Grid>
                         <Typography variant='h4'>
@@ -212,7 +215,7 @@ class Checkout extends Component {
                         </Grid>
                     </Grid>
 
-                </Container>
+                </Container>}
             </div >
         );
     }

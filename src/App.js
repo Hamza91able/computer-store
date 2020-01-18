@@ -96,7 +96,7 @@ class App extends React.Component {
     }
   }
 
-  loginHandler = authData => {
+  loginHandler = (authData, origin) => {
     const { email, password } = authData;
 
     axios({
@@ -218,28 +218,29 @@ class App extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { appBarCategories, categories, user } = this.state;
+    const { appBarCategories, categories, user, isAuth } = this.state;
 
     return (
       <React.Fragment>
-        <Appbar categories={categories} appBarCategories={appBarCategories} user={this.state.user} logoutHandler={this.logoutHandler} />
+        <Appbar isAuth={isAuth} categories={categories} appBarCategories={appBarCategories} user={this.state.user} logoutHandler={this.logoutHandler} />
         <div className={classes.placeHodlerDiv} />
         <Switch>
           <Route path='/' exact component={LandingPage} />
-          <Route path='/product-details/:id' exact render={props => (<ProductDetails {...props} userId={this.state.userId} token={this.state.token} />)} />
+          <Route path='/product-details/:id' exact render={props => (<ProductDetails {...props} isAuth={isAuth} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/register' exact render={props => (<Register {...props} onRegister={this.signupHandler} />)} />
           <Route path='/login' exact render={props => (<Login {...props} onLogin={this.loginHandler} />)} />
           <Route path='/s/:k' exact render={props => (<SearchPage {...props} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/c/:categoryName' exact render={props => (<CategoriePage {...props} userId={this.state.userId} token={this.state.token} />)} />
-          <Route path='/cart' exact render={props => (<Cart {...props} userId={this.state.userId} token={this.state.token} />)} />
-          <Route path='/buy/addressselect' exact render={props => (<Checkout {...props} userId={this.state.userId} token={this.state.token} />)} />
-          <Route path='/account' exact render={props => (<UserAccount {...props} userId={this.state.userId} token={this.state.token} />)} />
+          <Route path='/cart' exact render={props => (<Cart {...props} isAuth={isAuth} userId={this.state.userId} token={this.state.token} />)} />
+          <Route path='/buy/addressselect' exact render={props => (<Checkout {...props} isAuth={isAuth} userId={this.state.userId} token={this.state.token} />)} />
+          <Route path='/account' exact render={props => (<UserAccount {...props} isAuth={isAuth} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/admin' exact render={props => (<Admin {...props} user={user} userId={this.state.userId} token={this.state.token} />)} />
-          <Route path='/review-items' exact render={props => (<ReviewItems {...props} userId={this.state.userId} token={this.state.token} />)} />
+          <Route path='/review-items' exact render={props => (<ReviewItems {...props} isAuth={isAuth} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/pay' exact render={props => (<PaymentPage {...props} userId={this.state.userId} token={this.state.token} />)} />
-          <Route path='/buy/payselect' exact render={props => (<PaymentMethod {...props} userId={this.state.userId} token={this.state.token} />)} />
-          <Route path='/buy/placeorder/:n/:c/:m/:y' exact render={props => (<PlaceOrder {...props} userId={this.state.userId} token={this.state.token} />)} />
+          <Route path='/buy/payselect' exact render={props => (<PaymentMethod {...props} isAuth={isAuth} userId={this.state.userId} token={this.state.token} />)} />
+          <Route path='/buy/placeorder/:n/:c/:m/:y' exact render={props => (<PlaceOrder {...props} isAuth={isAuth} userId={this.state.userId} token={this.state.token} />)} />
           <Route path='/buy/complete/:id' exact render={props => (<PaymentCompletionPage {...props} userId={this.state.userId} token={this.state.token} />)} />
+          <Route path='/*' render={props => (<h1>not found</h1>)}/>
         </Switch>
         <div style={{ height: 100 }}></div>
         <Footer />

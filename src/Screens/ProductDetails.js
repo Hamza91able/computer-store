@@ -115,32 +115,39 @@ class ProductDetails extends Component {
     }
 
     postCart = () => {
-        const { product, quantity } = this.state;
-        const productId = product._id;
+        if (this.props.isAuth) {
+            const { product, quantity } = this.state;
+            const productId = product._id;
 
-        axios({
-            url: `${connectionString}/products/post-cart`,
-            method: 'POST',
-            data: {
-                prodId: productId,
-                quantity: quantity,
-            },
-            headers: {
-                Authorization: 'bearer ' + this.props.token
-            }
-        }).then(res => {
-            console.log(res.data);
-            swal.fire({
-                icon: 'success',
-                title: 'Added to cart'
+            axios({
+                url: `${connectionString}/products/post-cart`,
+                method: 'POST',
+                data: {
+                    prodId: productId,
+                    quantity: quantity,
+                },
+                headers: {
+                    Authorization: 'bearer ' + this.props.token
+                }
+            }).then(res => {
+                console.log(res.data);
+                swal.fire({
+                    icon: 'success',
+                    title: 'Added to cart'
+                })
+            }).catch(err => {
+                console.log(err);
+                swal.fire({
+                    icon: 'error',
+                    title: `${err.res.data.message}`
+                })
             })
-        }).catch(err => {
-            console.log(err);
+        } else {
             swal.fire({
                 icon: 'error',
-                title: `${err.res.data.message}`
+                title: 'Please login first',
             })
-        })
+        }
     }
 
     render() {
@@ -321,6 +328,7 @@ class ProductDetails extends Component {
                                 product={product}
                                 token={this.props.token}
                                 userId={this.props.userId}
+                                isAuth={this.props.isAuth}
                             />
                         </div>
                     </div>
@@ -332,6 +340,7 @@ class ProductDetails extends Component {
                                 specifications={product.specifications}
                                 token={this.props.token}
                                 userId={this.props.userId}
+                                isAuth={this.props.isAuth}
                             />
                         </MContainer>
                     </div>

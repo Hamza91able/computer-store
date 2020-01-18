@@ -32,6 +32,9 @@ class UserAccount extends Component {
 
     componentDidMount() {
         this.getUserInformation();
+        if (!this.props.isAuth) {
+            window.location.replace('/');
+        }
     }
 
     getUserInformation = () => {
@@ -182,7 +185,7 @@ class UserAccount extends Component {
         const { selectedLink } = this.state;
 
         return (
-            <div>
+            this.props.isAuth && <div>
                 <br />
                 <Container maxWidth='lg'>
                     <Typography variant='h5' style={{ padding: 20 }}>

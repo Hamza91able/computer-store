@@ -115,7 +115,7 @@ class Register extends Component {
                                             border: '1px solid black',
                                             borderColor: "#a88734 #9c7e31 #846a29",
                                         }}
-                                        onClick={() => this.props.onLogin({ email, password })}
+                                        onClick={() => this.props.onLogin({ email, password }, this.props.match.params.origin)}
                                     >
                                         Sign-In
                                     </Button>

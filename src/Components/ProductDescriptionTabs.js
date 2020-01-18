@@ -92,7 +92,7 @@ export default class FullWidthTabs extends React.Component {
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         <div style={{ float: 'right' }}>
-                            <ProductReviewModal userId={this.props.userId} token={this.props.token} currentProduct={this.props.product} />
+                            <ProductReviewModal isAuth={this.props.isAuth} userId={this.props.userId} token={this.props.token} currentProduct={this.props.product} />
                         </div>
                         <ProductReviews currentProduct={this.props.product} />
                     </TabPanel>

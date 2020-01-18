@@ -18,6 +18,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 // Components
 import MenuDrawer from './MenuDrawer';
+import Swal from 'sweetalert2';
 
 const styles = theme => ({
     root: {
@@ -76,7 +77,7 @@ class Appbar extends React.Component {
     handleKeyPress(target, value) {
         const { history } = this.props;
         if (target.charCode == 13) {
-            if(value.length > 0) {
+            if (value.length > 0) {
                 history.push(`/s/${value}`);
             }
         }
@@ -89,7 +90,7 @@ class Appbar extends React.Component {
             <div className={classes.root}>
                 <AppBar style={{ backgroundColor: '#232f3e' }} className={classes.appBar} position="fixed">
                     <Toolbar>
-                        <MenuDrawer categories={categories} user={user} />
+                        <MenuDrawer isAuth={this.props.isAuth} categories={categories} user={user} />
                         <Link style={{ textDecoration: 'none' }} to='/'>
                             <Typography variant="h5" className={classes.title}>
                                 <strong style={{ color: '#ffff' }}>COMPUTER STORE</strong>
@@ -117,17 +118,21 @@ class Appbar extends React.Component {
                                             <Button style={{ color: "#ffff" }}>Hello, {user.name}</Button>
                                         </Link>
                                         :
-                                        <Link to='/login' style={{ textDecoration: 'none' }}>
+                                        <Link to={`/login`} style={{ textDecoration: 'none' }}>
                                             <Button style={{ color: "#ffff" }}>Hello, Sign in</Button>
                                         </Link>
                                     }
                                 </Grid>
                                 <Grid item xs={3}>
-                                    <Link to='/cart' style={{ textDecoration: 'none' }}>
+                                    {this.props.isAuth ? <Link to='/cart' style={{ textDecoration: 'none' }}>
                                         <Button style={{ color: '#ffff' }}>
                                             <ShoppingCartIcon /> Cart
                                         </Button>
-                                    </Link>
+                                    </Link> : <Link style={{ textDecoration: 'none' }}>
+                                            <Button onClick={() => Swal.fire({ icon: 'error', title: 'Please login first' })} style={{ color: '#ffff' }}>
+                                                <ShoppingCartIcon /> Cart
+                                            </Button>
+                                        </Link>}
                                 </Grid>
                                 <Grid item xs={3}>
                                     {user &&
