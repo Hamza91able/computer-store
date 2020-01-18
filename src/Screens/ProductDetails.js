@@ -290,11 +290,12 @@ class ProductDetails extends Component {
                                             style={{
                                                 width: '100%',
                                                 backgroundColor: 'rgb(255, 163, 58)',
-                                                color: '#101820FF',
+                                                // color: '#101820FF',
                                                 fontWeight: 'bold',
                                                 height: 37
                                             }}
                                             onClick={this.postCart}
+                                            disabled={product.stock !== 0 ? false : true}
                                         >
                                             <AddShoppingCartIcon />ADD TO CART <ArrowRightIcon style={{ marginTop: -1, marginLeft: -4 }} />
                                         </Button>
