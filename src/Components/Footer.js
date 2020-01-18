@@ -88,7 +88,7 @@ class Footer extends React.Component {
                                         CONTACT US
                                     </Typography>
                                     <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
-                                        <Link style={{ textDecoration: 'none', color: 'white' }}>
+                                        <Link to='/contact-us' style={{ textDecoration: 'none', color: 'white' }}>
                                             <li className={classes.liStyle} style={{ padding: 3 }}>Contact Form</li>
                                         </Link>
                                         <Link style={{ textDecoration: 'none', color: 'white' }}>
