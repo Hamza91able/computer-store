@@ -173,9 +173,8 @@ class ChangeBanners extends Component {
                                 <Grid item md={6}>
                                     <Grid container>
                                         <Grid item md={12}>
-                                            <img src={banner.src} />
+                                            <img src={banner.src} style={{ maxWidth: '90%', maxHeight: '100%' }} />
                                             <p>Link: <Link target='_blank' to={`/${banner.link}`}>{banner.link}</Link></p>
-                                            <div style={{ height: 20 }} />
                                         </Grid>
                                         <Grid item md={6}>
                                             <div style={{
