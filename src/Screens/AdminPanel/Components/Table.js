@@ -7,6 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles({
     container: {
@@ -33,12 +34,25 @@ export default function SimpleTable(props) {
                         <TableRow key={row.name}>
                             <TableCell component="th" scope="row">
                                 {row.name}
+                                <Button
+                                    onClick={() => props.deleteCategory(row._id)}
+                                    variant="contained"
+                                    style={{ marginLeft: 30 }}>
+                                    Delete
+                                </Button>
                             </TableCell>
                             {(props.heading !== "Categories" && props.heading !== "Brands") && <TableCell component="th" scope="row">
                                 {row.subCategories.map(value => {
                                     return (
                                         <ul>
-                                            <li>{value}</li>
+                                            <li>{value}
+                                                <Button
+                                                    onClick={() => props.deleteSubCategory({ categoryId: row._id, subCategoryName: value })}
+                                                    variant="contained"
+                                                    style={{ marginLeft: 30 }}>
+                                                    Delete
+                                                </Button>
+                                            </li>
                                         </ul>
                                     )
                                 })}
@@ -47,7 +61,10 @@ export default function SimpleTable(props) {
                                 {row.brands.map(value => {
                                     return (
                                         <ul>
-                                            <li>{value}</li>
+                                            <li>{value}  <Button
+                                                onClick={() => props.deleteBrand({ categoryId: row._id, categoryName: value })}
+                                                variant="contained"
+                                                style={{ marginLeft: 30 }}>Delete</Button></li>
                                         </ul>
                                     )
                                 })}

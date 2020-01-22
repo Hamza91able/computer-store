@@ -233,7 +233,7 @@ class App extends React.Component {
           style={{ zIndex: 9999 }}
         />
         <Appbar isAuth={isAuth} categories={categories} appBarCategories={appBarCategories} user={this.state.user} logoutHandler={this.logoutHandler} />
-        <div className={classes.placeHodlerDiv} />
+        {/* <div className={classes.placeHodlerDiv} /> */}
         <Switch>
           <Route path='/' exact component={LandingPage} />
           <Route path='/product-details/:id' exact render={props => (<ProductDetails {...props} isAuth={isAuth} userId={this.state.userId} token={this.state.token} />)} />

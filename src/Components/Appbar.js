@@ -88,7 +88,7 @@ class Appbar extends React.Component {
 
         return (
             <div className={classes.root}>
-                <AppBar style={{ backgroundColor: '#232f3e' }} className={classes.appBar} position="fixed">
+                <AppBar style={{ backgroundColor: '#232f3e' }} className={classes.appBar} position="relative">
                     <Toolbar>
                         <MenuDrawer isAuth={this.props.isAuth} categories={categories} user={user} />
                         <Link style={{ textDecoration: 'none' }} to='/'>
@@ -100,7 +100,9 @@ class Appbar extends React.Component {
                             <OutlinedInput
                                 id="outlined-adornment-amount"
                                 startAdornment={<InputAdornment position="start" >
-                                    <Link style={{ textDecoration: 'none', color: 'black' }} to={`/s/${this.state.keyword}`}><SearchIcon style={{ marginTop: 40 }} /></Link>
+                                    <Link
+                                        style={{ textDecoration: 'none', color: 'black' }}
+                                        to={this.state.keyword.length > 0 && `/s/${this.state.keyword}`}><SearchIcon style={{ marginTop: 40 }} /></Link>
                                 </InputAdornment>}
                                 style={{ backgroundColor: 'white', height: 38, width: 'auto' }}
                                 className={classes.searchBarWeb}
@@ -150,7 +152,9 @@ class Appbar extends React.Component {
                             <OutlinedInput
                                 id="outlined-adornment-amount"
                                 startAdornment={<InputAdornment position="start" >
-                                    <Link style={{ textDecoration: 'none', color: 'black' }} to={`/s/${this.state.keyword}`}><SearchIcon style={{ marginTop: 40 }} /></Link>
+                                    <Link
+                                        style={{ textDecoration: 'none', color: 'black' }}
+                                        to={this.state.keyword.length > 0 && `/s/${this.state.keyword}`}><SearchIcon style={{ marginTop: 40 }} /></Link>
                                 </InputAdornment>}
                                 style={{ backgroundColor: 'white', height: 38, width: 'auto' }}
                                 className={classes.searchBarMobile}

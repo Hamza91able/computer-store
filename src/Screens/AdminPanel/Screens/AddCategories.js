@@ -119,6 +119,62 @@ class AddCategories extends Component {
             })
     }
 
+    deleteAppBarCategory = id => {
+
+        axios({
+            url: `${connectionString}/admin/delete-appbar-category`,
+            method: 'POST',
+            data: {
+                id,
+            },
+            headers: {
+                Authorization: 'Bearer ' + this.props.token
+            }
+        })
+            .then(res => {
+                swal.fire({
+                    icon: 'success',
+                    title: 'Category Deleted',
+                }).then(() => {
+                    this.getAppbarCategories();
+                })
+            })
+            .catch(err => {
+                swal.fire({
+                    icon: 'error',
+                    title: `${err.response.data.message}`,
+                })
+            })
+    }
+
+    deleteCategory = id => {
+
+        axios({
+            url: `${connectionString}/admin/delete-category`,
+            method: 'POST',
+            data: {
+                id,
+            },
+            headers: {
+                Authorization: 'Bearer ' + this.props.token
+            }
+        })
+            .then(res => {
+                swal.fire({
+                    icon: 'success',
+                    title: 'Category Deleted from Appbar',
+                }).then(() => {
+                    this.getCategories();
+                })
+            })
+            .catch(err => {
+                swal.fire({
+                    icon: 'error',
+                    title: `${err.response.data.message}`,
+                })
+            })
+    }
+
     render() {
         const { categories, category, categoriesDropDown, appBarCategories } = this.state;
 
@@ -194,7 +250,12 @@ class AddCategories extends Component {
                                 {appBarCategories.map((values, index) => {
                                     return (
                                         <React.Fragment key={index}>
-                                            <li>{values.name}</li>
+                                            <li style={{
+                                                marginTop: 10,
+                                                marginBottom: 10
+                                            }}>{values.name}
+                                                <Button onClick={() => this.deleteAppBarCategory(values._id)} style={{ marginLeft: 10 }} size="small" variant="contained">DELETE</Button>
+                                            </li>
                                         </React.Fragment>
                                     )
                                 })}
@@ -203,7 +264,7 @@ class AddCategories extends Component {
                         <Divider style={{ marginTop: 20, marginBottom: 20 }} />
                         <Grid xs={12}>
                             Current Categories
-                            <CategoriesTable heading="Categories" categories={categories} />
+                            <CategoriesTable deleteCategory={this.deleteCategory} heading="Categories" categories={categories} />
                         </Grid>
                     </Grid>
 

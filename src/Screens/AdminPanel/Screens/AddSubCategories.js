@@ -78,6 +78,30 @@ class AddCategories extends Component {
         })
     }
 
+    deleteSubCategory = categoryData => {
+        const { categoryId, subCategoryName } = categoryData;
+
+        axios({
+            url: `${connectionString}/admin/delete-subcategory`,
+            method: "POST",
+            data: {
+                categoryId,
+                subCategoryName,
+            },
+            headers: {
+                Authorization: 'bearer ' + this.props.token
+            }
+        }).then(res => {
+            console.log(res.data);
+            swal.fire({
+                icon: 'success',
+                title: 'Sub Category Deleted',
+            }).then(() => this.getCategories())
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
     render() {
         const { categories, categoriesTable } = this.state;
 
@@ -129,7 +153,7 @@ class AddCategories extends Component {
                         <Divider style={{ marginTop: 20, marginBottom: 20 }} />
                         <Grid xs={12}>
                             Current Sub-Categories
-                            <CategoriesTable categories={categoriesTable} heading="Sub-Categories" />
+                            <CategoriesTable deleteSubCategory={this.deleteSubCategory} categories={categoriesTable} heading="Sub-Categories" />
                         </Grid>
                     </Grid>
 

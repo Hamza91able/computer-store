@@ -137,7 +137,7 @@ class AddFeaturedProducts extends Component {
                                                     >
                                                         Delete Product
                                                     </Button>
-                                                    <Button style={{
+                                                    {/* <Button style={{
                                                         backgroundColor: '#f0c14b',
                                                         color: '#111',
                                                         fontWeight: 'normal',
@@ -147,7 +147,7 @@ class AddFeaturedProducts extends Component {
                                                         marginLeft: 10
                                                     }}>
                                                         Edit Product
-                                                    </Button>
+                                                    </Button> */}
                                                 </Grid>
                                             </React.Fragment>
                                         )

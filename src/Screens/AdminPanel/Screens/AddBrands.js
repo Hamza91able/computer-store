@@ -79,6 +79,30 @@ class AddCategories extends Component {
         })
     }
 
+    deleteBrand = brandData => {
+        const { categoryId, categoryName } = brandData;
+
+        axios({
+            url: `${connectionString}/admin/delete-brand`,
+            method: "POST",
+            data: {
+                categoryId,
+                categoryName,
+            },
+            headers: {
+                Authorization: 'bearer ' + this.props.token
+            }
+        }).then(res => {
+            console.log(res.data);
+            swal.fire({
+                icon: 'success',
+                title: 'Brand Deleted',
+            }).then(() => this.getCategories())
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
     render() {
         const { categories, categoriesTable } = this.state;
 
@@ -130,7 +154,7 @@ class AddCategories extends Component {
                         <Divider style={{ marginTop: 20, marginBottom: 20 }} />
                         <Grid xs={12}>
                             Current Brands
-                            <BrandsTable categories={categoriesTable} heading="Brands" />
+                            <BrandsTable deleteBrand={this.deleteBrand} categories={categoriesTable} heading="Brands" />
                         </Grid>
                     </Grid>
 
