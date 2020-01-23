@@ -226,7 +226,7 @@ class PlaceOrder extends Component {
                                     <Grid item xs={9}>
                                         <Typography>
                                             <Grid container spacing={3}>
-                                                <Grid item xs={6}>
+                                                <Grid item md={6} xs={12}>
                                                     <Typography style={{ fontWeight: 'bold', marginBottom: 10 }}>
                                                         Shipping Address:
                                              </Typography>
@@ -238,7 +238,7 @@ class PlaceOrder extends Component {
                                                         <li>{shippingInformation.delieveryInformation}</li>
                                                     </ul>
                                                 </Grid>
-                                                <Grid item xs={6}>
+                                                <Grid item md={6} xs={12}>
                                                     <Typography style={{ fontWeight: 'bold', marginBottom: 10 }}>
                                                         Billing Information:
                                              </Typography>
@@ -269,7 +269,7 @@ class PlaceOrder extends Component {
                                             </Grid>
                                         </Typography>
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item md={3} xs={12}>
                                         <div style={{ border: '1px solid black', backgroundColor: 'white' }}>
                                             <div style={{
                                                 justifyContent: 'center',
