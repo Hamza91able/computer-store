@@ -1,17 +1,32 @@
 import React, { Component } from 'react';
 import { Container, Grid, Typography, Button } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+
+const styles = theme => ({
+    page: {
+        fontSize: '20px',
+        lineHeight: '25pxpx',
+        marginBottom: '10px',
+        [theme.breakpoints.up('md')]: {
+            fontSize: '80px',
+            lineHeight: '90px',
+            marginBottom: '30px'
+        }
+    }
+});
 
 class ErrorFourZeroFour extends Component {
 
     render() {
+        const { classes } = this.props;
 
         return (
             <div style={{ backgroundColor: 'black', height: '80vh', color: 'white' }}>
                 <Container style={{ paddingTop: 50 }} maxWidth='lg'>
                     <Grid container>
                         <Grid item xs={9}>
-                            <Typography style={{ fontSize: '80px', lineHeight: '90px', marginBottom: '30px' }}>
+                            <Typography className={classes.page}>
                                 Our apologies.
                                 <br />
                                 We're unable to find the
@@ -42,4 +57,4 @@ class ErrorFourZeroFour extends Component {
     }
 }
 
-export default ErrorFourZeroFour;
+export default withStyles(styles)(ErrorFourZeroFour);
