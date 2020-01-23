@@ -65,9 +65,9 @@ export default function RecipeReviewCard(props) {
                             width: '100%',
                             color: "blue",
                             cursor: 'pointer',
-                            fontSize: 13
+                            fontSize: 13,
                         }}>
-                            {product.title}
+                            {product.title.substring(0, 50) + "..."}
                         </Typography>
                     }
                 />

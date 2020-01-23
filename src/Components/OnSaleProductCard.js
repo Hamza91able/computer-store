@@ -71,7 +71,7 @@ export default function RecipeReviewCard(props) {
                             cursor: 'pointer',
                             fontSize: 13
                         }}>
-                            {product.title}
+                            {product.title.substring(0, 50) + "..."}
                         </Typography>
                     }
                 />
