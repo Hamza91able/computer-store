@@ -279,20 +279,38 @@ class PlaceOrder extends Component {
                                                 backgroundColor: '#add8e6',
                                                 padding: 15
                                             }}>
-                                                <Button
-                                                    variant="contained"
-                                                    style={{
-                                                        backgroundColor: '#f0c14b',
-                                                        color: '#111',
-                                                        fontWeight: 'normal',
-                                                        boxShadow: 'none',
-                                                        border: '1px solid black',
-                                                        borderColor: "#a88734 #9c7e31 #846a29",
-                                                    }}
-                                                    onClick={this.pay}
-                                                >
-                                                    Place Your Order
-                                         </Button>
+                                                {this.state.cvv.length === 3
+                                                    ?
+                                                    <Button
+                                                        variant="contained"
+                                                        style={{
+                                                            backgroundColor: '#f0c14b',
+                                                            color: '#111',
+                                                            fontWeight: 'normal',
+                                                            boxShadow: 'none',
+                                                            border: '1px solid black',
+                                                            borderColor: "#a88734 #9c7e31 #846a29",
+                                                        }}
+                                                        onClick={this.pay}
+                                                    >
+                                                        Place Your Order
+                                                    </Button>
+                                                    :
+                                                    <Button
+                                                        variant="contained"
+                                                        style={{
+                                                            backgroundColor: '#f0c14b',
+                                                            color: '#111',
+                                                            fontWeight: 'normal',
+                                                            boxShadow: 'none',
+                                                            border: '1px solid black',
+                                                            borderColor: "#a88734 #9c7e31 #846a29",
+                                                        }}
+                                                        disable={true}
+                                                    >
+                                                        Please enter your cvv
+                                                    </Button>
+                                                }
                                             </div>
                                             <div style={{
                                                 justifyContent: 'center',
@@ -401,6 +419,7 @@ class PlaceOrder extends Component {
                                                             name="hover-side"
                                                             value={value.productId.averageRating}
                                                             size="small"
+                                                            readOnly={true}
                                                         />
                                                         <Box style={{ marginTop: -10, fontSize: 13, marginLeft: 7 }}>{value.productId.reviews ? value.productId.reviews.length : "(0)"}</Box>
                                                     </div>

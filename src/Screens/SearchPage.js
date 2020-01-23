@@ -119,6 +119,7 @@ class SearchPage extends Component {
                                                 name="hover-side"
                                                 value={product.averageRating}
                                                 size="small"
+                                                readOnly={true}
                                             />
                                             <Box style={{ marginTop: -10, fontSize: 13, marginLeft: 7 }}>{product.reviews ? product.reviews.length : "(0)"}</Box>
                                         </div>
