@@ -31,7 +31,7 @@
     "sweetalert": "^2.1.2",
     "sweetalert2": "^9.5.4",
     "sweetalert2-react-content": "^2.0.2",
-    "tinymce": "^5.1.5",
+    "tinymce": "^5.4.0",
     "typeface-roboto": "^0.0.75"
   },
   "scripts": {
